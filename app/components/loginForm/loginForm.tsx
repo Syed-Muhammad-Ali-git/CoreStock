@@ -6,6 +6,7 @@ import { useForm } from "@mantine/form";
 import { z } from "zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 // Zod Schema
 const loginSchema = z.object({
@@ -16,12 +17,16 @@ const loginSchema = z.object({
 // TypeScript type from Zod
 type LoginSchemaType = z.infer<typeof loginSchema>;
 
+// Main component
 const LoginForm: React.FC = () => {
+  const router = useRouter();
+
   const form = useForm<LoginSchemaType>({
     initialValues: {
       email: "",
       password: "",
     },
+
     validate: (values) => {
       const result = loginSchema.safeParse(values);
 
@@ -47,29 +52,35 @@ const LoginForm: React.FC = () => {
     localStorage.setItem("loginData", JSON.stringify(values));
     toast.success("Login successful! Data saved to localStorage.");
     console.log("Saved to localStorage:", values);
+    router.push("/");
   };
 
   return (
     <>
-      <Stack maw={400} mx="auto" mt={25}>
+      <Stack mx="auto" mt={25} className="w-full">
         <form onSubmit={form.onSubmit(handleLogin)}>
           <Stack>
             <TextInput
               label="Email"
-              placeholder="example@gmail.com"
+              placeholder="Enter Email Address"
               {...form.getInputProps("email")}
             />
 
             <PasswordInput
               label="Password"
-              placeholder="Your password"
+              placeholder="Enter Password"
               {...form.getInputProps("password")}
+              style={{ color: "#364152", fontWeight: "500" }}
             />
 
             <Button
               type="submit"
               fullWidth
-              style={{ backgroundColor: "#FF8A3D", color: "black" }}
+              style={{
+                backgroundColor: "#FF8A3D",
+                color: "black",
+                borderRadius: "8px",
+              }}
             >
               Login
             </Button>

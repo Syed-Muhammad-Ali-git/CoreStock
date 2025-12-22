@@ -7,35 +7,34 @@ import LoginForm from "../components/loginForm/loginForm";
 
 const LoginPage = () => {
   return (
-    <>
-      {/* Main section */}
-      <section className="flex h-screen p-4">
-        {/* Login Image div */}
-        <div>
+    <section className="min-h-screen flex items-center p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full gap-10 ">
+        {/* Image */}
+        <div className="flex justify-center w-full">
           <Image
             src={loginImage}
-            alt="image"
-            loading="eager"
-            className="h-full w-auto"
-          ></Image>
+            alt="Login Illustration"
+            className="md:w-full lg:w-120 md:h-screen"
+            priority
+          />
         </div>
 
-        {/* Login form div */}
-        <div className="flex  items-center mx-auto">
-          <div>
-            <h1 className="text-4xl/loose font-semibold tracking-[-2%]">
+        {/* Form */}
+        <div className="flex items-center justify-center w-full">
+          <div className="w-full max-w-md">
+            <h1 className="text-3xl md:text-4xl font-semibold mb-2">
               CoreStock Admin
             </h1>
-            <h3 className="text-[#697586] text-[16px] font-medium leading-6">
-              Enter your details to start with CORESTOCK.
-            </h3>
 
-            {/* Login form */}
+            <p className="text-[#697586] text-base mb-8">
+              Enter your details to start with CORESTOCK.
+            </p>
+
             <LoginForm />
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 
