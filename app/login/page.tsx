@@ -7,14 +7,14 @@ import LoginForm from "../components/loginForm/loginForm";
 
 const LoginPage = () => {
   return (
-    <section className="min-h-screen flex items-center p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full gap-10 ">
+    <section className="min-h-screen flex items-center p-4 max-w-480">
+      <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full gap-10 lg:gap-0">
         {/* Image */}
         <div className="flex justify-center w-full">
           <Image
             src={loginImage}
             alt="Login Illustration"
-            className="md:w-full lg:w-120 md:h-screen"
+            className="md:w-full lg:w-110 md:h-screen"
             priority
           />
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Stack, TextInput, PasswordInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { z } from "zod";
@@ -8,25 +8,25 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
-// Zod Schema
-const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-// TypeScript type from Zod
-type LoginSchemaType = z.infer<typeof loginSchema>;
-
-// Main component
 const LoginForm: React.FC = () => {
   const router = useRouter();
 
-  const form = useForm<LoginSchemaType>({
-    initialValues: {
-      email: "",
-      password: "",
-    },
+  useEffect(() => {
+    if (localStorage.getItem("loginData")) {
+      router.replace("/");
+    }
+  }, [router]);
 
+  // Zod schema
+  const loginSchema = z.object({
+    email: z.string().email("Please enter a valid email"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+  });
+
+  type LoginSchemaType = z.infer<typeof loginSchema>;
+
+  const form = useForm<LoginSchemaType>({
+    initialValues: { email: "", password: "" },
     validate: (values) => {
       const result = loginSchema.safeParse(values);
 
@@ -36,7 +36,6 @@ const LoginForm: React.FC = () => {
           password: result.error.flatten().fieldErrors.password?.[0],
         };
 
-        // Show toast for invalid field
         if (errors.email) toast.error(errors.email);
         else if (errors.password) toast.error(errors.password);
 
@@ -48,11 +47,12 @@ const LoginForm: React.FC = () => {
   });
 
   const handleLogin = (values: LoginSchemaType) => {
-    //  Only runs if validation passes
     localStorage.setItem("loginData", JSON.stringify(values));
-    toast.success("Login successful! Data saved to localStorage.");
-    console.log("Saved to localStorage:", values);
-    router.push("/");
+    toast.success("Login successful!");
+
+    setTimeout(() => {
+      router.replace("/");
+    }, 2000);
   };
 
   return (
@@ -65,14 +65,12 @@ const LoginForm: React.FC = () => {
               placeholder="Enter Email Address"
               {...form.getInputProps("email")}
             />
-
             <PasswordInput
               label="Password"
               placeholder="Enter Password"
               {...form.getInputProps("password")}
               style={{ color: "#364152", fontWeight: "500" }}
             />
-
             <Button
               type="submit"
               fullWidth
@@ -88,7 +86,7 @@ const LoginForm: React.FC = () => {
         </form>
       </Stack>
 
-      {/* Toast Container */}
+      {/* Toast notifications */}
       <ToastContainer
         position="top-right"
         autoClose={3000}

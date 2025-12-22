@@ -1,3 +1,5 @@
+// Note: Main layout file
+
 import type { Metadata } from "next";
 import React, { ReactNode } from "react";
 import "./globals.css";
