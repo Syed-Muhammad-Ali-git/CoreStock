@@ -64,6 +64,7 @@ const LoginForm: React.FC = () => {
               label="Email"
               placeholder="Enter Email Address"
               {...form.getInputProps("email")}
+              style={{ color: "#364152", fontWeight: "500" }}
             />
             <PasswordInput
               label="Password"
