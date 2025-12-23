@@ -14,7 +14,6 @@ const LoginPage = () => {
           src={loginImage}
           alt="Login Illustration"
           className="h-screen md:w-80 lg:w-110 p-2"
-          priority
         />
       </div>
 
