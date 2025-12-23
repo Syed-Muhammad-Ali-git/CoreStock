@@ -1,0 +1,2 @@
+- [ ] Define drawerWidth constant in app/page.tsx
+- [ ] Update the content div in app/page.tsx to apply conditional marginLeft and width based on drawerOpen state

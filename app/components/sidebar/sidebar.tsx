@@ -31,16 +31,19 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ open, setOpen }) => {
   const pathname = usePathname();
 
   const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
+    { text: "Dashboard", icon: <DashboardIcon />, orange: true, path: "/" },
     {
       text: "Organization",
       icon: <ApartmentIcon />,
       orange: true,
       path: "/organization",
     },
-    { text: "Audi", icon: <GroupIcon />, path: "/audi" },
+    { text: "Audit", icon: <GroupIcon />, path: "/audit" },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
   ];
+
+  const mainMenu = menuItems.slice(0, 2);
+  const others = menuItems.slice(2);
 
   const activeItem =
     menuItems.find((item) => item.path === pathname)?.text || "Dashboard";
@@ -94,73 +97,124 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ open, setOpen }) => {
           <IconButton
             onClick={() => setOpen(false)}
             sx={{
-              backgroundColor: "#2F333A",
-              color: "white",
-              "&:hover": { backgroundColor: "#2F333A" },
+              backgroundColor: "white",
+              color: "black",
+              "&:hover": { backgroundColor: "#FF8A3D" },
             }}
           >
             <ChevronLeftIcon />
           </IconButton>
         </Box>
 
-        <Divider sx={{ borderColor: "#4A4F58" }} />
+        <Divider sx={{ borderColor: "#697586" }} />
 
-        {/* Menu */}
-        <List sx={{ px: 2, mt: 2 }}>
-          {menuItems.map((item) => {
-            const isActive = item.text === activeItem;
+        {/* Main Menu */}
+        <Box sx={{ px: 2, mt: 4 }}>
+          <Typography
+            variant="body2"
+            sx={{ color: "#F8FAFC", fontWeight: 400, mb: 2 }}
+          >
+            Main Menu
+          </Typography>
+          <List sx={{ p: 0 }}>
+            {mainMenu.map((item) => {
+              const isActive = item.text === activeItem;
 
-            return (
-              <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
-                <ListItemButton
-                  onClick={() => {
-                    router.push(item.path);
-                    setOpen(false);
-                  }}
-                  sx={{
-                    borderRadius: "12px",
-                    height: 44,
-                    backgroundColor: isActive ? "#FF8A3D" : "transparent",
-                    "&:hover": {
-                      backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
-                    },
-                  }}
-                >
-                  <ListItemIcon
+              return (
+                <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push(item.path);
+                      setOpen(false);
+                    }}
                     sx={{
-                      minWidth: 40,
-                      color: isActive
-                        ? "#000000"
-                        : item.orange
-                        ? "#FF8A3D"
-                        : "#667085",
+                      borderRadius: "12px",
+                      height: 44,
+                      backgroundColor: isActive ? "#FF8A3D" : "transparent",
+                      "&:hover": {
+                        backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
+                      },
                     }}
                   >
-                    {item.icon}
-                  </ListItemIcon>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 40,
+                        color: isActive ? "#000000" : "#F8FAFC",
+                      }}
+                    >
+                      {item.icon}
+                    </ListItemIcon>
 
-                  <ListItemText
-                    primary={item.text}
-                    primaryTypographyProps={{
-                      fontSize: 14,
-                      fontWeight: isActive ? 600 : 500,
-                      color: isActive
-                        ? "#000000"
-                        : item.orange
-                        ? "#FF8A3D"
-                        : "#667085",
+                    <ListItemText
+                      primary={item.text}
+                      primaryTypographyProps={{
+                        fontSize: 14,
+                        fontWeight: isActive ? 500 : 400,
+                        color: isActive ? "#000000" : "#F8FAFC",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Box>
+
+        {/* Others */}
+        <Box sx={{ px: 2, mt: 2 }}>
+          <Typography
+            variant="body2"
+            sx={{ color: "#F8FAFC", fontWeight: 400, mb: 1 }}
+          >
+            Others
+          </Typography>
+          <List sx={{ p: 0 }}>
+            {others.map((item) => {
+              const isActive = item.text === activeItem;
+
+              return (
+                <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push(item.path);
+                      setOpen(false);
                     }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
+                    sx={{
+                      borderRadius: "12px",
+                      height: 44,
+                      backgroundColor: isActive ? "#FF8A3D" : "transparent",
+                      "&:hover": {
+                        backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
+                      },
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 40,
+                        color: isActive ? "#000000" : "#F8FAFC",
+                      }}
+                    >
+                      {item.icon}
+                    </ListItemIcon>
+
+                    <ListItemText
+                      primary={item.text}
+                      primaryTypographyProps={{
+                        fontSize: 14,
+                        fontWeight: isActive ? 500 : 400,
+                        color: isActive ? "#000000" : "#F8FAFC",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Box>
 
         <Box sx={{ flexGrow: 1 }} />
 
         {/* Logout */}
-        <Divider sx={{ borderColor: "#4A4F58", mx: 2 }} />
         <List sx={{ px: 2, py: 2 }}>
           <ListItem disablePadding>
             <ListItemButton
@@ -174,15 +228,15 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ open, setOpen }) => {
                 "&:hover": { backgroundColor: "#2F333A" },
               }}
             >
-              <ListItemIcon sx={{ minWidth: 40, color: "#667085" }}>
+              <ListItemIcon sx={{ minWidth: 40, color: "#F8FAFC" }}>
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText
-                primary="Logout"
+                primary="Log Out"
                 primaryTypographyProps={{
                   fontSize: 14,
                   fontWeight: 500,
-                  color: "#667085",
+                  color: "#F8FAFC",
                 }}
               />
             </ListItemButton>

@@ -28,6 +28,7 @@ const LoginPage = () => {
             Enter your details to start with CORESTOCK.
           </p>
 
+          {/* Login form */}
           <LoginForm />
         </div>
       </div>

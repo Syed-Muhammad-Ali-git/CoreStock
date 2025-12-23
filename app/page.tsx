@@ -1,4 +1,4 @@
-// Note: This is Home Screen...!
+// Note: This is Dashboard Screen...!
 
 "use client";
 
@@ -6,7 +6,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DrawerComponent from "./components/sidebar/sidebar";
 
-const AdminDashboardHome = () => {
+const drawerWidth = 260;
+
+const AdminDashboardHome: React.FC = () => {
   const router = useRouter();
   const [drawerOpen, setDrawerOpen] = useState(true);
 
@@ -20,6 +22,15 @@ const AdminDashboardHome = () => {
   return (
     <>
       <DrawerComponent open={drawerOpen} setOpen={setDrawerOpen} />
+      <div
+        style={{
+          marginLeft: drawerOpen ? `${drawerWidth}px` : "0",
+          width: "100%",
+          transition: "margin-left 0.3s ease",
+        }}
+      >
+        Dashboard
+      </div>
     </>
   );
 };
