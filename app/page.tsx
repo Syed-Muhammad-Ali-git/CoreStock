@@ -6,8 +6,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DrawerComponent from "./components/sidebar/sidebar";
 
-const drawerWidth = 260;
-
 const AdminDashboardHome: React.FC = () => {
   const router = useRouter();
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -24,8 +22,7 @@ const AdminDashboardHome: React.FC = () => {
       <DrawerComponent open={drawerOpen} setOpen={setDrawerOpen} />
       <div
         style={{
-          marginLeft: drawerOpen ? `${drawerWidth}px` : "0",
-          width: "100%",
+          marginLeft: drawerOpen ? "270px" : "0",
           transition: "margin-left 0.3s ease",
         }}
       >

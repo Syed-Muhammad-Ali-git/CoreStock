@@ -11,7 +11,14 @@ const Settings = () => {
   return (
     <>
       <DrawerComponent open={drawerOpen} setOpen={setDrawerOpen} />
-      <div>Settings</div>
+      <div
+        style={{
+          marginLeft: drawerOpen ? "270px" : "0",
+          transition: "margin-left 0.3s ease",
+        }}
+      >
+        Settings
+      </div>
     </>
   );
 };
