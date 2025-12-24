@@ -1,5 +1,7 @@
 // Note: Main layout file
 
+// "use client";
+
 import type { Metadata } from "next";
 import React, { ReactNode } from "react";
 import "./globals.css";
@@ -9,6 +11,7 @@ import {
   MantineProvider,
   mantineHtmlProps,
 } from "@mantine/core";
+import ClientLayout from "./client-layout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,13 +19,16 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
+
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </MantineProvider>
       </body>
     </html>
   );

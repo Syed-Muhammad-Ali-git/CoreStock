@@ -21,14 +21,24 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 const drawerWidth = 260;
 
-interface DrawerComponentProps {
+interface SideBarProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const DrawerComponent: React.FC<DrawerComponentProps> = ({ open, setOpen }) => {
+const SideBar: React.FC<SideBarProps> = ({ open, setOpen }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const menuItems = [
     { text: "Dashboard", icon: <DashboardIcon />, orange: true, path: "/" },
@@ -125,7 +135,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ open, setOpen }) => {
                   <ListItemButton
                     onClick={() => {
                       router.push(item.path);
-                      setOpen(false);
+                      if (isMobile) setOpen(false);
                     }}
                     sx={{
                       borderRadius: "12px",
@@ -177,7 +187,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ open, setOpen }) => {
                   <ListItemButton
                     onClick={() => {
                       router.push(item.path);
-                      setOpen(false);
+                      if (isMobile) setOpen(false);
                     }}
                     sx={{
                       borderRadius: "12px",
@@ -247,4 +257,4 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ open, setOpen }) => {
   );
 };
 
-export default DrawerComponent;
+export default SideBar;
