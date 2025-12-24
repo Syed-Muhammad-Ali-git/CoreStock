@@ -13,12 +13,12 @@ const LoginPage = () => {
         <Image
           src={loginImage}
           alt="Login Illustration"
-          className="h-screen md:w-80 lg:w-110 p-2"
+          className="h-screen md:w-80 lg:w-110"
         />
       </div>
 
       {/* Form Container */}
-      <div className="flex justify-center w-full mt-30 md:mt-0 p-5 xl:mr-40">
+      <div className="flex justify-center w-full xl:mr-40 mt-25 md:mt-0">
         <div className="w-120">
           <h1 className="text-3xl md:text-4xl font-semibold mb-2">
             CoreStock Admin

@@ -4,53 +4,47 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import PathChecker from "./utils/pathChecker";
 import { protectedRoutes } from "./utils/routes";
-import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface ClientLayoutProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 const drawerWidth = 260;
 
 const ClientLayout = ({ children }: ClientLayoutProps) => {
-    const pathname = usePathname();
-    const [drawerOpen, setDrawerOpen] = useState(false);
-    const theme = useTheme();
+  const pathname = usePathname();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-    const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const isDesktop = useMediaQuery("(min-width: 900px)");
 
+  useEffect(() => {
+    setDrawerOpen(isDesktop);
+  }, [isDesktop]);
 
-    useEffect(() => {
-        setDrawerOpen(isDesktop);
-    }, [isDesktop]);
+  const showSidebar = protectedRoutes.includes(pathname || "");
 
-    // useEffect(() => {
-    //     const handleResize = () => {
-    //         setDrawerOpen(window.innerWidth >= 768);
-    //     };
-    //     handleResize();
-    //     window.addEventListener("resize", handleResize);
-    //     return () => window.removeEventListener("resize", handleResize);
-    // }, []);
+  const mainStyle: React.CSSProperties = {
+    transition: "margin-left 200ms ease",
+    marginLeft:
+      showSidebar && drawerOpen && pathname
+        ? `${drawerWidth}px`
+        : showSidebar
+        ? "calc(64px + 10px)"
+        : undefined,
+    paddingTop: showSidebar ? "80px" : "0",
+  };
 
-    const showSidebar = protectedRoutes.includes(pathname || "");
-
-    // main container style: shift content when sidebar is open on protected routes
-    const mainStyle: React.CSSProperties = {
-        transition: "margin-left 200ms ease",
-        marginLeft:
-            showSidebar && drawerOpen && pathname ? `${drawerWidth}px` : undefined,
-        padding: 16,
-        paddingTop: 72,
-    };
-
-    return (
-        <>
-            <PathChecker pathName={pathname} open={drawerOpen} setOpen={setDrawerOpen} />
-            <main style={mainStyle}>{children}</main>
-        </>
-    );
+  return (
+    <>
+      <PathChecker
+        pathName={pathname}
+        open={drawerOpen}
+        setOpen={setDrawerOpen}
+      />
+      <main style={mainStyle}>{children}</main>
+    </>
+  );
 };
 
 export default ClientLayout;

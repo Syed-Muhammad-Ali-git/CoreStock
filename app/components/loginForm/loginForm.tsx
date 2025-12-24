@@ -57,7 +57,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <>
-      <Stack mx="auto" mt={25} className="w-full">
+      <Stack mx="auto" className="w-full">
         <form onSubmit={form.onSubmit(handleLogin)}>
           <Stack>
             <TextInput
