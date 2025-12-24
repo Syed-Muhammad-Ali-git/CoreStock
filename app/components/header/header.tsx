@@ -10,12 +10,14 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
     const router = useRouter();
-    const [profile, setProfile] = useState<string | null>(() => {
-        if (typeof window !== "undefined") {
-            return localStorage.getItem("profileImage");
+    const [profile, setProfile] = useState<string | null>(null);
+
+    React.useEffect(() => {
+        const profileImage = localStorage.getItem("profileImage");
+        if (profileImage) {
+            setProfile(profileImage);
         }
-        return null;
-    })
+    }, []);
 
 
     const drawerWidth = 260;

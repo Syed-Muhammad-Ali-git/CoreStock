@@ -103,7 +103,7 @@ const SideBar: React.FC<SideBarProps> = ({ open, setOpen }) => {
         <DrawerHeader>
           {open && (
             <>
-              <Avatar src="../../assets/images/logo.png" alt="core stock logo" />
+              <Avatar src="/logo.png" alt="core stock logo" />
               <Typography fontWeight={700} sx={{ color: '#EEF2F6', ml: 1 }}>
                 CoreStock
               </Typography>

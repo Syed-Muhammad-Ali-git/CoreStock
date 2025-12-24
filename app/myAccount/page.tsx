@@ -71,7 +71,7 @@ const MyAccountPage = () => {
         const parsed = profileSchema.safeParse({ fullName: values.fullName, email: values.email });
         if (!parsed.success) {
             const zErrors: Record<string, string> = {};
-            parsed.error.errors.forEach((err) => {
+            parsed.error.issues.forEach((err: any) => {
                 const field = err.path[0] as string;
                 zErrors[field] = err.message;
             });
@@ -103,7 +103,7 @@ const MyAccountPage = () => {
         const parsed = passSchema.safeParse({ oldPassword: values.oldPassword, newPassword: values.newPassword, confirmPassword: values.confirmPassword });
         if (!parsed.success) {
             const zErrors: Record<string, string> = {};
-            parsed.error.errors.forEach((err) => {
+            parsed.error.issues.forEach((err: any) => {
                 const field = err.path[0] as string;
                 zErrors[field] = err.message;
             });
@@ -122,8 +122,8 @@ const MyAccountPage = () => {
         <Container size="md" style={{ paddingTop: 96, maxWidth: 800 }}>
 
             <form>
-                <Stack spacing="md">
-                    <Group position="center">
+                <Stack gap="md">
+                    <Group justify="center">
                         <FileButton onChange={handleFile} accept="image/*">
                             {(props) => (
                                 <Avatar
@@ -137,7 +137,7 @@ const MyAccountPage = () => {
                         </FileButton>
                     </Group>
 
-                    <SimpleGrid cols={2} breakpoints={[{ maxWidth: "768px", cols: 1 }]} spacing="md">
+                    <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
                         <TextInput
                             label="Full Name"
                             value={values.fullName}
@@ -155,13 +155,13 @@ const MyAccountPage = () => {
                         />
                     </SimpleGrid>
 
-                    <Group position="right">
+                    <Group justify="flex-end">
                         <Button onClick={handleUpdateProfile} style={{ backgroundColor: "#FF8A3D", color: "black" }}>
                             Update Changes
                         </Button>
                     </Group>
 
-                    <SimpleGrid cols={3} breakpoints={[{ maxWidth: "768px", cols: 1 }]} spacing="md">
+                    <SimpleGrid cols={{ base: 1, md: 3 }} spacing="md">
                         <PasswordInput
                             label="Old Password"
                             value={values.oldPassword}
@@ -187,7 +187,7 @@ const MyAccountPage = () => {
                         />
                     </SimpleGrid>
 
-                    <Group position="right">
+                    <Group justify="flex-end">
                         <Button onClick={handleChangePassword} style={{ backgroundColor: "#FF8A3D", color: "black" }}>
                             Change Password
                         </Button>
