@@ -1,25 +1,83 @@
-import * as React from "react";
+import * as React from 'react';
 import { useRouter, usePathname } from "next/navigation";
-import {
-  Drawer,
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  Divider,
-  IconButton,
-} from "@mui/material";
+import { styled, Theme, CSSObject } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Avatar } from '@mantine/core';
 
 const drawerWidth = 260;
+
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  backgroundColor: '#3A3E46',
+  color: '#F8FAFC',
+  overflowX: 'hidden',
+  borderRight: 'none',
+  zIndex: 1200,
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  backgroundColor: '#3A3E46',
+  color: '#F8FAFC',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+  borderRight: 'none',
+  zIndex: 1200,
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(0, 2),
+  height: 64, // Fixed height to match Header
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    zIndex: 1200, // Base z-index
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
 
 interface SideBarProps {
   open: boolean;
@@ -29,232 +87,120 @@ interface SideBarProps {
 const SideBar: React.FC<SideBarProps> = ({ open, setOpen }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, orange: true, path: "/" },
-    {
-      text: "Organization",
-      icon: <ApartmentIcon />,
-      orange: true,
-      path: "/organization",
-    },
+    { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
+    { text: "Organization", icon: <ApartmentIcon />, path: "/organization" },
     { text: "Audit", icon: <GroupIcon />, path: "/audit" },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
   ];
 
-  const mainMenu = menuItems.slice(0, 2);
-  const others = menuItems.slice(2);
-
-  const activeItem =
-    menuItems.find((item) => item.path === pathname)?.text || "Dashboard";
+  const activeItem = menuItems.find((item) => item.path === pathname)?.text || "Dashboard";
 
   return (
-    <>
-      {!open && (
-        <IconButton
-          onClick={() => setOpen(true)}
-          sx={{
-            position: "fixed",
-            top: 16,
-            left: 16,
-            backgroundColor: "#3A3E46",
-            color: "white",
-            "&:hover": { backgroundColor: "#2F333A" },
-            zIndex: 1300,
-          }}
-        >
-          <ChevronLeftIcon sx={{ transform: "rotate(180deg)" }} />
-        </IconButton>
-      )}
-      <Drawer
-        variant="persistent"
-        open={open}
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            backgroundColor: "#3A3E46",
-            borderRight: "none",
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        {/* Header */}
-        <Box
-          sx={{
-            height: 64,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            px: 2,
-          }}
-        >
-          <Typography fontWeight={700} color="white">
-            CoreStock
-          </Typography>
+    <Box sx={{ display: 'flex' }}>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          {open && (
+            <>
+              <Avatar src="../../assets/images/logo.png" alt="core stock logo" />
+              <Typography fontWeight={700} sx={{ color: '#EEF2F6', ml: 1 }}>
+                CoreStock
+              </Typography>
 
-          <IconButton
-            onClick={() => setOpen(false)}
-            sx={{
-              backgroundColor: "white",
-              color: "black",
-              "&:hover": { backgroundColor: "#FF8A3D" },
-            }}
-          >
-            <ChevronLeftIcon />
+              <Typography fontWeight={500} fontSize={"10px"} sx={{ color: '#EEF2F6', mt: 4, ml: -14 }}>
+                by Blockwork IT
+              </Typography>
+            </>
+
+          )}
+          <IconButton onClick={() => setOpen(!open)} sx={{ color: 'white' }}>
+            {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
-        </Box>
+        </DrawerHeader>
+        <Divider sx={{ borderColor: '#697586' }} />
 
-        <Divider sx={{ borderColor: "#697586" }} />
-
-        {/* Main Menu */}
-        <Box sx={{ px: 2, mt: 4 }}>
-          <Typography
-            variant="body2"
-            sx={{ color: "#F8FAFC", fontWeight: 400, mb: 2 }}
-          >
-            Main Menu
-          </Typography>
-          <List sx={{ p: 0 }}>
-            {mainMenu.map((item) => {
-              const isActive = item.text === activeItem;
-
-              return (
-                <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
-                  <ListItemButton
-                    onClick={() => {
-                      router.push(item.path);
-                      if (isMobile) setOpen(false);
-                    }}
+        {/* Main Menu Items */}
+        <List sx={{ mt: 2 }}>
+          {menuItems.map((item) => {
+            const isActive = item.text === activeItem;
+            return (
+              <ListItem key={item.text} disablePadding sx={{ display: 'block', mb: 1 }}>
+                <ListItemButton
+                  onClick={() => router.push(item.path)}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                    backgroundColor: isActive ? "#FF8A3D" : "transparent",
+                    mx: 1,
+                    borderRadius: "12px",
+                    "&:hover": {
+                      backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
+                    },
+                  }}
+                >
+                  <ListItemIcon
                     sx={{
-                      borderRadius: "12px",
-                      height: 44,
-                      backgroundColor: isActive ? "#FF8A3D" : "transparent",
-                      "&:hover": {
-                        backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
-                      },
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                      color: isActive ? "#000000" : "#F8FAFC",
                     }}
                   >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 40,
-                        color: isActive ? "#000000" : "#F8FAFC",
-                      }}
-                    >
-                      {item.icon}
-                    </ListItemIcon>
-
-                    <ListItemText
-                      primary={item.text}
-                      primaryTypographyProps={{
-                        fontSize: 14,
-                        fontWeight: isActive ? 500 : 400,
-                        color: isActive ? "#000000" : "#F8FAFC",
-                      }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
-          </List>
-        </Box>
-
-        {/* Others */}
-        <Box sx={{ px: 2, mt: 2 }}>
-          <Typography
-            variant="body2"
-            sx={{ color: "#F8FAFC", fontWeight: 400, mb: 1 }}
-          >
-            Others
-          </Typography>
-          <List sx={{ p: 0 }}>
-            {others.map((item) => {
-              const isActive = item.text === activeItem;
-
-              return (
-                <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
-                  <ListItemButton
-                    onClick={() => {
-                      router.push(item.path);
-                      if (isMobile) setOpen(false);
-                    }}
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.text}
                     sx={{
-                      borderRadius: "12px",
-                      height: 44,
-                      backgroundColor: isActive ? "#FF8A3D" : "transparent",
-                      "&:hover": {
-                        backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
-                      },
+                      opacity: open ? 1 : 0,
+                      color: isActive ? "#000000" : "#F8FAFC"
                     }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 40,
-                        color: isActive ? "#000000" : "#F8FAFC",
-                      }}
-                    >
-                      {item.icon}
-                    </ListItemIcon>
-
-                    <ListItemText
-                      primary={item.text}
-                      primaryTypographyProps={{
-                        fontSize: 14,
-                        fontWeight: isActive ? 500 : 400,
-                        color: isActive ? "#000000" : "#F8FAFC",
-                      }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
-          </List>
-        </Box>
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
 
         <Box sx={{ flexGrow: 1 }} />
 
         {/* Logout */}
-        <List sx={{ px: 2, py: 2 }}>
-          <ListItem disablePadding>
+        <List sx={{ pb: 2 }}>
+          <ListItem disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               onClick={() => {
                 localStorage.clear();
                 router.push("/login");
               }}
               sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+                mx: 1,
                 borderRadius: "12px",
-                height: 44,
-                "&:hover": { backgroundColor: "#2F333A" },
+                "&:hover": {
+                  backgroundColor: "#2F333A",
+                },
               }}
             >
-              <ListItemIcon sx={{ minWidth: 40, color: "#F8FAFC" }}>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                  color: "#F8FAFC"
+                }}
+              >
                 <LogoutIcon />
               </ListItemIcon>
-              <ListItemText
-                primary="Log Out"
-                primaryTypographyProps={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#F8FAFC",
-                }}
-              />
+              <ListItemText primary="Log Out" sx={{ opacity: open ? 1 : 0, color: "#F8FAFC" }} />
             </ListItemButton>
           </ListItem>
         </List>
       </Drawer>
-    </>
+    </Box>
   );
-};
+}
 
 export default SideBar;

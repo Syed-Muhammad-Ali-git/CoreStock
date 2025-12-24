@@ -1,24 +1,26 @@
-"use client";
+// checking  path and set the header and side bar...!
 
-import React, { useState, useLayoutEffect } from "react";
+import React from "react";
 import { protectedRoutes } from "./routes";
 import SideBar from "../components/sidebar/sidebar";
+import Header from "../components/header/header";
 
-type PathCheckerProps = {
+interface PathCheckerProps {
   pathName: string;
+  open: boolean;
+  setOpen: (v: boolean) => void;
 };
 
-const PathChecker = ({ pathName }: PathCheckerProps) => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+const PathChecker = ({ pathName, open, setOpen }: PathCheckerProps) => {
+  const show = protectedRoutes.includes(pathName);
 
-  useLayoutEffect(() => {
-    setDrawerOpen(window.innerWidth >= 768);
-  }, []);
-
-  const showSidebar = protectedRoutes.includes(pathName);
+  if (!show) return null;
 
   return (
-    <>{showSidebar && <SideBar open={drawerOpen} setOpen={setDrawerOpen} />}</>
+    <>
+      <Header sidebarOpen={open} />
+      <SideBar open={open} setOpen={setOpen} />
+    </>
   );
 };
 
