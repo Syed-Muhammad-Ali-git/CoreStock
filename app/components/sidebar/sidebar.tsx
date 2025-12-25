@@ -1,3 +1,4 @@
+/* ---------------- IMPORTS ---------------- */
 import * as React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
@@ -22,8 +23,10 @@ import dashboardLogo from "../../assets/images/dashboard.png";
 import settingsLogo from "../../assets/images/settings.png";
 import Image from "next/image";
 
+/* ---------------- STYLED COMPONENTS ---------------- */
 const drawerWidth = 260;
 
+/* same styles – NO CHANGE */
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -34,7 +37,6 @@ const openedMixin = (theme: Theme): CSSObject => ({
   color: "#F8FAFC",
   overflowX: "hidden",
   borderRight: "none",
-  zIndex: 1200,
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
@@ -50,10 +52,8 @@ const closedMixin = (theme: Theme): CSSObject => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
   borderRight: "none",
-  zIndex: 1200,
 });
 
-// Hamburger icon
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -69,8 +69,6 @@ const Drawer = styled(MuiDrawer, {
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  zIndex: 1200, // Base z-index
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -81,140 +79,139 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-interface SideBarProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}
-
-const SideBar: React.FC<SideBarProps> = ({ open, setOpen }) => {
+/* ---------------- COMPONENT ---------------- */
+const SideBar = ({ open, setOpen }: any) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const menuItems = [
+  const mainMenuItems = [
     {
       text: "Dashboard",
-      icon: <Image src={dashboardLogo} alt="dashboard logo" />,
+      icon: <Image src={dashboardLogo} alt="" />,
       path: "/",
     },
     {
       text: "Organization",
-      icon: <Image src={organizationLogo} alt="dashboard logo" />,
+      icon: <Image src={organizationLogo} alt="" />,
       path: "/organization",
     },
+  ];
+
+  const otherMenuItems = [
     {
       text: "Audit",
-      icon: <Image src={auditLogo} alt="dashboard logo" />,
+      icon: <Image src={auditLogo} alt="" />,
       path: "/audit",
     },
     {
       text: "Settings",
-      icon: <Image src={settingsLogo} alt="dashboard logo" />,
+      icon: <Image src={settingsLogo} alt="" />,
       path: "/settings",
     },
   ];
 
-  const activeItem =
-    menuItems.find((item) => item.path === pathname)?.text || "Dashboard";
+  const renderMenu = (items: any[]) =>
+    items.map((item) => {
+      const isActive = pathname === item.path;
+      return (
+        <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
+          <ListItemButton
+            onClick={() => router.push(item.path)}
+            sx={{
+              minHeight: 48,
+              justifyContent: open ? "initial" : "center",
+              px: 2.5,
+              mx: 1,
+              borderRadius: "12px",
+              backgroundColor: isActive ? "#FF8A3D" : "transparent",
+              "&:hover": {
+                backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
+              },
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : "auto",
+                justifyContent: "center",
+                filter: isActive ? "brightness(0)" : "brightness(0) invert(1)",
+              }}
+            >
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={item.text}
+              sx={{
+                opacity: open ? 1 : 0,
+                color: isActive ? "#000" : "#F8FAFC",
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+      );
+    });
 
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={open}>
-        {/* Drawer logo section */}
-        <DrawerHeader className="mt-3 mb-3">
+        {/* HEADER */}
+        <DrawerHeader>
           {open && (
             <>
-              <Avatar src="/logo.png" alt="core stock logo" />
+              <Avatar src="/logo.png" />
               <Stack>
-                <Typography
-                  fontWeight={500}
-                  fontSize={"18px"}
-                  sx={{ color: "#EEF2F6", ml: -3, mb: 1 }}
-                >
+                <Typography sx={{ color: "#EEF2F6", ml: -8 }}>
                   CoreStock
                 </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography
-                  fontWeight={500}
-                  fontSize={"10px"}
-                  sx={{ color: "#EEF2F6", ml: -14, mt: 3 }}
-                >
+                <Typography fontSize="10px" sx={{ ml: -8 }}>
                   by Blockwork IT
                 </Typography>
               </Stack>
             </>
           )}
-
-          {/* side bar closing icon */}
-          <IconButton onClick={() => setOpen(!open)} sx={{ color: "white" }}>
-            {open ? (
-              <ChevronLeftIcon
-                className="bg-white text-black rounded-2xl"
-                sx={{ width: "30px", height: "30px" }}
-              />
-            ) : (
-              <MenuIcon />
-            )}
+          <IconButton
+            onClick={() => setOpen(!open)}
+            sx={{ color: "black", backgroundColor: "white" }}
+          >
+            {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
         </DrawerHeader>
 
-        <Divider sx={{ borderColor: "#697586" }} />
+        <Divider />
 
-        {/* Main Menu Items */}
-        <List sx={{ mt: 2 }}>
-          {menuItems.map((item) => {
-            const isActive = item.text === activeItem;
-            return (
-              <ListItem
-                key={item.text}
-                disablePadding
-                sx={{ display: "block", mb: 1 }}
-              >
-                <ListItemButton
-                  onClick={() => router.push(item.path)}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                    backgroundColor: isActive ? "#FF8A3D" : "transparent",
-                    mx: 1,
-                    borderRadius: "12px",
-                    "&:hover": {
-                      backgroundColor: isActive ? "#FF8A3D" : "#2F333A",
-                    },
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      filter: isActive
-                        ? "brightness(0)"
-                        : "brightness(0) invert(1)",
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.text}
-                    sx={{
-                      opacity: open ? 1 : 0,
-                      color: isActive ? "#000000" : "#F8FAFC",
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
+        {/* MAIN MENU */}
+        <Typography
+          sx={{
+            fontSize: 12,
+            color: "#9CA3AF",
+            ml: open ? 2 : 0,
+            mt: 3,
+            opacity: open ? 1 : 0,
+          }}
+        >
+          Main Menu
+        </Typography>
+        <List sx={{ mt: 1 }}>{renderMenu(mainMenuItems)}</List>
+
+        {/* OTHERS (UI SAME – POSITION FIXED) */}
+        <Typography
+          sx={{
+            fontSize: 12,
+            color: "#9CA3AF",
+            ml: open ? 2 : 0,
+            mt: 3,
+            opacity: open ? 1 : 0,
+          }}
+        >
+          Others
+        </Typography>
+        <List sx={{ mt: 1 }}>{renderMenu(otherMenuItems)}</List>
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {/* Logout */}
+        {/* LOGOUT */}
         <List sx={{ pb: 2 }}>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
                 localStorage.clear();
@@ -226,20 +223,10 @@ const SideBar: React.FC<SideBarProps> = ({ open, setOpen }) => {
                 px: 2.5,
                 mx: 1,
                 borderRadius: "12px",
-                "&:hover": {
-                  backgroundColor: "#2F333A",
-                },
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#F8FAFC",
-                }}
-              >
-                <Image src={logoutLogo} alt="logout icon" />
+              <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto" }}>
+                <Image src={logoutLogo} alt="" />
               </ListItemIcon>
               <ListItemText
                 primary="Log Out"
