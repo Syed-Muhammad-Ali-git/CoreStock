@@ -1,7 +1,4 @@
-// Note: Main layout file
-
-// "use client";
-
+/* ---------------- IMPORTS ---------------- */
 import type { Metadata } from "next";
 import React, { ReactNode } from "react";
 import "./globals.css";
@@ -13,11 +10,13 @@ import {
 } from "@mantine/core";
 import ClientLayout from "./client-layout";
 
+/* ---------------- METADATA ---------------- */
 export const metadata: Metadata = {
   title: "Core Stock",
   description: "Core Stock by Blockwork IT",
 };
 
+/* ---------------- COMPONENT ---------------- */
 const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <html lang="en" {...mantineHtmlProps}>
@@ -25,7 +24,9 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
         <ColorSchemeScript />
       </head>
       <body>
+        {/* ---------------- MANTINE PROVIDER ---------------- */}
         <MantineProvider>
+          {/* ---------------- CLIENT LAYOUT (Handles conditional rendering of sidebar/header) ---------------- */}
           <ClientLayout>{children}</ClientLayout>
         </MantineProvider>
       </body>

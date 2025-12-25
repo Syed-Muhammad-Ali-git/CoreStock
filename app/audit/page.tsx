@@ -1,12 +1,15 @@
-// Note: Audi screen...!
-
 "use client";
 
-import { Container, Title } from "@mantine/core";
+/* ---------------- IMPORTS ---------------- */
 import React from "react";
 
+/* ---------------- COMPONENT ---------------- */
 const Audit = () => {
-  return <div>Audit</div>;
+  return (
+    <div>
+      <h1>Audit</h1>
+    </div>
+  );
 };
 
 export default Audit;

@@ -1,13 +1,15 @@
-// Note: This is Dashboard Screen...!
-
 "use client";
 
+/* ---------------- IMPORTS ---------------- */
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+/* ---------------- COMPONENT ---------------- */
 const AdminDashboardHome: React.FC = () => {
   const router = useRouter();
-  // condition to check user login or not...!
+
+  // ----- AUTHENTICATION CHECK -----
+  // Redirect to login page if user data is not found in local storage.
   useEffect(() => {
     if (!localStorage.getItem("loginData")) {
       router.push("/login");
@@ -16,16 +18,10 @@ const AdminDashboardHome: React.FC = () => {
 
   return (
     <>
+      {/* ---------------- PAGE TITLE ---------------- */}
       <h1>Dashboard</h1>
-      {/* <div
-        style={{
-          marginLeft: drawerOpen ? "270px" : "0",
-          transition: "margin-left 0.3s ease",
-        }}
-      >
-        Audit
-      </div> */}
     </>
   );
-}
+};
+
 export default AdminDashboardHome;

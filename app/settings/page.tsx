@@ -1,14 +1,14 @@
-// Note: Settings screen...!
-
 "use client";
 
+/* ---------------- IMPORTS ---------------- */
 import React from "react";
 
+/* ---------------- COMPONENT ---------------- */
 const Settings = () => {
   return (
-    <>
-      <div>settings</div>
-    </>
+    <div>
+      <h1>settings</h1>
+    </div>
   );
 };
 
