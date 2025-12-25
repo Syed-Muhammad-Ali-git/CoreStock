@@ -3,8 +3,11 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Group, TextInput, Avatar } from "@mantine/core";
+import Image from "next/image";
 import searchLogo from "../../assets/images/searchLogo.png";
 import helpLogo from "../../assets/images/helpLogo.png";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { colors } from "@mui/material";
 
 interface HeaderProps {
   sidebarOpen?: boolean;
@@ -26,32 +29,34 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
 
   return (
     <div
+      className={
+        "h-16 flex items-center justify-between px-4 fixed top-0 right-0 z-1400 bg-white transition-[left] duration-200 ease-[cubic-bezier(0.4,0,0.6,1)]"
+      }
       style={{
-        height: 64,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 16px",
-        position: "fixed",
         left: sidebarOpen ? drawerWidth : collapsedWidth,
-        right: 0,
-        top: 0,
-        zIndex: 1400,
-        background: "white",
-        borderBottom: "1px solid #e0e0e0",
-        transition: "left 225ms cubic-bezier(0.4, 0, 0.6, 1)",
       }}
     >
-      <Group className="border-#EAECF0">
-        {/* <Image src={searchLogo} alt={"search logo"} /> */}
-
+      <Group>
         <TextInput
-          className="w-60  border-[#EAECF0] text-[#4B5565] "
+          className="w-60"
           placeholder="Search organizations or users..."
+          leftSection={<Image src={searchLogo} alt={"search logo"} />}
+          leftSectionWidth={30}
         />
       </Group>
 
       <Group>
+        <Image
+          src={helpLogo}
+          alt={"helpLogo"}
+          width={30}
+          height={30}
+          style={{
+            border: "1px solid #EEF2F6",
+            padding: "6px",
+            borderRadius: "6px",
+          }}
+        />
         <Avatar
           src={profile || undefined}
           alt="profile"

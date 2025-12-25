@@ -32,7 +32,7 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
         : showSidebar
         ? "calc(64px + 10px)"
         : undefined,
-    paddingTop: showSidebar ? "80px" : "0",
+    paddingTop: showSidebar ? "70px" : "0",
   };
 
   return (

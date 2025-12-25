@@ -136,108 +136,134 @@ const MyAccountPage = () => {
   //   };
 
   return (
-    <Container
-      size="md"
-      style={{
-        marginLeft: "0px",
-      }}
-    >
-      <form>
-        <Stack>
-          <h1>Personal Info</h1>
-          <Group>
-            <FileButton onChange={handleFile} accept="image/*">
-              {(props) => (
-                <Avatar
-                  src={image || undefined}
-                  radius="100%"
-                  size={100}
-                  style={{ cursor: "pointer" }}
-                  onClick={props.onClick}
-                />
-              )}
-            </FileButton>
-          </Group>
+    <div className="bg-[#F2F4F7] h-auto md:h-140.5 p-1 ">
+      <h1 className="m-4 py-4">
+        <span className="text-[#697586] font-medium">Dashboard</span>
+        <span className="text-[#697586] font-extrabold"> &gt;&gt; </span>
+        <span className="text-[#FF8A3D] font-medium">My Account</span>
+      </h1>
 
-          <SimpleGrid cols={{ sm: 2 }} spacing="md">
-            <TextInput
-              label="Full Name"
-              placeholder="John Wick"
-              value={values.fullName}
-              onChange={(e) =>
-                setValues((s) => ({ ...s, fullName: e.target.value }))
-              }
-              error={errors.fullName}
-              styles={{ label: { color: "#364152" } }}
-            />
+      <Container
+        size="full"
+        style={{
+          marginLeft: "0px",
+          padding: "20px",
+          margin: "10px",
+          backgroundColor: "white",
+          borderRadius: "10px",
+          boxShadow: "0 0 10 0",
+        }}
+      >
+        <form>
+          <Stack>
+            <h1 className="font-medium pb-3 pt-2 text-[#202939]">
+              Personal Info
+            </h1>
+            <Group>
+              <FileButton onChange={handleFile} accept="image/*">
+                {(props) => (
+                  <Avatar
+                    src={image || undefined}
+                    radius="100%"
+                    size={100}
+                    style={{ cursor: "pointer" }}
+                    onClick={props.onClick}
+                  />
+                )}
+              </FileButton>
+            </Group>
 
-            <TextInput
-              label="Email"
-              placeholder="johnwick@corestock.com"
-              value={values.email}
-              onChange={(e) =>
-                setValues((s) => ({ ...s, email: e.target.value }))
-              }
-              error={errors.email}
-              styles={{ label: { color: "#364152" } }}
-            />
-          </SimpleGrid>
+            <div>
+              <div className="bg-[#e6e3e370] rounded-2xl py-2 px-4 mb-4">
+                <h1 className="font-medium pb-3 pt-2">Personal Information</h1>
+                <SimpleGrid cols={{ sm: 2 }} spacing="md">
+                  <TextInput
+                    label="Full Name"
+                    placeholder="John Wick"
+                    value={values.fullName}
+                    onChange={(e) =>
+                      setValues((s) => ({ ...s, fullName: e.target.value }))
+                    }
+                    error={errors.fullName}
+                    styles={{ label: { color: "#364152" } }}
+                  />
 
-          <Group justify="flex-end">
-            <Button
-              //   onClick={handleUpdateProfile}
-              style={{ backgroundColor: "#FF8A3D", color: "black" }}
-            >
-              Update Changes
-            </Button>
-          </Group>
+                  <TextInput
+                    label="Email"
+                    placeholder="johnwick@corestock.com"
+                    value={values.email}
+                    onChange={(e) =>
+                      setValues((s) => ({ ...s, email: e.target.value }))
+                    }
+                    error={errors.email}
+                    styles={{ label: { color: "#364152" } }}
+                  />
+                </SimpleGrid>
 
-          <SimpleGrid cols={{ sm: 3 }} spacing="md">
-            <PasswordInput
-              label="Old Password"
-              placeholder="Enter Password"
-              value={values.oldPassword}
-              onChange={(e) =>
-                setValues((s) => ({ ...s, oldPassword: e.target.value }))
-              }
-              error={errors.oldPassword}
-              styles={{ label: { color: "#364152" } }}
-            />
+                <Group justify="flex-end" className="mt-4 mb-2">
+                  <Button
+                    //   onClick={handleUpdateProfile}
+                    style={{ backgroundColor: "#FF8A3D", color: "black" }}
+                  >
+                    Update Changes
+                  </Button>
+                </Group>
+              </div>
 
-            <PasswordInput
-              label="New Password"
-              placeholder="Enter Password"
-              value={values.newPassword}
-              onChange={(e) =>
-                setValues((s) => ({ ...s, newPassword: e.target.value }))
-              }
-              error={errors.newPassword}
-              styles={{ label: { color: "#364152" } }}
-            />
+              <div className="bg-[#e6e3e370] rounded-2xl py-2 px-4 mb-8">
+                <h1 className="font-medium pb-3">Password</h1>
+                <SimpleGrid cols={{ sm: 3 }} spacing="md">
+                  <PasswordInput
+                    label="Old Password"
+                    placeholder="Enter Password"
+                    value={values.oldPassword}
+                    onChange={(e) =>
+                      setValues((s) => ({ ...s, oldPassword: e.target.value }))
+                    }
+                    error={errors.oldPassword}
+                    styles={{ label: { color: "#364152" } }}
+                  />
 
-            <PasswordInput
-              label="Confirm Password"
-              placeholder="Enter Password"
-              value={values.confirmPassword}
-              onChange={(e) =>
-                setValues((s) => ({ ...s, confirmPassword: e.target.value }))
-              }
-              error={errors.confirmPassword}
-              styles={{ label: { color: "#364152" } }}
-            />
-          </SimpleGrid>
+                  <PasswordInput
+                    label="New Password"
+                    placeholder="Enter Password"
+                    value={values.newPassword}
+                    onChange={(e) =>
+                      setValues((s) => ({ ...s, newPassword: e.target.value }))
+                    }
+                    error={errors.newPassword}
+                    styles={{ label: { color: "#364152" } }}
+                  />
 
-          <Group justify="flex-end">
-            <Button
-              //   onClick={handleChangePassword}
-              style={{ backgroundColor: "#FF8A3D", color: "black" }}
-            >
-              Change Password
-            </Button>
-          </Group>
-        </Stack>
-      </form>
-    </Container>
+                  <PasswordInput
+                    label="Confirm Password"
+                    placeholder="Enter Password"
+                    value={values.confirmPassword}
+                    onChange={(e) =>
+                      setValues((s) => ({
+                        ...s,
+                        confirmPassword: e.target.value,
+                      }))
+                    }
+                    error={errors.confirmPassword}
+                    styles={{ label: { color: "#364152" } }}
+                  />
+                </SimpleGrid>
+
+                <Group justify="flex-end" className="mt-4 mb-3">
+                  <Button
+                    //   onClick={handleChangePassword}
+                    style={{ backgroundColor: "#FF8A3D", color: "black" }}
+                  >
+                    Change Password
+                  </Button>
+                </Group>
+              </div>
+            </div>
+          </Stack>
+        </form>
+      </Container>
+    </div>
   );
 };
 

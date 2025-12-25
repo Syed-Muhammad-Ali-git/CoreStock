@@ -53,11 +53,12 @@ const closedMixin = (theme: Theme): CSSObject => ({
   zIndex: 1200,
 });
 
+// Hamburger icon
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(0, 1.5),
   height: 64,
   ...theme.mixins.toolbar,
 }));
@@ -145,6 +146,7 @@ const SideBar: React.FC<SideBarProps> = ({ open, setOpen }) => {
             </>
           )}
 
+          {/* side bar closing icon */}
           <IconButton onClick={() => setOpen(!open)} sx={{ color: "white" }}>
             {open ? (
               <ChevronLeftIcon
