@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import plusIcon from "../../../assets/images/plus.png";
+import plusIcon from "../../assets/images/plus.png";
 
 const DashboardHeader = () => {
   const [time, setTime] = useState(() => new Date().toDateString());
@@ -18,7 +18,7 @@ const DashboardHeader = () => {
   const loginDataRaw: any = JSON.parse(localStorage.getItem("loginData"));
 
   return (
-    <section className="bg-white rounded-xl m-2.5 py-4 px-5">
+    <section className="bg-white rounded-xl py-4 px-5">
       <div className="font-normal text-[#667085] text-sm">{time}</div>
 
       <div className="flex justify-between flex-wrap gap-4">
