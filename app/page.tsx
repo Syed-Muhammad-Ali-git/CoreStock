@@ -1,11 +1,11 @@
 "use client";
 
-/* ---------------- IMPORTS ---------------- */
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import DashboardHeader from "./components/dashboard/dashboardHeader/dashboardHeader";
 
 /* ---------------- COMPONENT ---------------- */
-const AdminDashboardHome: React.FC = () => {
+const AdminDashboardHome = () => {
   const router = useRouter();
 
   // ----- AUTHENTICATION CHECK -----
@@ -17,10 +17,12 @@ const AdminDashboardHome: React.FC = () => {
   }, [router]);
 
   return (
-    <>
-      {/* ---------------- PAGE TITLE ---------------- */}
-      <h1>Dashboard</h1>
-    </>
+    <div className="bg-[#F4F3F3] h-screen py-2">
+      {/* Dashboard date header  */}
+      <div className="">
+        <DashboardHeader />
+      </div>
+    </div>
   );
 };
 

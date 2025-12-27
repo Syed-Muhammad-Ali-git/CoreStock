@@ -232,7 +232,7 @@ const MyAccountForm = () => {
 
           <div>
             {/* PERSONAL INFO */}
-            <div className="bg-[#e6e3e370] rounded-2xl py-2 px-4 mb-4">
+            <div className="bg-[#F4F3F3] rounded-2xl py-2 px-4 mb-4">
               <h1 className="font-medium pb-5 pt-2">Personal Information</h1>
 
               <SimpleGrid cols={{ sm: 2 }} spacing="md">
@@ -278,7 +278,7 @@ const MyAccountForm = () => {
             </div>
 
             {/* PASSWORD */}
-            <div className="bg-[#e6e3e370] rounded-2xl py-2 px-4 mb-8">
+            <div className="bg-[#F4F3F3] rounded-2xl py-2 px-4 mb-8">
               <h1 className="font-medium pb-5">Password</h1>
 
               <SimpleGrid cols={{ sm: 3 }} spacing="md">
