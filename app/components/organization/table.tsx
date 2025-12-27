@@ -9,33 +9,33 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
 interface Column {
-  id: "Organization" | "seatsUsed" | "expiryDate" | "billingStatus" | "density";
+  id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
   align?: "right";
   format?: (value: number) => string;
 }
 
-const columns: Column[] = [
-  { id: "Organization", label: "Organization", minWidth: 170 },
-  { id: "seatsUsed", label: "Seats Used", minWidth: 100 },
+const columns: readonly Column[] = [
+  { id: "name", label: "Name", minWidth: 170 },
+  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
   {
-    id: "expiryDate",
-    label: "Expiry Date",
+    id: "population",
+    label: "Population",
     minWidth: 170,
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
-    id: "billingStatus",
-    label: "Billing Status",
+    id: "size",
+    label: "Size\u00a0(km\u00b2)",
     minWidth: 170,
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "density",
-    label: "Action",
+    label: "Density",
     minWidth: 170,
     align: "right",
     format: (value: number) => value.toFixed(2),
@@ -43,21 +43,21 @@ const columns: Column[] = [
 ];
 
 interface Data {
-  Organization: string;
-  seatsUsed: string;
-  expiryDate: number;
-  billingStatus: number;
+  name: string;
+  code: string;
+  population: number;
+  size: number;
   density: number;
 }
 
 function createData(
-  Organization: string,
-  seatsUsed: string,
-  expiryDate: number,
-  billingStatus: number
+  name: string,
+  code: string,
+  population: number,
+  size: number
 ): Data {
-  const density = expiryDate / billingStatus;
-  return { Organization, seatsUsed, expiryDate, billingStatus, density };
+  const density = population / size;
+  return { name, code, population, size, density };
 }
 
 const rows = [
@@ -78,7 +78,7 @@ const rows = [
   createData("Brazil", "BR", 210147125, 8515767),
 ];
 
-const ExpiringSoonTable = () => {
+const OrganizationTable = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -94,39 +94,16 @@ const ExpiringSoonTable = () => {
   };
 
   return (
-    <Paper sx={{ width: "100%" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
-              <TableCell colSpan={1}>
-                <div className="font-medium text-2xl text-[#202939]">
-                  Expiring Soon
-                </div>
-              </TableCell>
-
-              <TableCell colSpan={3}></TableCell>
-              <TableCell colSpan={5} sx={{ textAlign: "right" }}>
-                <button
-                  className="text-[#364152]"
-                  style={{
-                    border: "1px solid #CDD5DF",
-                    padding: "7px",
-                    borderRadius: "8px",
-                    fontWeight: "600",
-                    fontSize: "13px",
-                  }}
-                >
-                  View All Expiring
-                </button>
-              </TableCell>
-            </TableRow>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
                 </TableCell>
@@ -138,12 +115,7 @@ const ExpiringSoonTable = () => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.seatsUsed}
-                  >
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -173,4 +145,4 @@ const ExpiringSoonTable = () => {
   );
 };
 
-export default ExpiringSoonTable;
+export default OrganizationTable;
