@@ -226,7 +226,7 @@ const SideBar = ({ open, setOpen }: any) => {
               }}
             >
               <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto" }}>
-                <Image src={logoutLogo} alt="" />
+                <Image src={logoutLogo} alt="logout" />
               </ListItemIcon>
               <ListItemText
                 primary="Log Out"

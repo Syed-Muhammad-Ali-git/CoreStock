@@ -49,6 +49,24 @@ const MyAccountForm = () => {
   });
 
   const [image, setImage] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+
+  // ---------------- LOAD USER DATA FROM LOCAL STORAGE ----------------
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loginDataRaw = localStorage.getItem("loginData");
+      if (loginDataRaw) {
+        const loginData = JSON.parse(loginDataRaw);
+        if (loginData.fullName) {
+          setUserName(loginData.fullName);
+        }
+        if (loginData.email) {
+          setUserEmail(loginData.email);
+        }
+      }
+    }
+  }, []);
 
   /* ---------------- LOAD EXISTING DATA ---------------- */
 
@@ -120,6 +138,7 @@ const MyAccountForm = () => {
       );
       toast.success("Profile saved successfully");
     }
+    window.location.reload();
   };
 
   /* ---------------- CHANGE PASSWORD ---------------- */
@@ -204,9 +223,9 @@ const MyAccountForm = () => {
               )}
             </FileButton>
             <div>
-              <h1 className="font-medium text-xl">John Wick</h1>
+              <h1 className="font-medium text-xl">{userName}</h1>
               <h1 className="text-[#697586] font-normal text-sm">
-                johnwick@gmail.com
+                {userEmail}
               </h1>
             </div>
           </Group>
