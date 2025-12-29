@@ -199,13 +199,12 @@ const SideBar = ({ open, setOpen }: any) => {
             fontSize: 12,
             color: "#9CA3AF",
             ml: open ? 2 : 0,
-            mt: 3,
             opacity: open ? 1 : 0,
           }}
         >
           Others
         </Typography>
-        <List sx={{ mt: 1 }}>{renderMenu(otherMenuItems)}</List>
+        <List>{renderMenu(otherMenuItems)}</List>
 
         <Box sx={{ flexGrow: 1 }} />
 
