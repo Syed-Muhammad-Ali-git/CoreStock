@@ -1,156 +1,449 @@
+"use client";
+
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
+import { useState } from "react";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  IconButton,
+  Menu,
+  MenuItem,
+  Box,
+  Button,
+  useMediaQuery,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import TuneIcon from "@mui/icons-material/Tune";
+import DeleteIcon from "@mui/icons-material/Delete";
+import InputIcon from "@mui/icons-material/Input";
+import { useTheme } from "@mui/material/styles";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
+/* ---------------- COLUMNS ---------------- */
 
 interface Column {
-  id: "name" | "code" | "population" | "size" | "density";
+  id:
+    | "Organization"
+    | "seatsUsed"
+    | "expiryDate"
+    | "used"
+    | "billingStatus"
+    | "action";
   label: string;
   minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
+  align?: "left" | "center" | "right";
 }
 
-const columns: Column[] = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toFixed(2),
-  },
+const columns: readonly Column[] = [
+  { id: "Organization", label: "Organization", minWidth: 220 },
+  { id: "seatsUsed", label: "Seats Used", minWidth: 120 },
+  { id: "expiryDate", label: "Expiry Date", minWidth: 140 },
+  { id: "used", label: "%Used", minWidth: 140 },
+  { id: "billingStatus", label: "Billing Status", minWidth: 140 },
+  { id: "action", label: "Action", align: "center", minWidth: 80 },
 ];
+
+/* ---------------- DATA ---------------- */
 
 interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
+  Organization: string;
+  seatsUsed: string;
+  expiryDate: string;
+  used: React.ReactNode;
+  billingStatus: "Paid" | "Pending" | "Unpaid";
 }
 
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
+const rows: Data[] = [
+  {
+    Organization: "ABC Infrastructure Ltd",
+    seatsUsed: "24/30",
+    expiryDate: "14 Nov 2025",
+    used: (
+      <div className="flex items-center ">
+        <div
+          style={{
+            width: "80px",
+            height: "8px",
+            backgroundColor: "#FFE5CC",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              width: "60%",
+              height: "100%",
+              backgroundColor: "#FE6511",
+              borderRadius: "10px",
+              transition: "width 0.3s ease",
+            }}
+          ></div>
+        </div>
+        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
+      </div>
+    ),
+    billingStatus: "Pending",
+  },
+  {
+    Organization: "NovaTech Solutions",
+    seatsUsed: "45/50",
+    expiryDate: "28 Oct 2025",
+    used: (
+      <div className="flex items-center ">
+        <div
+          style={{
+            width: "80px",
+            height: "8px",
+            backgroundColor: "#FFE5CC",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              width: "60%",
+              height: "100%",
+              backgroundColor: "#FE6511",
+              borderRadius: "10px",
+              transition: "width 0.3s ease",
+            }}
+          ></div>
+        </div>
+        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
+      </div>
+    ),
+    billingStatus: "Paid",
+  },
+  {
+    Organization: "BluePeak Engineering",
+    seatsUsed: "8/10",
+    expiryDate: "15 Sep 2025",
+    used: (
+      <div className="flex items-center ">
+        <div
+          style={{
+            width: "80px",
+            height: "8px",
+            backgroundColor: "#FFE5CC",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              width: "60%",
+              height: "100%",
+              backgroundColor: "#FE6511",
+              borderRadius: "10px",
+              transition: "width 0.3s ease",
+            }}
+          ></div>
+        </div>
+        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
+      </div>
+    ),
+    billingStatus: "Unpaid",
+  },
+  {
+    Organization: "UrbanStack Enterprises",
+    seatsUsed: "12/20",
+    expiryDate: "22 Aug 2025",
+    used: (
+      <div className="flex items-center ">
+        <div
+          style={{
+            width: "80px",
+            height: "8px",
+            backgroundColor: "#FFE5CC",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              width: "60%",
+              height: "100%",
+              backgroundColor: "#FE6511",
+              borderRadius: "10px",
+              transition: "width 0.3s ease",
+            }}
+          ></div>
+        </div>
+        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
+      </div>
+    ),
+    billingStatus: "Paid",
+  },
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    Organization: `Company ${i + 1}`,
+    seatsUsed: "10/20",
+    expiryDate: "01 Dec 2025",
+    used: (
+      <div className="flex items-center ">
+        <div
+          style={{
+            width: "80px",
+            height: "8px",
+            backgroundColor: "#FFE5CC",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              width: "60%",
+              height: "100%",
+              backgroundColor: "#FE6511",
+              borderRadius: "10px",
+              transition: "width 0.3s ease",
+            }}
+          ></div>
+        </div>
+        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
+      </div>
+    ),
+    billingStatus: i % 3 === 0 ? "Paid" : i % 3 === 1 ? "Pending" : "Unpaid",
+  })),
 ];
 
-const HighLicenceUtilizationTable = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+/* ---------------- ACTION MENU ---------------- */
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+const ActionMenu = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   return (
-    <Paper sx={{ width: "100%" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+    <>
+      <IconButton
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        style={{ display: "flex" }}
+      >
+        <MoreVertIcon />
+      </IconButton>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
+        <MenuItem>
+          <VisibilityIcon fontSize="small" sx={{ mr: 1 }} /> View
+        </MenuItem>
+        <MenuItem>
+          <EditIcon fontSize="small" sx={{ mr: 1 }} /> Edit
+        </MenuItem>
+        <MenuItem>
+          <TuneIcon fontSize="small" sx={{ mr: 1 }} /> Adjust
+        </MenuItem>
+        <MenuItem>
+          <InputIcon fontSize="small" sx={{ mr: 1 }} /> Book / Transfer
+        </MenuItem>
+        <MenuItem>
+          <DeleteIcon fontSize="small" sx={{ mr: 1 }} /> Delete
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+/* ---------------- MAIN TABLE ---------------- */
+
+const ExpiringSoonTable = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  return (
+    <Paper sx={{ borderRadius: "12px", overflow: "hidden" }}>
+      <TableContainer sx={{ maxHeight: 420 }}>
+        <Table stickyHeader sx={{ padding: "15px" }}>
+          {/* ---------- STICKY TITLE ---------- */}
           <TableHead>
             <TableRow>
-              <TableCell align="center" colSpan={2}>
-                Country
-              </TableCell>
-              <TableCell align="center" colSpan={3}>
-                Details
+              <TableCell
+                colSpan={columns.length}
+                sx={{
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 3,
+                  backgroundColor: "#fff",
+                }}
+              >
+                <Box display="flex" justifyContent="space-between">
+                  <Box sx={{ fontSize: 24, fontWeight: 500, color: "#202939" }}>
+                    High Licence Utilisation
+                  </Box>
+                  <Button
+                    sx={{
+                      border: "1px solid #CDD5DF",
+                      textTransform: "none",
+                      borderRadius: "8px",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      color: "#364152",
+                    }}
+                  >
+                    View All Utilisation
+                  </Button>
+                </Box>
               </TableCell>
             </TableRow>
+          </TableHead>
+
+          {/* ---------- COLUMN HEADERS ---------- */}
+
+          <Table sx={{ border: "1px solid #E6E6E9", marginTop: "10px" }}>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth }}
+                  sx={{
+                    backgroundColor: "#F8FAFC",
+                    color: "#697586",
+                    fontWeight: 500,
+                    position: "sticky",
+                    top: 56,
+                    zIndex: 2,
+                  }}
                 >
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
+
+            {/* ---------- BODY ---------- */}
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, i) => (
+                  <TableRow hover key={i}>
+                    <TableCell>{row.Organization}</TableCell>
+                    <TableCell>{row.seatsUsed}</TableCell>
+                    <TableCell>{row.expiryDate}</TableCell>
+                    <TableCell>{row.used}</TableCell>
+
+                    {/* Billing Status Badge */}
+                    <TableCell>
+                      <Box
+                        sx={{
+                          textAlign: "center",
+                          display: "inline-block",
+                          px: 1.5,
+                          py: 0.5,
+                          borderRadius: "999px",
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          backgroundColor:
+                            row.billingStatus === "Paid"
+                              ? "#ECFDF3"
+                              : row.billingStatus === "Pending"
+                              ? "#FFF7ED"
+                              : "#FEF2F2",
+                          color:
+                            row.billingStatus === "Paid"
+                              ? "#087442"
+                              : row.billingStatus === "Pending"
+                              ? "#BA3A14"
+                              : "#B6271F",
+                        }}
+                      >
+                        {row.billingStatus}
+                      </Box>
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <ActionMenu />
+                    </TableCell>
                   </TableRow>
-                );
-              })}
-          </TableBody>
+                ))}
+            </TableBody>
+          </Table>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+
+      {/* ---------- PAGINATION ---------- */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: isSmallScreen ? "center" : "space-between",
+          px: 2,
+          py: 1.5,
+          borderTop: "1px solid #E5E7EB",
+        }}
+      >
+        {!isSmallScreen && (
+          <button
+            disabled={page === 0}
+            onClick={() => setPage(page - 1)}
+            style={{
+              color: "#364152",
+              fontWeight: "600",
+              border: "1px solid #CDD5DF",
+              borderRadius: "8px",
+              padding: "6px 10px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "6px",
+            }}
+          >
+            <ArrowBackIcon sx={{ width: "20px" }} />
+            Previous
+          </button>
+        )}
+
+        <TablePagination
+          component="div"
+          count={rows.length}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={(_, newPage) => setPage(newPage)}
+          onRowsPerPageChange={(e) => {
+            setRowsPerPage(parseInt(e.target.value, 10));
+            setPage(0);
+          }}
+          sx={{
+            "& .MuiTablePagination-actions": {
+              display: isSmallScreen ? "flex" : "none", // arrows hidden on big screen
+            },
+            color: "#697586",
+          }}
+        />
+
+        {!isSmallScreen && (
+          <button
+            disabled={page >= Math.ceil(rows.length / rowsPerPage) - 1}
+            onClick={() => setPage(page + 1)}
+            style={{
+              color: "#364152",
+              fontWeight: "600",
+              border: "1px solid #CDD5DF",
+              borderRadius: "8px",
+              padding: "6px 10px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "6px",
+            }}
+          >
+            <ArrowForwardIcon sx={{ width: "20px" }} />
+            Next
+          </button>
+        )}
+      </Box>
     </Paper>
   );
 };
 
-export default HighLicenceUtilizationTable;
+export default ExpiringSoonTable;

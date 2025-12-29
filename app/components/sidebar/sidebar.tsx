@@ -23,10 +23,9 @@ import dashboardLogo from "../../assets/images/dashboard.png";
 import settingsLogo from "../../assets/images/settings.png";
 import Image from "next/image";
 
-/* ---------------- STYLED COMPONENTS ---------------- */
+/* ---------------- STYLES ---------------- */
 const drawerWidth = 260;
 
-/* same styles – NO CHANGE */
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -35,7 +34,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
   }),
   backgroundColor: "#3A3E46",
   color: "#F8FAFC",
-  overflowX: "hidden",
+  overflow: "hidden",
   borderRight: "none",
 });
 
@@ -44,23 +43,22 @@ const closedMixin = (theme: Theme): CSSObject => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: "hidden",
   backgroundColor: "#3A3E46",
   color: "#F8FAFC",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  overflow: "hidden",
   borderRight: "none",
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
+const DrawerHeader = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: theme.spacing(0, 1.5),
+  padding: "0 12px",
   height: 64,
-  ...theme.mixins.toolbar,
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -69,6 +67,12 @@ const Drawer = styled(MuiDrawer, {
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
+
+  "& .MuiDrawer-paper": {
+    height: "100vh",
+    overflow: "hidden",
+  },
+
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -154,7 +158,7 @@ const SideBar = ({ open, setOpen }: any) => {
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={open}>
-        {/* HEADER */}
+        {/* Header */}
         <DrawerHeader>
           {open && (
             <>
@@ -179,7 +183,6 @@ const SideBar = ({ open, setOpen }: any) => {
 
         <Divider />
 
-        {/* MAIN MENU */}
         <Typography
           sx={{
             fontSize: 12,
@@ -193,7 +196,6 @@ const SideBar = ({ open, setOpen }: any) => {
         </Typography>
         <List sx={{ mt: 1 }}>{renderMenu(mainMenuItems)}</List>
 
-        {/* OTHERS (UI SAME – POSITION FIXED) */}
         <Typography
           sx={{
             fontSize: 12,
