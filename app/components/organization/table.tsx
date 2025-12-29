@@ -96,7 +96,11 @@ const OrganizationTable = () => {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table" sx={{ tableLayout: "fixed", width: "100%" }}>
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{ tableLayout: "fixed", width: "100%" }}
+        >
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -104,7 +108,11 @@ const OrganizationTable = () => {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
-                  sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -120,7 +128,15 @@ const OrganizationTable = () => {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align} sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          sx={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
                           {column.format && typeof value === "number"
                             ? column.format(value)
                             : value}

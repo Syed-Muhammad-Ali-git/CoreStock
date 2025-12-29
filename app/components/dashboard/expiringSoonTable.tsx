@@ -24,7 +24,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import TuneIcon from "@mui/icons-material/Tune";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InputIcon from "@mui/icons-material/Input";
-import { useTheme, styled } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -49,7 +49,7 @@ const columns: readonly Column[] = [
 
 import expiringRows from "../../data/hardcoded/expiringSoonData";
 
-type Data = typeof expiringRows[number];
+type Data = (typeof expiringRows)[number];
 const rows: Data[] = expiringRows;
 
 /* ---------------- ACTION MENU ---------------- */
@@ -135,13 +135,8 @@ const ExpiringSoonTable = () => {
                 </Box>
               </TableCell>
             </TableRow>
-          </TableHead>
-
-          {/* ---------- COLUMN HEADERS ---------- */}
-
-          <Table sx={{ border: "1px solid #E6E6E9", marginTop: "10px" }}>
             <TableRow>
-                {columns.map((column) => (
+              {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   sx={{
@@ -154,59 +149,84 @@ const ExpiringSoonTable = () => {
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
+                    // border: "1px solid #E6E6E9",
                   }}
                 >
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
+          </TableHead>
 
-            {/* ---------- BODY ---------- */}
-            <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, i) => (
-                  <TableRow hover key={i}>
-                    <TableCell sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.Organization}</TableCell>
-                    <TableCell sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.seatsUsed}</TableCell>
-                    <TableCell sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.expiryDate}</TableCell>
+          {/* ---------- BODY ---------- */}
+          <TableBody>
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, i) => (
+                <TableRow hover key={i}>
+                  <TableCell
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {row.Organization}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {row.seatsUsed}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {row.expiryDate}
+                  </TableCell>
 
-                    {/* Billing Status Badge */}
-                    <TableCell>
-                      <Box
-                        sx={{
-                          textAlign: "center",
-                          display: "inline-block",
-                          px: 1.5,
-                          py: 0.5,
-                          borderRadius: "999px",
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          backgroundColor:
-                            row.billingStatus === "Paid"
-                              ? "#ECFDF3"
-                              : row.billingStatus === "Pending"
-                              ? "#FFF7ED"
-                              : "#FEF2F2",
-                          color:
-                            row.billingStatus === "Paid"
-                              ? "#087442"
-                              : row.billingStatus === "Pending"
-                              ? "#BA3A14"
-                              : "#B6271F",
-                        }}
-                      >
-                        {row.billingStatus}
-                      </Box>
-                    </TableCell>
+                  {/* Billing Status Badge */}
+                  <TableCell>
+                    <Box
+                      sx={{
+                        textAlign: "center",
+                        display: "inline-block",
+                        px: 1.5,
+                        py: 0.5,
+                        borderRadius: "999px",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        backgroundColor:
+                          row.billingStatus === "Paid"
+                            ? "#ECFDF3"
+                            : row.billingStatus === "Pending"
+                            ? "#FFF7ED"
+                            : "#FEF2F2",
+                        color:
+                          row.billingStatus === "Paid"
+                            ? "#087442"
+                            : row.billingStatus === "Pending"
+                            ? "#BA3A14"
+                            : "#B6271F",
+                      }}
+                    >
+                      {row.billingStatus}
+                    </Box>
+                  </TableCell>
 
-                    <TableCell align="center">
-                      <ActionMenu />
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+                  <TableCell align="center">
+                    <ActionMenu />
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
         </Table>
       </TableContainer>
 

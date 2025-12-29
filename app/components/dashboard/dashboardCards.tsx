@@ -33,7 +33,9 @@ function DashboardCards() {
               },
             }}
           >
-            <CardContent sx={{ height: "100%", fontFamily: "Manrope, sans-serif" }}>
+            <CardContent
+              sx={{ height: "100%", fontFamily: "ManropeLocal, sans-serif" }}
+            >
               <Typography
                 fontSize={14}
                 fontWeight={500}

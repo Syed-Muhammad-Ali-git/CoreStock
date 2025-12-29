@@ -21,7 +21,7 @@ const DashboardHeader = () => {
   }, []);
 
   return (
-    <section className="bg-white rounded-xl py-4 px-5 my-4">
+    <section className="bg-white rounded-xl py-4 px-5 my-4 manrope-font">
       {/* Date */}
       <div className="font-normal text-[#667085] text-sm">{time}</div>
 
