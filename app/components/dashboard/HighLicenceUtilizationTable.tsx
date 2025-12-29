@@ -31,13 +31,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 /* ---------------- COLUMNS ---------------- */
 
 interface Column {
-  id:
-    | "Organization"
-    | "seatsUsed"
-    | "expiryDate"
-    | "used"
-    | "billingStatus"
-    | "action";
+  id: string;
   label: string;
   minWidth?: number;
   align?: "left" | "center" | "right";
@@ -54,166 +48,10 @@ const columns: readonly Column[] = [
 
 /* ---------------- DATA ---------------- */
 
-interface Data {
-  Organization: string;
-  seatsUsed: string;
-  expiryDate: string;
-  used: React.ReactNode;
-  billingStatus: "Paid" | "Pending" | "Unpaid";
-}
+import highUtilRows from "../../data/hardcoded/highUtilData";
 
-const rows: Data[] = [
-  {
-    Organization: "ABC Infrastructure Ltd",
-    seatsUsed: "24/30",
-    expiryDate: "14 Nov 2025",
-    used: (
-      <div className="flex items-center ">
-        <div
-          style={{
-            width: "80px",
-            height: "8px",
-            backgroundColor: "#FFE5CC",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: "60%",
-              height: "100%",
-              backgroundColor: "#FE6511",
-              borderRadius: "10px",
-              transition: "width 0.3s ease",
-            }}
-          ></div>
-        </div>
-        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
-      </div>
-    ),
-    billingStatus: "Pending",
-  },
-  {
-    Organization: "NovaTech Solutions",
-    seatsUsed: "45/50",
-    expiryDate: "28 Oct 2025",
-    used: (
-      <div className="flex items-center ">
-        <div
-          style={{
-            width: "80px",
-            height: "8px",
-            backgroundColor: "#FFE5CC",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: "60%",
-              height: "100%",
-              backgroundColor: "#FE6511",
-              borderRadius: "10px",
-              transition: "width 0.3s ease",
-            }}
-          ></div>
-        </div>
-        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
-      </div>
-    ),
-    billingStatus: "Paid",
-  },
-  {
-    Organization: "BluePeak Engineering",
-    seatsUsed: "8/10",
-    expiryDate: "15 Sep 2025",
-    used: (
-      <div className="flex items-center ">
-        <div
-          style={{
-            width: "80px",
-            height: "8px",
-            backgroundColor: "#FFE5CC",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: "60%",
-              height: "100%",
-              backgroundColor: "#FE6511",
-              borderRadius: "10px",
-              transition: "width 0.3s ease",
-            }}
-          ></div>
-        </div>
-        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
-      </div>
-    ),
-    billingStatus: "Unpaid",
-  },
-  {
-    Organization: "UrbanStack Enterprises",
-    seatsUsed: "12/20",
-    expiryDate: "22 Aug 2025",
-    used: (
-      <div className="flex items-center ">
-        <div
-          style={{
-            width: "80px",
-            height: "8px",
-            backgroundColor: "#FFE5CC",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: "60%",
-              height: "100%",
-              backgroundColor: "#FE6511",
-              borderRadius: "10px",
-              transition: "width 0.3s ease",
-            }}
-          ></div>
-        </div>
-        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
-      </div>
-    ),
-    billingStatus: "Paid",
-  },
-  ...Array.from({ length: 20 }).map((_, i) => ({
-    Organization: `Company ${i + 1}`,
-    seatsUsed: "10/20",
-    expiryDate: "01 Dec 2025",
-    used: (
-      <div className="flex items-center ">
-        <div
-          style={{
-            width: "80px",
-            height: "8px",
-            backgroundColor: "#FFE5CC",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: "60%",
-              height: "100%",
-              backgroundColor: "#FE6511",
-              borderRadius: "10px",
-              transition: "width 0.3s ease",
-            }}
-          ></div>
-        </div>
-        <div style={{ fontSize: "12px", marginLeft: "10px" }}>60%</div>
-      </div>
-    ),
-    billingStatus: i % 3 === 0 ? "Paid" : i % 3 === 1 ? "Pending" : "Unpaid",
-  })),
-];
+type Data = (typeof highUtilRows)[number];
+const rows: Data[] = highUtilRows;
 
 /* ---------------- ACTION MENU ---------------- */
 
@@ -256,7 +94,7 @@ const ActionMenu = () => {
 
 /* ---------------- MAIN TABLE ---------------- */
 
-const ExpiringSoonTable = () => {
+const HighLicenceUtilizationTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -314,6 +152,9 @@ const ExpiringSoonTable = () => {
                     position: "sticky",
                     top: 56,
                     zIndex: 2,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {column.label}
@@ -327,10 +168,42 @@ const ExpiringSoonTable = () => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, i) => (
                   <TableRow hover key={i}>
-                    <TableCell>{row.Organization}</TableCell>
-                    <TableCell>{row.seatsUsed}</TableCell>
-                    <TableCell>{row.expiryDate}</TableCell>
-                    <TableCell>{row.used}</TableCell>
+                    <TableCell
+                      sx={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.Organization}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.seatsUsed}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.expiryDate}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.used}
+                    </TableCell>
 
                     {/* Billing Status Badge */}
                     <TableCell>
@@ -446,4 +319,4 @@ const ExpiringSoonTable = () => {
   );
 };
 
-export default ExpiringSoonTable;
+export default HighLicenceUtilizationTable;

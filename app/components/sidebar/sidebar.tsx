@@ -22,6 +22,7 @@ import auditLogo from "../../assets/images/audit.png";
 import dashboardLogo from "../../assets/images/dashboard.png";
 import settingsLogo from "../../assets/images/settings.png";
 import Image from "next/image";
+import type { SideBarProps, SidebarItem } from "../../types/index";
 
 /* ---------------- STYLES ---------------- */
 const drawerWidth = 260;
@@ -84,11 +85,11 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 /* ---------------- COMPONENT ---------------- */
-const SideBar = ({ open, setOpen }: any) => {
+const SideBar = ({ open, setOpen }: SideBarProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const mainMenuItems = [
+  const mainMenuItems: SidebarItem[] = [
     {
       text: "Dashboard",
       icon: <Image src={dashboardLogo} alt="" />,
@@ -101,7 +102,7 @@ const SideBar = ({ open, setOpen }: any) => {
     },
   ];
 
-  const otherMenuItems = [
+  const otherMenuItems: SidebarItem[] = [
     {
       text: "Audit",
       icon: <Image src={auditLogo} alt="" />,
@@ -114,7 +115,7 @@ const SideBar = ({ open, setOpen }: any) => {
     },
   ];
 
-  const renderMenu = (items: any[]) =>
+  const renderMenu = (items: SidebarItem[]) =>
     items.map((item) => {
       const isActive = pathname === item.path;
       return (

@@ -7,7 +7,7 @@ import LoginForm from "../components/loginForm/loginForm";
 
 const LoginPage = () => {
   return (
-    <section className="flex items-center max-w-480 ">
+    <section className="flex items-center max-w-480 login-font">
       {/* Image Container - visible on md screens and up */}
       <div className="hidden md:block w-screen">
         <Image

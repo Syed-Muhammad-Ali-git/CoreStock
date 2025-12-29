@@ -1,5 +1,50 @@
 @import "tailwindcss";
 
+/* Local fonts (from app/assets/fonts/static) */
+@font-face {
+  font-family: "Satoshi";
+  src: url("./assets/fonts/static/Satoshi-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("./assets/fonts/static/Satoshi-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("./assets/fonts/static/Satoshi-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ManropeLocal";
+  src: url("./assets/fonts/static/Manrope-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ManropeLocal";
+  src: url("./assets/fonts/static/Manrope-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ManropeLocal";
+  src: url("./assets/fonts/static/Manrope-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -19,8 +64,15 @@
   }
 }
 
+/* Global font: prefer Satoshi (add font files to /public/fonts if needed). */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Satoshi;
+}
+
+/* Pages that should NOT use Satoshi (e.g. login) can add the `login-font` class */
+.login-font {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial !important;
 }

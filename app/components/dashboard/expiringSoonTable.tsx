@@ -31,14 +31,14 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 /* ---------------- COLUMNS ---------------- */
 
 interface Column {
-  id: "Organization" | "seatsUsed" | "expiryDate" | "billingStatus" | "action";
+  id: string;
   label: string;
   minWidth?: number;
   align?: "left" | "center" | "right";
 }
 
 const columns: readonly Column[] = [
-  { id: "Organisation", label: "Organization", minWidth: 220 },
+  { id: "Organization", label: "Organization", minWidth: 220 },
   { id: "seatsUsed", label: "Seats Used", minWidth: 120 },
   { id: "expiryDate", label: "Expiry Date", minWidth: 140 },
   { id: "billingStatus", label: "Billing Status", minWidth: 140 },
@@ -47,45 +47,10 @@ const columns: readonly Column[] = [
 
 /* ---------------- DATA ---------------- */
 
-interface Data {
-  Organization: string;
-  seatsUsed: string;
-  expiryDate: string;
-  billingStatus: "Paid" | "Pending" | "Unpaid";
-}
+import expiringRows from "../../data/hardcoded/expiringSoonData";
 
-const rows: Data[] = [
-  {
-    Organization: "ABC Infrastructure Ltd",
-    seatsUsed: "24/30",
-    expiryDate: "14 Nov 2025",
-    billingStatus: "Pending",
-  },
-  {
-    Organization: "NovaTech Solutions",
-    seatsUsed: "45/50",
-    expiryDate: "28 Oct 2025",
-    billingStatus: "Paid",
-  },
-  {
-    Organization: "BluePeak Engineering",
-    seatsUsed: "8/10",
-    expiryDate: "15 Sep 2025",
-    billingStatus: "Unpaid",
-  },
-  {
-    Organization: "UrbanStack Enterprises",
-    seatsUsed: "12/20",
-    expiryDate: "22 Aug 2025",
-    billingStatus: "Paid",
-  },
-  ...Array.from({ length: 20 }).map((_, i) => ({
-    Organization: `Company ${i + 1}`,
-    seatsUsed: "10/20",
-    expiryDate: "01 Dec 2025",
-    billingStatus: i % 3 === 0 ? "Paid" : i % 3 === 1 ? "Pending" : "Unpaid",
-  })),
-];
+type Data = typeof expiringRows[number];
+const rows: Data[] = expiringRows;
 
 /* ---------------- ACTION MENU ---------------- */
 
@@ -176,7 +141,7 @@ const ExpiringSoonTable = () => {
 
           <Table sx={{ border: "1px solid #E6E6E9", marginTop: "10px" }}>
             <TableRow>
-              {columns.map((column) => (
+                {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   sx={{
@@ -186,6 +151,9 @@ const ExpiringSoonTable = () => {
                     position: "sticky",
                     top: 56,
                     zIndex: 2,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {column.label}
@@ -199,9 +167,9 @@ const ExpiringSoonTable = () => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, i) => (
                   <TableRow hover key={i}>
-                    <TableCell>{row.Organization}</TableCell>
-                    <TableCell>{row.seatsUsed}</TableCell>
-                    <TableCell>{row.expiryDate}</TableCell>
+                    <TableCell sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.Organization}</TableCell>
+                    <TableCell sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.seatsUsed}</TableCell>
+                    <TableCell sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.expiryDate}</TableCell>
 
                     {/* Billing Status Badge */}
                     <TableCell>

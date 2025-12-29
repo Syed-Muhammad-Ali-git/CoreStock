@@ -4,47 +4,9 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-import totalIcon from "../../assets/images/totalIcon.png";
-import activeIcon from "../../assets/images/activeIcon.png";
-import expIcon from "../../assets/images/expIcon.png";
-import avgIcon from "../../assets/images/avgIcon.png";
 import Image from "next/image";
-
-const cards = [
-  {
-    id: 1,
-    title: "Total Organizations",
-    description: "140",
-    marketPercent: "12% from last month",
-    icon: totalIcon,
-  },
-  {
-    id: 2,
-    title: "Active vs Suspended",
-    description: (
-      <div>
-        126 <span className="text-sm font-semibold">Active</span> / 8{" "}
-        <span className="text-sm font-semibold">Suspended</span>
-      </div>
-    ),
-    marketPercent: "8% from last month",
-    icon: activeIcon,
-  },
-  {
-    id: 3,
-    title: "Expiring in next 30 days",
-    description: "150",
-    marketPercent: "3% from last month",
-    icon: expIcon,
-  },
-  {
-    id: 4,
-    title: "Avg. Licence Utilisation",
-    description: "78%",
-    marketPercent: "5% from last month",
-    icon: avgIcon,
-  },
-];
+import cards from "../../data/hardcoded/dashboardCardsData";
+import type { DashboardCard } from "../../types/index";
 
 function DashboardCards() {
   const [selectedCard, setSelectedCard] = useState(0);
@@ -57,7 +19,7 @@ function DashboardCards() {
         gap: 2,
       }}
     >
-      {cards.map((card, index) => (
+      {cards.map((card: DashboardCard, index) => (
         <Card key={card?.id} style={{ borderRadius: "12px" }}>
           <CardActionArea
             onClick={() => setSelectedCard(index)}
@@ -71,7 +33,7 @@ function DashboardCards() {
               },
             }}
           >
-            <CardContent sx={{ height: "100%" }}>
+            <CardContent sx={{ height: "100%", fontFamily: "Manrope, sans-serif" }}>
               <Typography
                 fontSize={14}
                 fontWeight={500}
