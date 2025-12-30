@@ -65,8 +65,8 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
             <Image
               src={searchLogo}
               alt="search"
-              width={14}
-              height={14}
+              width={17}
+              height={16}
               className="filter-search-icon"
             />
           }

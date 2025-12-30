@@ -23,7 +23,7 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
       <head>
         <ColorSchemeScript />
       </head>
-      <body>
+      <body cz-shortcut-listen="true">
         {/* ---------------- MANTINE PROVIDER ---------------- */}
         <MantineProvider>
           {/* ---------------- CLIENT LAYOUT (Handles conditional rendering of sidebar/header) ---------------- */}

@@ -11,22 +11,14 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  IconButton,
-  Menu,
-  MenuItem,
   Box,
   Button,
   useMediaQuery,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import TuneIcon from "@mui/icons-material/Tune";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InputIcon from "@mui/icons-material/Input";
 import { useTheme } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ActionMenu from "../actionMenu/actionMenu";
 
 /* ---------------- COLUMNS ---------------- */
 
@@ -54,43 +46,6 @@ type Data = (typeof highUtilRows)[number];
 const rows: Data[] = highUtilRows;
 
 /* ---------------- ACTION MENU ---------------- */
-
-const ActionMenu = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  return (
-    <>
-      <IconButton
-        onClick={(e) => setAnchorEl(e.currentTarget)}
-        style={{ display: "flex" }}
-      >
-        <MoreVertIcon />
-      </IconButton>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-      >
-        <MenuItem>
-          <VisibilityIcon fontSize="small" sx={{ mr: 1 }} /> View
-        </MenuItem>
-        <MenuItem>
-          <EditIcon fontSize="small" sx={{ mr: 1 }} /> Edit
-        </MenuItem>
-        <MenuItem>
-          <TuneIcon fontSize="small" sx={{ mr: 1 }} /> Adjust
-        </MenuItem>
-        <MenuItem>
-          <InputIcon fontSize="small" sx={{ mr: 1 }} /> Book / Transfer
-        </MenuItem>
-        <MenuItem>
-          <DeleteIcon fontSize="small" sx={{ mr: 1 }} /> Delete
-        </MenuItem>
-      </Menu>
-    </>
-  );
-};
 
 /* ---------------- MAIN TABLE ---------------- */
 

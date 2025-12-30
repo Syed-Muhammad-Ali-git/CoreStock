@@ -29,39 +29,52 @@ const progress = (
 export const highUtilRows: HighUtilRow[] = [
   {
     Organization: "ABC Infrastructure Ltd",
+    status: "Active",
     seatsUsed: "24/30",
     expiryDate: "14 Nov 2025",
     used: progress,
-    billingStatus: "Pending",
+    billingStatus: "Paid",
+    created: "31 Dec 2025",
   },
   {
     Organization: "NovaTech Solutions",
+    status: "Trial",
     seatsUsed: "45/50",
     expiryDate: "28 Oct 2025",
     used: progress,
-    billingStatus: "Paid",
+    billingStatus: "Overstock",
+    created: "31 Dec 2025",
   },
   {
     Organization: "BluePeak Engineering",
+    status: "Expired",
     seatsUsed: "8/10",
     expiryDate: "15 Sep 2025",
     used: progress,
     billingStatus: "Unpaid",
+    created: "31 Dec 2025",
   },
   {
     Organization: "UrbanStack Enterprises",
+    status: "Suspended",
     seatsUsed: "12/20",
     expiryDate: "22 Aug 2025",
     used: progress,
-    billingStatus: "Paid",
+    billingStatus: "Critical",
+    created: "31 Dec 2025",
   },
-  ...Array.from({ length: 20 }).map((_, i): HighUtilRow => ({
-    Organization: `Company ${i + 1}`,
-    seatsUsed: "10/20",
-    expiryDate: "01 Dec 2025",
-    used: progress,
-    billingStatus: i % 3 === 0 ? "Paid" : i % 3 === 1 ? "Pending" : "Unpaid",
-  })),
+  ...Array.from({ length: 20 }).map(
+    (_, i): HighUtilRow => ({
+      Organization: `Company ${i + 1}`,
+      status: "Active",
+      seatsUsed: "10/20",
+      expiryDate: "01 Dec 2025",
+      used: progress,
+      billingStatus:
+        i % 3 === 0 ? "Paid" : i % 3 === 1 ? "Overstock" : "Unpaid",
+      created: "31 Dec 2025",
+    })
+  ),
 ];
 
 export default highUtilRows;

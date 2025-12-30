@@ -22,9 +22,17 @@ export interface DashboardCard {
 
 export interface ExpiringRow {
   Organization: string;
+  status: "Active" | "Trial" | "Expired" | "Suspended";
   seatsUsed: string;
   expiryDate: string;
-  billingStatus: "Paid" | "Pending" | "Unpaid";
+  billingStatus:
+    | "Paid"
+    | "Pending"
+    | "Unpaid"
+    | "Suspended"
+    | "Critical"
+    | "Overstock";
+  created: string;
 }
 
 export interface HighUtilRow extends ExpiringRow {

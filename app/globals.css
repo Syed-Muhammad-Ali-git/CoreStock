@@ -70,11 +70,11 @@ body {
   color: var(--foreground);
   font-family: Satoshi;
 }
+
+.satoshi-font {
+  font-family: "Satoshi";
+}
+
 .manrope-font {
   font-family: "ManropeLocal";
-}
-/* Pages that should NOT use Satoshi (e.g. login) can add the `login-font` class */
-.login-font {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial !important;
 }

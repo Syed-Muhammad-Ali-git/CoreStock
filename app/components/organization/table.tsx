@@ -1,163 +1,289 @@
+"use client";
+
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
+import { useState } from "react";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Menu,
+  MenuItem,
+  Box,
+  TablePagination,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import OrganizationTableHeader from "./tableHeader";
+import highUtilRows from "../../data/hardcoded/highUtilData";
+import Image from "next/image";
+import viewIcon from "../../assets/images/viewIcon.png";
+import adjustIcon from "../../assets/images/adjustIcon.png";
+import editIcon from "../../assets/images/editIcon.png";
+import deleteIcon from "../../assets/images/deleteIcon.png";
 
-interface Column {
-  id: "name" | "code" | "population" | "size" | "density";
-  label: string;
-  minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
-}
+/* ---------------- ACTION MENU ---------------- */
 
-const columns: readonly Column[] = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toFixed(2),
-  },
-];
+const ActionMenu = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
-}
+  return (
+    <>
+      <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+        <MoreVertIcon />
+      </IconButton>
 
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+        PaperProps={{
+          sx: {
+            borderRadius: "8px",
+            color: "#697586",
+          },
+        }}
+      >
+        <MenuItem>
+          <Image src={viewIcon} alt="view cion" className="mr-3" />
+          <span>View</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={editIcon} alt="view cion" className="mr-3" />
+          <span>Edit</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={adjustIcon} alt="view cion" className="mr-3" />
+          <span>Adjust</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={deleteIcon} alt="view cion" className="mr-3" />
+          <span>Delete</span>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
 
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-];
+/* ---------------- MAIN TABLE ---------------- */
 
 const OrganizationTable = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(7);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const billingStatusStyles: Record<
+    "Paid" | "Pending" | "Unpaid" | "Suspended" | "Critical" | "Overstock",
+    { color: string; bg: string }
+  > = {
+    Paid: {
+      color: "#087442",
+      bg: "#EDFCF2",
+    },
+    Pending: {
+      color: "#087442",
+      bg: "#EDFCF2",
+    },
+    Unpaid: {
+      color: "#BA3A14",
+      bg: "#FFFAEB",
+    },
+    Critical: {
+      color: "#BA3A14",
+      bg: "#FFFAEB",
+    },
+    Suspended: {
+      color: "#B6271F",
+      bg: "#FEF3F2",
+    },
+    Overstock: {
+      color: "#B6271F",
+      bg: "#FEF3F2",
+    },
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const statusStyles: Record<
+    "Active" | "Trial" | "Expired" | "Suspended",
+    { color: string; bg: string }
+  > = {
+    Active: {
+      color: "#087442",
+      bg: "#EDFCF2",
+    },
+    Trial: {
+      color: "#BA3A14",
+      bg: "#FFFAEB",
+    },
+    Expired: {
+      color: "#B6271F",
+      bg: "#FEF3F2",
+    },
+    Suspended: {
+      color: "#344054",
+      bg: "#F2F4F7",
+    },
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table
-          stickyHeader
-          aria-label="sticky table"
-          sx={{ tableLayout: "fixed", width: "100%" }}
-        >
+    <Paper sx={{ borderRadius: "12px", overflow: "hidden" }}>
+      {/* ✅ HEADER */}
+      <OrganizationTableHeader />
+
+      {/* TABLE */}
+      <TableContainer>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {[
+                "Organization",
+                "Status",
+                "Seats",
+                "% Used",
+                "Expiry Date",
+                "Billing Status",
+                "Created",
+                "Action",
+              ].map((head) => (
                 <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  key={head}
                   sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
+                    backgroundColor: "#F8FAFC",
+                    color: "#697586",
+                    fontWeight: 500,
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {column.label}
+                  {head}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {rows
+            {highUtilRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          sx={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+              .map((row, i) => (
+                <TableRow hover key={i}>
+                  <TableCell>{row.Organization}</TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "inline-block",
+                        px: 1.5,
+                        py: 0.5,
+                        borderRadius: "999px",
+                        fontSize: "13px",
+                        fontWeight: 500,
+                        backgroundColor: statusStyles[row.status].bg,
+                        color: statusStyles[row.status].color,
+                      }}
+                    >
+                      {row.status}
+                    </Box>
+                  </TableCell>
+                  <TableCell>{row.seatsUsed}</TableCell>
+                  <TableCell>{row.used}</TableCell>
+                  <TableCell>{row.expiryDate}</TableCell>
+
+                  {/* STATUS BADGE */}
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "inline-block",
+                        px: 1.5,
+                        py: 0.5,
+                        borderRadius: "999px",
+                        fontSize: "13px",
+                        fontWeight: 500,
+                        backgroundColor:
+                          billingStatusStyles[row.billingStatus].bg,
+                        color: billingStatusStyles[row.billingStatus].color,
+                      }}
+                    >
+                      {row.billingStatus}
+                    </Box>
+                  </TableCell>
+
+                  <TableCell>{row.created}</TableCell>
+
+                  <TableCell align="center">
+                    <ActionMenu />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+
+      {/* PAGINATION */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: isSmallScreen ? "center" : "space-between",
+          px: 2,
+          py: 1.5,
+          borderTop: "1px solid #E5E7EB",
+        }}
+      >
+        {!isSmallScreen && (
+          <button
+            disabled={page === 0}
+            onClick={() => setPage(page - 1)}
+            style={{
+              border: "1px solid #CDD5DF",
+              borderRadius: "8px",
+              padding: "6px 12px",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              background: "#fff",
+            }}
+          >
+            <ArrowBackIcon fontSize="small" /> Previous
+          </button>
+        )}
+
+        <TablePagination
+          component="div"
+          count={highUtilRows.length}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={(_, newPage) => setPage(newPage)}
+          rowsPerPageOptions={[7, 10, 15]}
+          onRowsPerPageChange={(e) => {
+            setRowsPerPage(parseInt(e.target.value, 10));
+            setPage(0);
+          }}
+        />
+
+        {!isSmallScreen && (
+          <button
+            disabled={page >= Math.ceil(highUtilRows.length / rowsPerPage) - 1}
+            onClick={() => setPage(page + 1)}
+            style={{
+              border: "1px solid #CDD5DF",
+              borderRadius: "8px",
+              padding: "6px 12px",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              background: "#fff",
+            }}
+          >
+            Next <ArrowForwardIcon fontSize="small" />
+          </button>
+        )}
+      </Box>
     </Paper>
   );
 };

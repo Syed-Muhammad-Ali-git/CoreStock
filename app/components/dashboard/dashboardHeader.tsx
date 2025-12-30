@@ -33,14 +33,14 @@ const DashboardHeader = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-2 md:gap-4 flex-wrap">
-          <button className="border border-[#CDD5DF] p-2 rounded-lg text-[#364152] text-[14px] font-medium">
+        <div className="flex gap-2 md:gap-4 flex-wrap font-semibold text-[14px]">
+          <button className="border border-[#CDD5DF] p-2 rounded-lg text-[#364152]">
             View Expired
           </button>
-          <button className="border border-[#CDD5DF] p-2 rounded-lg text-[#364152] text-[14px] font-medium">
+          <button className="border border-[#CDD5DF] p-2 rounded-lg text-[#364152]">
             View All Organization
           </button>
-          <button className="flex items-center border border-[#FF8A3D] p-2 rounded-lg text-black bg-[#FF8A3D] text-[14px] font-medium">
+          <button className="flex items-center border border-[#FF8A3D] p-2 rounded-lg text-black bg-[#FF8A3D]">
             <Image src={plusIcon} alt="plus icon" className="w-5 h-5 mr-1" />
             Create Organization
           </button>
