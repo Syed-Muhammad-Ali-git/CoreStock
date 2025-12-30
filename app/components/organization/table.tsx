@@ -10,134 +10,66 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  IconButton,
-  Menu,
-  MenuItem,
   Box,
   TablePagination,
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import OrganizationTableHeader from "./tableHeader";
 import highUtilRows from "../../data/hardcoded/highUtilData";
-import Image from "next/image";
-import viewIcon from "../../assets/images/viewIcon.png";
-import adjustIcon from "../../assets/images/adjustIcon.png";
-import editIcon from "../../assets/images/editIcon.png";
-import deleteIcon from "../../assets/images/deleteIcon.png";
-
-/* ---------------- ACTION MENU ---------------- */
-
-const ActionMenu = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  return (
-    <>
-      <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-        <MoreVertIcon />
-      </IconButton>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-        PaperProps={{
-          sx: {
-            borderRadius: "8px",
-            color: "#697586",
-          },
-        }}
-      >
-        <MenuItem>
-          <Image src={viewIcon} alt="view cion" className="mr-3" />
-          <span>View</span>
-        </MenuItem>
-        <MenuItem>
-          <Image src={editIcon} alt="view cion" className="mr-3" />
-          <span>Edit</span>
-        </MenuItem>
-        <MenuItem>
-          <Image src={adjustIcon} alt="view cion" className="mr-3" />
-          <span>Adjust</span>
-        </MenuItem>
-        <MenuItem>
-          <Image src={deleteIcon} alt="view cion" className="mr-3" />
-          <span>Delete</span>
-        </MenuItem>
-      </Menu>
-    </>
-  );
-};
+import ActionMenu from "../actionMenu/actionMenu";
+import styles from "./table.module.css";
 
 /* ---------------- MAIN TABLE ---------------- */
 
-const OrganizationTable = () => {
+const OrganizationTable = ({ searchQuery }: { searchQuery: string }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const billingStatusStyles: Record<
-    "Paid" | "Pending" | "Unpaid" | "Suspended" | "Critical" | "Overstock",
-    { color: string; bg: string }
-  > = {
-    Paid: {
-      color: "#087442",
-      bg: "#EDFCF2",
-    },
-    Pending: {
-      color: "#087442",
-      bg: "#EDFCF2",
-    },
-    Unpaid: {
-      color: "#BA3A14",
-      bg: "#FFFAEB",
-    },
-    Critical: {
-      color: "#BA3A14",
-      bg: "#FFFAEB",
-    },
-    Suspended: {
-      color: "#B6271F",
-      bg: "#FEF3F2",
-    },
-    Overstock: {
-      color: "#B6271F",
-      bg: "#FEF3F2",
-    },
+  const getBillingStatusClass = (status: string) => {
+    switch (status) {
+      case "Paid":
+        return styles.paid;
+      case "Pending":
+        return styles.pending;
+      case "Unpaid":
+        return styles.unpaid;
+      case "Critical":
+        return styles.critical;
+      case "Suspended":
+        return styles.suspended;
+      case "Overstock":
+        return styles.overstock;
+      default:
+        return "";
+    }
   };
 
-  const statusStyles: Record<
-    "Active" | "Trial" | "Expired" | "Suspended",
-    { color: string; bg: string }
-  > = {
-    Active: {
-      color: "#087442",
-      bg: "#EDFCF2",
-    },
-    Trial: {
-      color: "#BA3A14",
-      bg: "#FFFAEB",
-    },
-    Expired: {
-      color: "#B6271F",
-      bg: "#FEF3F2",
-    },
-    Suspended: {
-      color: "#344054",
-      bg: "#F2F4F7",
-    },
+  const getStatusClass = (status: string) => {
+    switch (status) {
+      case "Active":
+        return styles.active;
+      case "Trial":
+        return styles.trial;
+      case "Expired":
+        return styles.expired;
+      case "Suspended":
+        return styles.suspendedStatus;
+      default:
+        return "";
+    }
   };
+
+  const filteredRows = highUtilRows.filter((row) =>
+    row.Organization.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <Paper sx={{ borderRadius: "12px", overflow: "hidden" }}>
-      {/* ✅ HEADER */}
-      <OrganizationTableHeader />
-
+    <Paper className={styles.paper}>
       {/* TABLE */}
       <TableContainer>
         <Table stickyHeader>
@@ -156,9 +88,9 @@ const OrganizationTable = () => {
                 <TableCell
                   key={head}
                   sx={{
-                    backgroundColor: "#F8FAFC",
                     color: "#697586",
-                    fontWeight: 500,
+                    backgroundColor: "#f8fafc",
+                    fontWeight: "500",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -169,23 +101,16 @@ const OrganizationTable = () => {
           </TableHead>
 
           <TableBody>
-            {highUtilRows
+            {filteredRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, i) => (
                 <TableRow hover key={i}>
                   <TableCell>{row.Organization}</TableCell>
                   <TableCell>
                     <Box
-                      sx={{
-                        display: "inline-block",
-                        px: 1.5,
-                        py: 0.5,
-                        borderRadius: "999px",
-                        fontSize: "13px",
-                        fontWeight: 500,
-                        backgroundColor: statusStyles[row.status].bg,
-                        color: statusStyles[row.status].color,
-                      }}
+                      className={`${styles.statusBadge} ${getStatusClass(
+                        row.status
+                      )}`}
                     >
                       {row.status}
                     </Box>
@@ -197,24 +122,14 @@ const OrganizationTable = () => {
                   {/* STATUS BADGE */}
                   <TableCell>
                     <Box
-                      sx={{
-                        display: "inline-block",
-                        px: 1.5,
-                        py: 0.5,
-                        borderRadius: "999px",
-                        fontSize: "13px",
-                        fontWeight: 500,
-                        backgroundColor:
-                          billingStatusStyles[row.billingStatus].bg,
-                        color: billingStatusStyles[row.billingStatus].color,
-                      }}
+                      className={`${styles.statusBadge} ${getBillingStatusClass(
+                        row.billingStatus
+                      )}`}
                     >
                       {row.billingStatus}
                     </Box>
                   </TableCell>
-
                   <TableCell>{row.created}</TableCell>
-
                   <TableCell align="center">
                     <ActionMenu />
                   </TableCell>
@@ -226,28 +141,14 @@ const OrganizationTable = () => {
 
       {/* PAGINATION */}
       <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: isSmallScreen ? "center" : "space-between",
-          px: 2,
-          py: 1.5,
-          borderTop: "1px solid #E5E7EB",
-        }}
+        className={styles.pagination}
+        style={{ justifyContent: isSmallScreen ? "center" : "space-between" }}
       >
         {!isSmallScreen && (
           <button
             disabled={page === 0}
             onClick={() => setPage(page - 1)}
-            style={{
-              border: "1px solid #CDD5DF",
-              borderRadius: "8px",
-              padding: "6px 12px",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              background: "#fff",
-            }}
+            className={styles.paginationButton}
           >
             <ArrowBackIcon fontSize="small" /> Previous
           </button>
@@ -255,11 +156,11 @@ const OrganizationTable = () => {
 
         <TablePagination
           component="div"
-          count={highUtilRows.length}
+          count={filteredRows.length}
           page={page}
           rowsPerPage={rowsPerPage}
           onPageChange={(_, newPage) => setPage(newPage)}
-          rowsPerPageOptions={[7, 10, 15]}
+          rowsPerPageOptions={[10, 15, 25]}
           onRowsPerPageChange={(e) => {
             setRowsPerPage(parseInt(e.target.value, 10));
             setPage(0);
@@ -268,17 +169,9 @@ const OrganizationTable = () => {
 
         {!isSmallScreen && (
           <button
-            disabled={page >= Math.ceil(highUtilRows.length / rowsPerPage) - 1}
+            disabled={page >= Math.ceil(filteredRows.length / rowsPerPage) - 1}
             onClick={() => setPage(page + 1)}
-            style={{
-              border: "1px solid #CDD5DF",
-              borderRadius: "8px",
-              padding: "6px 12px",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              background: "#fff",
-            }}
+            className={styles.paginationButton}
           >
             Next <ArrowForwardIcon fontSize="small" />
           </button>

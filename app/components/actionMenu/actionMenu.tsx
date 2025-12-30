@@ -62,3 +62,49 @@ const ActionMenu = () => {
 };
 
 export default ActionMenu;
+
+const ActionMenuOrganisation = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  return (
+    <>
+      <IconButton
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        style={{ display: "flex" }}
+      >
+        <MoreVertIcon />
+      </IconButton>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+        PaperProps={{
+          sx: {
+            borderRadius: "8px",
+            color: "#697586",
+          },
+        }}
+      >
+        <MenuItem>
+          <Image src={viewIcon} alt="view cion" className="mr-3" />
+          <span>View</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={editIcon} alt="view cion" className="mr-3" />
+          <span>Edit</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={adjustIcon} alt="view cion" className="mr-3" />
+          <span>Adjust</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={deleteIcon} alt="deleteIcon" className="mr-3" />
+          <span>Delete</span>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+export { ActionMenuOrganisation };

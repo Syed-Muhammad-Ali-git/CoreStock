@@ -8,6 +8,7 @@ import {
   MantineProvider,
   mantineHtmlProps,
 } from "@mantine/core";
+import { SearchProvider } from "./context/searchContext";
 import ClientLayout from "./client-layout";
 
 /* ---------------- METADATA ---------------- */
@@ -26,8 +27,10 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
       <body cz-shortcut-listen="true">
         {/* ---------------- MANTINE PROVIDER ---------------- */}
         <MantineProvider>
-          {/* ---------------- CLIENT LAYOUT (Handles conditional rendering of sidebar/header) ---------------- */}
-          <ClientLayout>{children}</ClientLayout>
+          <SearchProvider>
+            {/* ---------------- CLIENT LAYOUT (Handles conditional rendering of sidebar/header) ---------------- */}
+            <ClientLayout>{children}</ClientLayout>
+          </SearchProvider>
         </MantineProvider>
       </body>
     </html>

@@ -57,7 +57,9 @@ const ExpiringSoonTable = () => {
 
   return (
     <Paper sx={{ borderRadius: "12px", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 420 }}>
+      <TableContainer
+      // sx={{ maxHeight: 420 }}
+      >
         <Table stickyHeader sx={{ padding: "15px" }}>
           {/* ---------- STICKY TITLE ---------- */}
           <TableHead>

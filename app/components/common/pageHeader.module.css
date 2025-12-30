@@ -1,0 +1,40 @@
+.button {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ff8a3d;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: black;
+  background-color: #ff8a3d;
+  font-family: "ManropeLocal";
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.25rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-weight: 500;
+  color: #202939;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  padding-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #697586;
+}

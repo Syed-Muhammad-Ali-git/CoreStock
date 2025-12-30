@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import plusIcon from "../../assets/images/plus.png";
+import DashboardActionButtons from "./dashboardActionButtons";
+import styles from "./dashboardHeader.module.css";
 
 const DashboardHeader = () => {
   const [time, setTime] = useState("");
@@ -21,30 +21,19 @@ const DashboardHeader = () => {
   }, []);
 
   return (
-    <section className="bg-white rounded-xl py-4 px-5 my-4 manrope-font">
+    <section className={styles.header}>
       {/* Date */}
-      <div className="font-normal text-[#667085] text-sm">{time}</div>
+      <div className={styles.date}>{time}</div>
 
       {/* Greeting and buttons */}
-      <div className="flex justify-between flex-wrap gap-4 mt-2 mb-3">
+      <div className={styles.greetingContainer}>
         {/* Greeting */}
-        <div className="font-semibold text-2xl">
+        <div className={styles.greeting}>
           Good Evening, {loginData?.fullName || "User"} 👋
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-2 md:gap-4 flex-wrap font-semibold text-[14px]">
-          <button className="border border-[#CDD5DF] p-2 rounded-lg text-[#364152]">
-            View Expired
-          </button>
-          <button className="border border-[#CDD5DF] p-2 rounded-lg text-[#364152]">
-            View All Organization
-          </button>
-          <button className="flex items-center border border-[#FF8A3D] p-2 rounded-lg text-black bg-[#FF8A3D]">
-            <Image src={plusIcon} alt="plus icon" className="w-5 h-5 mr-1" />
-            Create Organization
-          </button>
-        </div>
+        <DashboardActionButtons />
       </div>
     </section>
   );
