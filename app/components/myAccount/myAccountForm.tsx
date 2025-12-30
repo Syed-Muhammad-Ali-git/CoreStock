@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -40,48 +40,59 @@ const passwordSchema = z
 /* ---------------- COMPONENT ---------------- */
 
 const MyAccountForm = () => {
-  const [values, setValues] = useState({
-    fullName: "",
-    email: "",
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
-  const [image, setImage] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string>("");
-  const [userEmail, setUserEmail] = useState<string>("");
-
-  // ---------------- LOAD USER DATA FROM LOCAL STORAGE ----------------
-  useEffect(() => {
+  const [values, setValues] = useState(() => {
     if (typeof window !== "undefined") {
       const loginDataRaw = localStorage.getItem("loginData");
       if (loginDataRaw) {
         const loginData = JSON.parse(loginDataRaw);
-        if (loginData.fullName) {
-          setUserName(loginData.fullName);
-        }
-        if (loginData.email) {
-          setUserEmail(loginData.email);
-        }
+        return {
+          fullName: loginData.fullName || "",
+          email: loginData.email || "",
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        };
       }
     }
-  }, []);
+    return {
+      fullName: "",
+      email: "",
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    };
+  });
 
-  /* ---------------- LOAD EXISTING DATA ---------------- */
-
-  useEffect(() => {
-    const loginDataRaw = localStorage.getItem("loginData");
-    if (loginDataRaw) {
-      const loginData = JSON.parse(loginDataRaw);
-      setValues((s) => ({
-        ...s,
-        fullName: loginData.fullName || "",
-        email: loginData.email || "",
-      }));
-      if (loginData.profileImage) setImage(loginData.profileImage);
+  const [image, setImage] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      const loginDataRaw = localStorage.getItem("loginData");
+      if (loginDataRaw) {
+        const loginData = JSON.parse(loginDataRaw);
+        return loginData.profileImage || null;
+      }
     }
-  }, []);
+    return null;
+  });
+  const [userName, setUserName] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      const loginDataRaw = localStorage.getItem("loginData");
+      if (loginDataRaw) {
+        const loginData = JSON.parse(loginDataRaw);
+        return loginData.fullName || "";
+      }
+    }
+    return "";
+  });
+  const [userEmail, setUserEmail] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      const loginDataRaw = localStorage.getItem("loginData");
+      if (loginDataRaw) {
+        const loginData = JSON.parse(loginDataRaw);
+        return loginData.email || "";
+      }
+    }
+    return "";
+  });
 
   /* ---------------- IMAGE UPLOAD ---------------- */
 

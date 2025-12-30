@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DashboardActionButtons from "./dashboardActionButtons";
 import styles from "./dashboardHeader.module.css";
 
 const DashboardHeader = () => {
-  const [time, setTime] = useState("");
-  const [loginData, setLoginData] = useState<{ fullName: string } | null>(null);
-
-  useEffect(() => {
+  const [time, setTime] = useState(() => {
     // Set formatted date
-    const date = new Date().toLocaleDateString("en-US", {
+    return new Date().toLocaleDateString("en-US", {
       weekday: "long",
       month: "long",
       day: "numeric",
     });
-    setTime(date);
-
-    // Get login data safely from localStorage
-    const data = localStorage.getItem("loginData");
-    if (data) setLoginData(JSON.parse(data));
-  }, []);
+  });
+  const [loginData, setLoginData] = useState<{ fullName: string } | null>(
+    () => {
+      // Get login data safely from localStorage
+      if (typeof window !== "undefined") {
+        const data = localStorage.getItem("loginData");
+        return data ? JSON.parse(data) : null;
+      }
+      return null;
+    }
+  );
 
   return (
     <section className={styles.header}>
