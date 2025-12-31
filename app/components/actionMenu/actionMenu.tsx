@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import viewIcon from "../../assets/images/viewIcon.png";
-import adjustIcon from "../../assets/images/adjustIcon.png";
 import editIcon from "../../assets/images/editIcon.png";
 import deleteIcon from "../../assets/images/deleteIcon.png";
+import adjustIcon from "../../assets/images/adjustIcon.png";
+import plusBlackIcon from "../../assets/images/plusBlack.png";
 import bookIcon from "../../assets/images/bookIcon.png";
 import printIcon from "../../assets/images/printIcon.png";
+import suspendedRedIcon from "../../assets/images/suspendedRed.png";
 import { Menu, IconButton, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
@@ -24,6 +26,7 @@ const ActionMenu = () => {
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
+        disableScrollLock={true}
         onClose={() => setAnchorEl(null)}
         PaperProps={{
           sx: {
@@ -33,27 +36,27 @@ const ActionMenu = () => {
         }}
       >
         <MenuItem>
-          <Image src={viewIcon} alt="view cion" className="mr-3" />
+          <Image src={viewIcon} alt="view icon" className="mr-3" />
           <span>View</span>
         </MenuItem>
         <MenuItem>
-          <Image src={editIcon} alt="view cion" className="mr-3" />
+          <Image src={editIcon} alt="edit icon" className="mr-3" />
           <span>Edit</span>
         </MenuItem>
         <MenuItem>
-          <Image src={adjustIcon} alt="view cion" className="mr-3" />
+          <Image src={adjustIcon} alt="adjust icon" className="mr-3" />
           <span>Adjust</span>
         </MenuItem>
         <MenuItem>
-          <Image src={bookIcon} alt="view cion" className="mr-3" />
+          <Image src={bookIcon} alt="book icon" className="mr-3" />
           <span>Book In/Issue/Transfer</span>
         </MenuItem>
         <MenuItem>
-          <Image src={printIcon} alt="printIcon" className="mr-3" />
+          <Image src={printIcon} alt="print Icon" className="mr-3" />
           <span>Print Label</span>
         </MenuItem>
         <MenuItem>
-          <Image src={deleteIcon} alt="deleteIcon" className="mr-3" />
+          <Image src={deleteIcon} alt="delete Icon" className="mr-3" />
           <span>Delete</span>
         </MenuItem>
       </Menu>
@@ -76,6 +79,7 @@ const ActionMenuOrganisation = () => {
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
+        disableScrollLock={true}
         onClose={() => setAnchorEl(null)}
         PaperProps={{
           sx: {
@@ -85,19 +89,19 @@ const ActionMenuOrganisation = () => {
         }}
       >
         <MenuItem>
-          <Image src={viewIcon} alt="view cion" className="mr-3" />
+          <Image src={viewIcon} alt="view icon" className="mr-3" />
           <span>View</span>
         </MenuItem>
         <MenuItem>
-          <Image src={editIcon} alt="view cion" className="mr-3" />
+          <Image src={editIcon} alt="edit icon" className="mr-3" />
           <span>Edit</span>
         </MenuItem>
         <MenuItem>
-          <Image src={adjustIcon} alt="view cion" className="mr-3" />
+          <Image src={adjustIcon} alt="adjust icon" className="mr-3" />
           <span>Adjust</span>
         </MenuItem>
         <MenuItem>
-          <Image src={deleteIcon} alt="deleteIcon" className="mr-3" />
+          <Image src={deleteIcon} alt="delete Icon" className="mr-3" />
           <span>Delete</span>
         </MenuItem>
       </Menu>
@@ -105,4 +109,49 @@ const ActionMenuOrganisation = () => {
   );
 };
 
-export { ActionMenu, ActionMenuOrganisation };
+const OrganizationNameMenu = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  return (
+    <>
+      <IconButton
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        style={{ display: "flex" }}
+      >
+        <MoreVertIcon />
+      </IconButton>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        disableScrollLock={true}
+        onClose={() => setAnchorEl(null)}
+        PaperProps={{
+          sx: {
+            borderRadius: "8px",
+            color: "#697586",
+          },
+        }}
+      >
+        <MenuItem>
+          <Image src={plusBlackIcon} alt="impersonate icon" className="mr-3" />
+          <span>Impersonate Client Admin</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={suspendedRedIcon} alt="suspende icon" className="mr-3" />
+          <span className="text-[#B6271F]">Suspended Organization</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={printIcon} alt="print icon" className="mr-3" />
+          <span>Print Label</span>
+        </MenuItem>
+        <MenuItem>
+          <Image src={deleteIcon} alt="delete Icon" className="mr-3" />
+          <span>Delete</span>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+export { ActionMenu, ActionMenuOrganisation, OrganizationNameMenu };
