@@ -18,7 +18,7 @@ import { useTheme } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import highUtilRows from "../../data/hardcoded/highUtilData";
-import {ActionMenuOrganisation} from "../actionMenu/actionMenu";
+import { ActionMenuOrganisation } from "../actionMenu/actionMenu";
 import styles from "./table.module.css";
 
 /* ---------------- MAIN TABLE ---------------- */
