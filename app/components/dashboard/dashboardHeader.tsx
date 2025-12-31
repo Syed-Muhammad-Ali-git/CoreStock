@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DashboardActionButtons from "./dashboardActionButtons";
-import styles from "./dashboardStyle.css";
+import styles from "./dashboardHeader.module.css";
 
 const DashboardHeader = () => {
   const [time, setTime] = useState(() => {
