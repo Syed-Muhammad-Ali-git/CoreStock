@@ -9,53 +9,12 @@ import { OrganizationNameMenu } from "@/app/components/actionMenu/actionMenu";
 import profileIcon from "../../assets/images/profileBlack.png";
 import mailIcon from "../../assets/images/mailBlack.png";
 import phoneIcon from "../../assets/images/phoneBlack.png";
-
-/* ---------- Reusable Components ---------- */
-
-/* ---------- Card Component ---------- */
-function Card({
-  title,
-  children,
-  rightAction,
-  className, // add className
-  style, // add style if needed
-}: {
-  title: string;
-  children: React.ReactNode;
-  rightAction?: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      className={`bg-white rounded-xl border p-5 flex flex-col ${
-        className || ""
-      }`}
-      style={style}
-    >
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="font-medium">{title}</h2>
-        {rightAction}
-      </div>
-      <div className="flex-1">{children}</div>{" "}
-      {/* ensures content fills height */}
-    </div>
-  );
-}
-
-function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
-  return (
-    <div className="flex justify-between text-sm mb-3">
-      <span className="text-gray-500">{label}</span>
-      <span className="font-medium">{value}</span>
-    </div>
-  );
-}
+import { InfoRow, Card } from "@/app/components/cardFunctions/cardFunction";
 
 const page = () => {
   return (
-    <div className="min-h-screen bg-[#F2F4F7] p-2">
-      {/* ---------------- BREADCRUMB ---------------- */}
+    <div className="bg-[#F2F4F7] p-2 pb-4">
+      {/* main heading */}
       <h1 className="pb-3 m-2 flex items-center gap-1">
         <span className="text-[#697586] font-medium">Organization</span>
         <span className="text-[#697586] font-extrabold inline-block">
@@ -64,6 +23,7 @@ const page = () => {
         <span className="text-[#FF8A3D] font-medium">ABC</span>
       </h1>
 
+      {/* body content */}
       <div className="bg-white rounded-lg p-5 m-2.5">
         {/* Header */}
         <div className="flex flex-wrap justify-between mb-6 gap-4">
@@ -141,9 +101,9 @@ const page = () => {
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Organisation Info */}
+          {/* Organization Info */}
           <Card
-            title="Organisation Info"
+            title="Organization Info"
             className="border border-[#EEF2F6] h-full"
           >
             <InfoRow label="Name" value="ABC Infrastructure Ltd" />

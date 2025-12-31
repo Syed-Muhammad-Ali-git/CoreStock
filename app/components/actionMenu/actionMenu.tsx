@@ -64,7 +64,7 @@ const ActionMenu = () => {
   );
 };
 
-const ActionMenuOrganisation = () => {
+const ActionMenuOrganization = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   return (
@@ -154,4 +154,4 @@ const OrganizationNameMenu = () => {
   );
 };
 
-export { ActionMenu, ActionMenuOrganisation, OrganizationNameMenu };
+export { ActionMenu, ActionMenuOrganization, OrganizationNameMenu };

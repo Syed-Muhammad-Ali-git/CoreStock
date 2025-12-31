@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import plusIcon from "../../assets/images/plus.png";
@@ -5,10 +7,17 @@ import styles from "./organizationPageHeader.module.css";
 import { Group, TextInput, Button, Menu } from "@mantine/core";
 import searchLogo from "../../assets/images/searchLogo.png";
 import { IconChevronDown } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 export const CreateOrganizationButton = () => {
+  const router = useRouter();
+
+  const handleCreateOrganization = () => {
+    router.push("/organization/create-organization");
+  };
+
   return (
-    <button className={styles.button}>
+    <button className={styles.button} onClick={handleCreateOrganization}>
       <Image
         src={plusIcon}
         alt="plus icon"
