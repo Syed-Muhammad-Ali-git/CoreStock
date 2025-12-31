@@ -1,6 +1,6 @@
 import React from "react";
-import { CreateOrganizationButton } from "../common/pageHeader";
-import styles from "./dashboardActionButtons.module.css";
+import { CreateOrganizationButton } from "../organization/organizationPageHeader";
+import styles from "./dashboardStyle.css";
 
 const DashboardActionButtons = () => {
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import plusIcon from "../../assets/images/plus.png";
-import styles from "./pageHeader.module.css";
+import styles from "./organizationPageHeader.module.css";
 import { Group, TextInput, Button, Menu } from "@mantine/core";
 import searchLogo from "../../assets/images/searchLogo.png";
 import { IconChevronDown } from "@tabler/icons-react";
@@ -30,7 +30,7 @@ interface PageHeaderProps {
   showSearch?: boolean;
 }
 
-const PageHeader = ({
+const OrganizationPageHeader = ({
   title,
   subtitle,
   showButton,
@@ -60,19 +60,24 @@ const PageHeader = ({
             alignItems: "center",
             borderBottom: "1px solid #E5E7EB",
             background: "#fff",
+            flexWrap: "wrap",
+            gap: "12px",
           }}
           className="satoshi-font"
         >
           {/* Search */}
           <TextInput
             placeholder="Search"
-            leftSection={
-              <Image src={searchLogo} alt="search" width={16} height={16} />
-            }
+            leftSection={<Image src={searchLogo} alt="search" />}
             leftSectionWidth={30}
             styles={{
+              root: {
+                width: "100%",
+                maxWidth: "260px",
+                flexShrink: "1",
+              },
               input: {
-                width: 260,
+                width: "100%",
                 color: "#4B5565",
                 borderRadius: "8px",
               },
@@ -84,7 +89,7 @@ const PageHeader = ({
           />
 
           {/* Right Controls */}
-          <Group gap="sm">
+          <Group gap="sm" style={{ flexWrap: "wrap" }}>
             <label
               htmlFor="expire_in_30_days"
               style={{
@@ -92,6 +97,7 @@ const PageHeader = ({
                 alignItems: "center",
                 color: "#4B5565",
                 padding: "5px",
+                whiteSpace: "nowrap",
               }}
             >
               <input
@@ -207,4 +213,4 @@ const PageHeader = ({
   );
 };
 
-export default PageHeader;
+export default OrganizationPageHeader;

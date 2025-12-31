@@ -61,8 +61,6 @@ const ActionMenu = () => {
   );
 };
 
-export default ActionMenu;
-
 const ActionMenuOrganisation = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -107,4 +105,4 @@ const ActionMenuOrganisation = () => {
   );
 };
 
-export { ActionMenuOrganisation };
+export { ActionMenu, ActionMenuOrganisation };

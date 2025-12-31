@@ -1,3 +1,24 @@
+.buttonContainer {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.button {
+  border: 1px solid #cdd5df;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #364152;
+}
+
+@media (min-width: 768px) {
+  .buttonContainer {
+    gap: 1rem;
+  }
+}
+
 .header {
   background-color: white;
   border-radius: 0.75rem;

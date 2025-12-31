@@ -18,7 +18,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ActionMenu from "../actionMenu/actionMenu";
+import { ActionMenu } from "../actionMenu/actionMenu";
 
 /* ---------------- COLUMNS ---------------- */
 

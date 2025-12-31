@@ -3,7 +3,7 @@
 /* ---------------- IMPORTS ---------------- */
 import React, { useState } from "react";
 import OrganizationTable from "../components/organization/table";
-import PageHeader from "../components/common/pageHeader";
+import OrganizationPageHeader from "../components/organization/organizationPageHeader";
 
 /* ---------------- COMPONENT ---------------- */
 const Organization = () => {
@@ -12,7 +12,7 @@ const Organization = () => {
   return (
     <div className="bg-[#F4F3F3] border border-[#F4F3F3] p-5">
       {/* Organization Header */}
-      <PageHeader
+      <OrganizationPageHeader
         title="Organizations"
         subtitle="Your complete overview of every organization in CoreStock."
         showButton={true}
