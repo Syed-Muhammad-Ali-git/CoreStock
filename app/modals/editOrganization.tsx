@@ -2,9 +2,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import closeIcon from "../assets/images/closeIcon.png";
+import { Grid, Select } from "@mantine/core";
 
 // Props type
-interface EditBillingModalProps {
+interface EdifOrganizationProps {
   isOpen: boolean;
   onClose: () => void;
 }
@@ -12,23 +13,34 @@ interface EditBillingModalProps {
 // Form data type
 interface FormData {
   name: string;
-  email: string;
+  industry: string;
+  status: string;
   phone: string;
 }
 
-const EditBillingModal: React.FC<EditBillingModalProps> = ({
+const EdifOrganization: React.FC<EdifOrganizationProps> = ({
   isOpen,
   onClose,
 }) => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
-    email: "",
+    industry: "",
+    status: "",
     phone: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 👇 same as your input logic
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 👇 ONLY for Select (logic fix)
+  const handleSelectChange = (
+    field: "industry" | "status",
+    value: string | null
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value || "" }));
   };
 
   const handleSave = () => {
@@ -44,7 +56,7 @@ const EditBillingModal: React.FC<EditBillingModalProps> = ({
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl text-[#202939] font-medium">
-            Edit Billing Contact
+            Edit Organization
           </h2>
           <button
             className="text-gray-400 hover:text-gray-600 cursor-pointer"
@@ -57,44 +69,54 @@ const EditBillingModal: React.FC<EditBillingModalProps> = ({
         {/* Modal Body */}
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-[#364152]">
-              Contact Name
+            <label className="block text-sm mb-1 text-[#364152]">
+              Organization Name
             </label>
             <input
               type="text"
               name="name"
               value={formData.name}
-              onChange={handleChange}
+              onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="Noraiz"
+              placeholder="ABC Infrastructure Ltd"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1 text-[#364152]">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="example@gmail.com"
-            />
-          </div>
+          <Grid gutter="md" className="text-[#364152] text-sm font-medium">
+            <Grid.Col span={{ base: 12, sm: 6 }}>
+              <Select
+                label="Industry"
+                placeholder="Select industry"
+                data={["Civil Engineering", "Construction", "IT"]}
+                value={formData.industry}
+                onChange={(value) => handleSelectChange("industry", value)}
+                labelProps={{ style: { marginBottom: "6px" } }}
+                radius={8}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={{ base: 12, sm: 6 }}>
+              <Select
+                label="Status"
+                placeholder="Select industry"
+                data={["Civil Engineering", "Construction", "IT"]}
+                value={formData.status}
+                onChange={(value) => handleSelectChange("status", value)}
+                labelProps={{ style: { marginBottom: "6px" } }}
+                radius={8}
+              />
+            </Grid.Col>
+          </Grid>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-[#364152]">
-              Phone
-            </label>
+            <label className="block text-sm mb-1 text-[#364152]">Phone</label>
             <input
               type="text"
               name="phone"
               value={formData.phone}
-              onChange={handleChange}
+              onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="+44 1234 567890"
+              placeholder="Standard"
             />
           </div>
         </div>
@@ -119,4 +141,4 @@ const EditBillingModal: React.FC<EditBillingModalProps> = ({
   );
 };
 
-export default EditBillingModal;
+export default EdifOrganization;

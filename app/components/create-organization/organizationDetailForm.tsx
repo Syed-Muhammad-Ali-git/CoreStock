@@ -38,7 +38,7 @@ const OrganizationDetailForm = () => {
         <Grid.Col span={{ base: 12, sm: 6 }}>
           <Select
             label="Industry"
-            placeholder="Select industry"
+            placeholder="Infrastructure Services"
             data={["Civil Engineering", "Construction", "IT"]}
             value={formData.industry}
             onChange={(value) => handleChange("industry", value || "")}
@@ -51,16 +51,9 @@ const OrganizationDetailForm = () => {
 
         <Grid.Col span={{ base: 12, sm: 6 }}>
           <Select
-            label="Type"
-            placeholder="Select type"
-            data={[
-              "Contractor",
-              "Plant hire company",
-              "Asset owner",
-              "Manufacturer / supplier",
-              "JV / alliance",
-              "other",
-            ]}
+            label="Status"
+            placeholder="Active"
+            data={["Contractor", "Plant hire company"]}
             value={formData.type}
             onChange={(value) => handleChange("type", value || "")}
             labelProps={{

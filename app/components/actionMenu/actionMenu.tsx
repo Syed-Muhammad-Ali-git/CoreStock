@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 import viewIcon from "../../assets/images/viewIcon.png";
@@ -10,6 +12,7 @@ import printIcon from "../../assets/images/printIcon.png";
 import suspendedRedIcon from "../../assets/images/suspendedRed.png";
 import { Menu, IconButton, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SuspendedOrganizationModal from "../../modals/suspendOrganization";
 
 const ActionMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -111,6 +114,10 @@ const ActionMenuOrganization = () => {
 
 const OrganizationNameMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isOpenSuspended, setisOpenSuspended] = useState(false);
+
+  const openSuspended = () => setisOpenSuspended(true);
+  const closeSuspended = () => setisOpenSuspended(false);
 
   return (
     <>
@@ -135,11 +142,17 @@ const OrganizationNameMenu = () => {
       >
         <MenuItem>
           <Image src={plusBlackIcon} alt="impersonate icon" className="mr-3" />
-          <span>Impersonate Client Admin</span>
+          <button>Impersonate Client Admin</button>
         </MenuItem>
         <MenuItem>
           <Image src={suspendedRedIcon} alt="suspende icon" className="mr-3" />
-          <span className="text-[#B6271F]">Suspended Organization</span>
+          <button className="text-[#B6271F]" onClick={openSuspended}>
+            Suspended Organization
+          </button>
+          <SuspendedOrganizationModal
+            isOpen={isOpenSuspended}
+            onClose={closeSuspended}
+          />
         </MenuItem>
         <MenuItem>
           <Image src={printIcon} alt="print icon" className="mr-3" />

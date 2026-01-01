@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { IconChevronsRight } from "@tabler/icons-react";
 import editBlackIcon from "../../assets/images/editBlack.png";
 import changeBlackIcon from "../../assets/images/changeBlack.png";
@@ -10,8 +10,24 @@ import profileIcon from "../../assets/images/profileBlack.png";
 import mailIcon from "../../assets/images/mailBlack.png";
 import phoneIcon from "../../assets/images/phoneBlack.png";
 import { InfoRow, Card } from "@/app/components/cardFunctions/cardFunction";
+import EditBillingModal from "../../modals/editBillingContact";
+import EdifOrganization from "../../modals/editOrganization";
+import ChangeLicence from "../../modals/changeLicenceSeats";
 
 const TableData = () => {
+  const [isOpenBillingContact, setisOpenBillingContact] = useState(false);
+  const [isOpenOrganization, setisOpenOrganization] = useState(false);
+  const [isOpenChangeLicence, setisOpenChangeLicence] = useState(false);
+
+  const openBillingModal = () => setisOpenBillingContact(true);
+  const closeBillingModal = () => setisOpenBillingContact(false);
+
+  const openOrganizationModal = () => setisOpenOrganization(true);
+  const closeOrganizationModal = () => setisOpenOrganization(false);
+
+  const openChangeLicenceModal = () => setisOpenChangeLicence(true);
+  const closeChangeLicenceModal = () => setisOpenChangeLicence(false);
+
   return (
     <div className="bg-[#F2F4F7] p-2 pb-4">
       {/* main heading */}
@@ -44,20 +60,30 @@ const TableData = () => {
           {/* RIGHT SIDE BUTTONS */}
           <div className="flex flex-wrap gap-2">
             <button
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[#364152] border border-[#CDD5DF]"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[#364152] border border-[#CDD5DF] cursor-pointer"
               style={{ fontWeight: 600, fontSize: "16px" }}
+              onClick={openOrganizationModal}
             >
               <Image src={editBlackIcon} alt="edit" />
               <span className="hidden sm:block">Edit</span>
             </button>
+            <EdifOrganization
+              isOpen={isOpenOrganization}
+              onClose={closeOrganizationModal}
+            />
 
             <button
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[#364152] border border-[#CDD5DF]"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[#364152] border border-[#CDD5DF] cursor-pointer"
               style={{ fontWeight: 600, fontSize: "16px" }}
+              onClick={openChangeLicenceModal}
             >
               <Image src={changeBlackIcon} alt="change" />
               <span className="hidden sm:block">Change Licence Seats</span>
             </button>
+            <ChangeLicence
+              isOpen={isOpenChangeLicence}
+              onClose={closeChangeLicenceModal}
+            />
 
             <div className="flex items-center rounded-lg border border-[#CDD5DF]">
               <OrganizationNameMenu />
@@ -68,31 +94,31 @@ const TableData = () => {
         {/* Tab btns */}
         <div className="flex gap-3  mb-6 text-sm border border-[#EEF2F6] bg-[#FCFCFD] p-2 rounded-lg  overflow-auto">
           <button
-            className="flex items-center border border-[#FF8A3D] p-2 rounded-lg text-black bg-[#FF8A3D] manrope-font"
+            className="flex items-center border border-[#FF8A3D] p-2 rounded-lg text-black bg-[#FF8A3D] manrope-font cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Over view
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font"
+            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Users
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font"
+            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Billing
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font"
+            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Notes
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font"
+            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Files
@@ -143,9 +169,18 @@ const TableData = () => {
           <Card
             title="Billing Contact"
             rightAction={
-              <span className="text-[#C63508] font-medium text-sm cursor-pointer">
-                Edit
-              </span>
+              <>
+                <button
+                  className="text-[#C63508] font-medium text-sm cursor-pointer"
+                  onClick={openBillingModal}
+                >
+                  Edit
+                </button>
+                <EditBillingModal
+                  isOpen={isOpenBillingContact}
+                  onClose={closeBillingModal}
+                />
+              </>
             }
             className="border border-[#EEF2F6] h-full"
           >
