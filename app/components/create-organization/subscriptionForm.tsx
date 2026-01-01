@@ -1,23 +1,31 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Card, Select, NumberInput, Grid } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 
-const SubscriptionForm = () => {
-  const [formData, setFormData] = useState({
-    status: "Active",
-    licenceSeats: "",
-    subscriptionStartDate: null as Date | null,
-    subscriptionEndDate: null as Date | null,
-  });
+interface SubscriptionFormProps {
+  formData: {
+    status: string;
+    licenceSeats: string;
+    subscriptionStartDate: Date | null;
+    subscriptionEndDate: Date | null;
+  };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      status: string;
+      licenceSeats: string;
+      subscriptionStartDate: Date | null;
+      subscriptionEndDate: Date | null;
+    }>
+  >;
+}
 
+const SubscriptionForm = ({ formData, setFormData }: SubscriptionFormProps) => {
   const handleChange = useCallback(
     (field: string, value: string | number | Date | null) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
     },
-    []
+    [setFormData]
   );
-
-  console.log("SubscriptionForm data:", formData);
 
   return (
     <Card

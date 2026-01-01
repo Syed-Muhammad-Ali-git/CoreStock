@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,7 +8,7 @@ import Image from "next/image";
 import cards from "../../data/hardcoded/dashboardCardsData";
 import type { DashboardCard } from "../../types/index";
 
-function DashboardCards() {
+const DashboardCards = () => {
   const [selectedCard, setSelectedCard] = useState(0);
   return (
     <Box
@@ -70,6 +70,6 @@ function DashboardCards() {
       ))}
     </Box>
   );
-}
+};
 
-export default DashboardCards;
+export default memo(DashboardCards);

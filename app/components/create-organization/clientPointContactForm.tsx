@@ -1,19 +1,33 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Card, TextInput, Grid } from "@mantine/core";
 
-const ClientPointContactForm = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    emailAddress: "",
-  });
+interface ClientPointContactFormProps {
+  formData: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    emailAddress: string;
+  };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      emailAddress: string;
+    }>
+  >;
+}
 
-  const handleChange = useCallback((field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  }, []);
-
-  console.log("ClientPointContactForm data:", formData);
+const ClientPointContactForm = ({
+  formData,
+  setFormData,
+}: ClientPointContactFormProps) => {
+  const handleChange = useCallback(
+    (field: string, value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    [setFormData]
+  );
 
   return (
     <Card withBorder radius="md" p="md">

@@ -94,31 +94,31 @@ const TableData = () => {
         {/* Tab btns */}
         <div className="flex gap-3  mb-6 text-sm border border-[#EEF2F6] bg-[#FCFCFD] p-2 rounded-lg  overflow-auto">
           <button
-            className="flex items-center border border-[#FF8A3D] p-2 rounded-lg text-black bg-[#FF8A3D] manrope-font cursor-pointer"
+            className="flex items-center border border-[#FF8A3D] p-2 rounded-lg text-black bg-[#FF8A3D] font-manrope cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Over view
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
+            className="flex items-center p-2 rounded-lg text-gray-500 font-manrope cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Users
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
+            className="flex items-center p-2 rounded-lg text-gray-500 font-manrope cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Billing
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
+            className="flex items-center p-2 rounded-lg text-gray-500 font-manrope cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Notes
           </button>
           <button
-            className="flex items-center p-2 rounded-lg text-gray-500 manrope-font cursor-pointer"
+            className="flex items-center p-2 rounded-lg text-gray-500 font-manrope cursor-pointer"
             style={{ fontSize: "14px", fontWeight: "600" }}
           >
             Files

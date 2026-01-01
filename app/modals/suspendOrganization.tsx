@@ -24,7 +24,7 @@ const SuspendOrganisationModal: React.FC<SuspendProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 satoshi-font">
+    <div className="modal-overlay">
       <div className="bg-white rounded-xl w-full max-w-lg p-6 shadow-xl relative">
         {/* Close button */}
         <button

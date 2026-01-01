@@ -1,22 +1,36 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Card, TextInput, Grid } from "@mantine/core";
 
-const BillingContactForm = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    emailAddress: "",
-  });
+interface BillingContactFormProps {
+  formData: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    emailAddress: string;
+  };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      emailAddress: string;
+    }>
+  >;
+}
 
-  const handleChange = useCallback((field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  }, []);
-
-  console.log("BillingContactForm data:", formData);
+const BillingContactForm = ({
+  formData,
+  setFormData,
+}: BillingContactFormProps) => {
+  const handleChange = useCallback(
+    (field: string, value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    [setFormData]
+  );
 
   return (
-    <Card withBorder radius="md" p="md">
+    <Card withBorder radius="md" p={{ base: "sm", sm: "md" }}>
       <h3 className="text-lg text-[#202939] font-medium mb-4">
         Billing Contact
       </h3>

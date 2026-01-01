@@ -20,7 +20,7 @@ const AdminDashboardHome = () => {
   }, [router]);
 
   return (
-    <div className="bg-[#F4F3F3] py-4 pb-8 px-4 flex flex-col gap-5">
+    <div className="bg-[#F4F3F3] page-container flex flex-col gap-5">
       {/* Dashboard date header  */}
       <div>
         <DashboardHeader />

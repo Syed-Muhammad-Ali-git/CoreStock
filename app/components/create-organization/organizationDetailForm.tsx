@@ -1,22 +1,36 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Card, TextInput, Select, Grid } from "@mantine/core";
 
-const OrganizationDetailForm = () => {
-  const [formData, setFormData] = useState({
-    organisationName: "",
-    industry: "",
-    type: "",
-    headquartersAddress: "",
-  });
+interface OrganizationDetailFormProps {
+  formData: {
+    organisationName: string;
+    industry: string;
+    type: string;
+    headquartersAddress: string;
+  };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      organisationName: string;
+      industry: string;
+      type: string;
+      headquartersAddress: string;
+    }>
+  >;
+}
 
-  const handleChange = useCallback((field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  }, []);
-
-  console.log("OrganizationDetailForm data:", formData);
+const OrganizationDetailForm = ({
+  formData,
+  setFormData,
+}: OrganizationDetailFormProps) => {
+  const handleChange = useCallback(
+    (field: string, value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    [setFormData]
+  );
 
   return (
-    <Card withBorder radius="md" p="md">
+    <Card withBorder radius="md" p={{ base: "sm", sm: "md" }}>
       <h3 className="text-lg text-[#202939] font-medium mb-4">
         Organization Detail
       </h3>

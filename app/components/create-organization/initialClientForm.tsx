@@ -1,21 +1,34 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Card, TextInput, Grid } from "@mantine/core";
 
-const InitialClientForm = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    adminEmail: "",
-  });
+interface InitialClientFormProps {
+  formData: {
+    firstName: string;
+    lastName: string;
+    adminEmail: string;
+  };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      firstName: string;
+      lastName: string;
+      adminEmail: string;
+    }>
+  >;
+}
 
-  const handleChange = useCallback((field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  }, []);
-
-  console.log("InitialClientForm data:", formData);
+const InitialClientForm = ({
+  formData,
+  setFormData,
+}: InitialClientFormProps) => {
+  const handleChange = useCallback(
+    (field: string, value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    [setFormData]
+  );
 
   return (
-    <Card withBorder radius="md" p="md">
+    <Card withBorder radius="md" p={{ base: "sm", sm: "md" }}>
       <h3 className="text-lg text-[#202939] font-medium mb-4">
         Initial Client Admin
       </h3>

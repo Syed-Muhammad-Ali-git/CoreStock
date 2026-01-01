@@ -78,3 +78,52 @@ body {
 .manrope-font {
   font-family: "ManropeLocal";
 }
+
+/* Utility Classes for Repeated Tailwind Patterns */
+
+@layer components {
+  .modal-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80;
+  }
+
+  .btn-secondary {
+    @apply flex items-center gap-2 px-4 py-2 rounded-lg text-[#364152] border border-[#CDD5DF] cursor-pointer hover:bg-gray-50 transition-colors;
+  }
+
+  .tab-btn {
+    @apply flex items-center p-2 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors;
+  }
+
+  .page-container {
+    @apply px-1 py-1 pb-2 sm:px-2 sm:py-2 sm:pb-4 md:px-4 md:py-4 md:pb-8;
+  }
+
+  /* Global button styles for hover and cursor */
+  button {
+    @apply cursor-pointer transition-colors;
+  }
+
+  button:hover {
+    @apply opacity-90;
+  }
+
+  /* Responsive margins and padding for small screens */
+  @media (max-width: 640px) {
+    .page-container {
+      @apply px-1 py-1 pb-2;
+    }
+
+    .modal-overlay {
+      @apply p-2;
+    }
+
+    /* Reduce margins and padding for cards and forms on small screens */
+    .mantine-Card-root {
+      @apply m-1;
+    }
+
+    .mantine-Grid-root {
+      @apply gap-2;
+    }
+  }
+}
