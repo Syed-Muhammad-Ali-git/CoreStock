@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import React, { ReactNode } from "react";
 import "./globals.css";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import {
   ColorSchemeScript,
   MantineProvider,

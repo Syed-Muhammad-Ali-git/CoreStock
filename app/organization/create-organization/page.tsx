@@ -1,80 +1,197 @@
+"use client";
+
 import React from "react";
 import { IconChevronsRight } from "@tabler/icons-react";
-import Image from "next/image";
-import { InfoRow, Card } from "@/app/components/cardFunctions/cardFunction";
+import {
+  Card,
+  TextInput,
+  Select,
+  NumberInput,
+  Grid,
+  Button,
+} from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 
 const CreateOrganization = () => {
   return (
-    <div className="bg-[#F2F4F7] min-h-auto p-2 pb-4">
+    <div className="bg-[#F2F4F7] min-h-screen p-2 sm:p-4 pb-6">
       {/* main heading */}
-      <h1 className="pb-3 m-2 flex items-center gap-1">
+      <h1 className="pb-3 m-2 flex flex-wrap items-center gap-1 text-sm sm:text-base">
         <span className="text-[#697586] font-medium">Organization</span>
-        <span className="text-[#697586] font-extrabold inline-block">
-          <IconChevronsRight size={20} stroke={2} />
-        </span>
+        <IconChevronsRight size={18} stroke={2} className="text-[#697586]" />
         <span className="text-[#FF8A3D] font-medium">Create Organization</span>
       </h1>
 
       {/* body content */}
-      <div className="rounded-lg m-2.5">
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="rounded-lg m-2 sm:m-3">
+        <Grid gutter="lg">
           {/* Organization Detail */}
-          <Card
-            title="Organization Detail"
-            className="border border-[#EEF2F6] h-full"
-          >
-            <InfoRow label="Name" value="ABC Infrastructure Ltd" />
-            <InfoRow
-              label="Status"
-              value={
-                <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">
-                  Active
-                </span>
-              }
-            />
-            <InfoRow label="Industry" value="Construction" />
-            <InfoRow label="Created Date" value="15 Mar 2023" />
-          </Card>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Card withBorder radius="md" p="md">
+              <h3 className="text-sm font-semibold mb-4">
+                Organization Detail
+              </h3>
+
+              <Grid gutter="md">
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput
+                    label="Organisation Name"
+                    placeholder="Apex Tunnelling Ltd"
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <Select
+                    label="Industry"
+                    placeholder="Select industry"
+                    data={["Civil Engineering", "Construction", "IT"]}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <Select
+                    label="Type"
+                    placeholder="Select type"
+                    data={["Contractor", "Supplier"]}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput
+                    label="Headquarters Address"
+                    placeholder="Enter Address"
+                  />
+                </Grid.Col>
+              </Grid>
+            </Card>
+          </Grid.Col>
 
           {/* Subscription & Licensing */}
-          <Card
-            title="Subscription & Licensing"
-            className="border border-[#EEF2F6] h-full"
-          >
-            <InfoRow label="Start Date" value="1 Jan 2024" />
-            <InfoRow label="End/Renewal Date" value="31 Dec 2024" />
-            <InfoRow label="Days Left" value="0 days left" />
-            <InfoRow label="Plan" value="Pro" />
-          </Card>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Card
+              withBorder
+              radius="md"
+              p="md"
+              style={{ position: "relative", zIndex: 1 }}
+            >
+              <h3 className="text-sm font-semibold mb-4">
+                Subscription & Licensing
+              </h3>
+
+              <Grid gutter="md">
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <Select
+                    label="Status"
+                    data={["Active", "Expired", "Suspended"]}
+                    defaultValue="Active"
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <NumberInput
+                    label="Licence Seats (Max Users)"
+                    placeholder="25"
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <DatePickerInput
+                    label="Subscription Start Date"
+                    placeholder="Pick date"
+                    dropdownType="popover"
+                    popoverProps={{
+                      withinPortal: true,
+                      zIndex: 10000,
+                      position: "bottom-start",
+                      shadow: "md",
+                    }}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <DatePickerInput
+                    label="Subscription End/Renewal"
+                    placeholder="Pick date"
+                    dropdownType="popover"
+                    popoverProps={{
+                      withinPortal: true,
+                      zIndex: 10000,
+                      position: "bottom-start",
+                      shadow: "md",
+                    }}
+                  />
+                </Grid.Col>
+              </Grid>
+            </Card>
+          </Grid.Col>
 
           {/* Billing Contact */}
-          <Card
-            title="Billing Contact"
-            className="border border-[#EEF2F6] h-full"
-          >
-            <p className="text-sm mb-2">24 / 30 seats used</p>
-            <div className="w-full bg-gray-200 rounded-full h-2 flex">
-              <div className="bg-[#FE6511] h-2 rounded-full w-[80%]" />
-              <p className="text-xs text-gray-500 -mt-7">80% utilisation</p>
-            </div>
-          </Card>
+          <Grid.Col span={12}>
+            <Card withBorder radius="md" p="md">
+              <h3 className="text-sm font-semibold mb-4">Billing Contact</h3>
+
+              <Grid gutter="md">
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput label="First Name" placeholder="Noraiz" />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput label="Last Name" placeholder="Shahid" />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput
+                    label="Phone Number"
+                    placeholder="+44 1234 567890"
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput
+                    label="Email Address"
+                    placeholder="billing@apex.co.uk"
+                  />
+                </Grid.Col>
+              </Grid>
+            </Card>
+          </Grid.Col>
 
           {/* Initial Client Admin */}
-          <Card
-            title="Initial Client Admin"
-            rightAction={
-              <span className="text-[#C63508] font-medium text-sm cursor-pointer">
-                Edit
-              </span>
-            }
-            className="border border-[#EEF2F6] h-full"
-          >
-            <p className="text-sm text-gray-500">Norizz</p>
-            <p className="text-sm text-gray-500">example@gmail.com</p>
-            <p className="text-sm text-gray-500">+44 1234 567890</p>
-          </Card>
-        </div>
+          <Grid.Col span={12}>
+            <Card withBorder radius="md" p="md">
+              <h3 className="text-sm font-semibold mb-4">
+                Initial Client Admin
+              </h3>
+
+              <Grid gutter="md">
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput label="First Name" placeholder="Noraiz" />
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, sm: 6 }}>
+                  <TextInput label="Last Name" placeholder="Shahid" />
+                </Grid.Col>
+
+                <Grid.Col span={12}>
+                  <TextInput
+                    label="Admin Email"
+                    placeholder="john.doe@apex.co.uk"
+                  />
+                </Grid.Col>
+              </Grid>
+            </Card>
+          </Grid.Col>
+
+          {/* Footer Buttons */}
+          <Grid.Col span={12}>
+            <div className="flex flex-col sm:flex-row justify-end gap-3">
+              <Button variant="default" fullWidth={false}>
+                Cancel
+              </Button>
+              <Button color="orange">Create Organisation</Button>
+            </div>
+          </Grid.Col>
+        </Grid>
       </div>
     </div>
   );
