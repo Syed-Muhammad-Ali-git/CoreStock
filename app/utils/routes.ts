@@ -7,7 +7,7 @@ const protectedRoutes = [
   "/organization",
   "/settings",
   "/myAccount",
-  "/organization/[name]",
+  "/organization/name",
   "/organization/create-organization",
 ];
 

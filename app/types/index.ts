@@ -38,3 +38,7 @@ export interface ExpiringRow {
 export interface HighUtilRow extends ExpiringRow {
   used: React.ReactNode;
 }
+
+export interface TableDataType {
+  id: string;
+}

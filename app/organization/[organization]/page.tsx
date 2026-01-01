@@ -11,7 +11,7 @@ import mailIcon from "../../assets/images/mailBlack.png";
 import phoneIcon from "../../assets/images/phoneBlack.png";
 import { InfoRow, Card } from "@/app/components/cardFunctions/cardFunction";
 
-const page = () => {
+const TableData = () => {
   return (
     <div className="bg-[#F2F4F7] p-2 pb-4">
       {/* main heading */}
@@ -180,4 +180,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TableData;
