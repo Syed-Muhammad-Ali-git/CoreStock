@@ -59,9 +59,9 @@ const TableData = () => {
               <span className="hidden sm:block">Change Licence Seats</span>
             </button>
 
-            <button className="flex items-center rounded-lg border border-[#CDD5DF]">
+            <div className="flex items-center rounded-lg border border-[#CDD5DF]">
               <OrganizationNameMenu />
-            </button>
+            </div>
           </div>
         </div>
 
