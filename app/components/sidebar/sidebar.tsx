@@ -117,7 +117,12 @@ const SideBar = ({ open, setOpen }: SideBarProps) => {
 
   const renderMenu = (items: SidebarItem[]) =>
     items.map((item) => {
-      const isActive = pathname === item.path;
+      let isActive = pathname === item.path;
+      if (item.text === "Organization") {
+        isActive = pathname.startsWith("/organization");
+      } else if (item.text === "Dashboard") {
+        isActive = pathname === "/" || pathname.startsWith("/myAccount");
+      }
       return (
         <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
           <ListItemButton
