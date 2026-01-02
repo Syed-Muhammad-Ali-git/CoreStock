@@ -102,7 +102,7 @@ const OverviewTab: FC<OverviewTabProps> = ({
             +44 1234 567890
           </p>
         </Card>
-      </div>{" "}
+      </div>
     </>
   );
 };

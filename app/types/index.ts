@@ -42,3 +42,13 @@ export interface HighUtilRow extends ExpiringRow {
 export interface TableDataType {
   id: string;
 }
+
+export interface UserTableDataType {
+  name: string;
+  role: "Admin" | "Manager" | "Storekeeper" | "Electrical";
+  email: string;
+  clientAdmin: "Yes" | "No";
+  lastLogin: string;
+  dateInvited: string;
+  status: "Active" | "Trial" | "Expired" | "Suspended";
+}

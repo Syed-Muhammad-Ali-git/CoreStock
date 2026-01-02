@@ -26,7 +26,7 @@ const progress = (
   </div>
 );
 
-export const highUtilRows: HighUtilRow[] = [
+const highUtilRows: HighUtilRow[] = [
   {
     Organization: "ABC Infrastructure Ltd",
     status: "Active",
