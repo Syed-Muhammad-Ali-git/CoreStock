@@ -38,7 +38,7 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
       showSidebar && drawerOpen && pathname
         ? `${drawerWidth}px`
         : showSidebar
-        ? "calc(64px + 10px)"
+        ? "calc(59px + 1px)"
         : undefined,
     paddingTop: showSidebar ? "70px" : "0",
   };

@@ -86,7 +86,7 @@ const CreateOrganization = () => {
     });
   };
   return (
-    <div className="bg-[#F2F4F7] min-h-screen p-1 sm:p-2 md:p-4 pb-4 sm:pb-6">
+    <div className="bg-[#F2F4F7] min-h-screen p-1 pb-4 sm:pb-6 overflow-auto">
       {/* main heading */}
       <h1 className="pb-2 sm:pb-3 m-1 sm:m-2 flex flex-wrap items-center gap-1 text-sm sm:text-base">
         <span className="text-[#697586] font-medium">Organization</span>
@@ -114,7 +114,7 @@ const CreateOrganization = () => {
           </Grid.Col>
 
           {/* Billing Contact */}
-          <Grid.Col span={6}>
+          <Grid.Col span={{ base: 12, md: 6 }}>
             <BillingContactForm
               formData={billingContactData}
               setFormData={setBillingContactData}
@@ -122,7 +122,7 @@ const CreateOrganization = () => {
           </Grid.Col>
 
           {/* Initial Client Admin */}
-          <Grid.Col span={6}>
+          <Grid.Col span={{ base: 12, md: 6 }}>
             <InitialClientForm
               formData={initialClientData}
               setFormData={setInitialClientData}

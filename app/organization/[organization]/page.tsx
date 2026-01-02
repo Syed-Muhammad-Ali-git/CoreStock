@@ -29,7 +29,7 @@ const TableData = () => {
   const closeChangeLicenceModal = () => setisOpenChangeLicence(false);
 
   return (
-    <div className="bg-[#F2F4F7] p-2 pb-4">
+    <div className="bg-[#F2F4F7] p-1 pb-4">
       {/* main heading */}
       <h1 className="pb-3 m-2 flex items-center gap-1">
         <span className="text-[#697586] font-medium">Organization</span>
@@ -40,7 +40,7 @@ const TableData = () => {
       </h1>
 
       {/* body content */}
-      <div className="bg-white rounded-lg p-5 m-2.5">
+      <div className="bg-white rounded-lg p-5 m-1 sm:m-2.5">
         {/* Header */}
         <div className="flex flex-wrap justify-between mb-6 gap-4">
           {/* LEFT SIDE */}

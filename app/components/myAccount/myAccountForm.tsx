@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -15,6 +15,8 @@ import {
 import { z } from "zod";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
+import editIcon from "../../assets/images/editIcon.png";
 
 /* ---------------- ZOD SCHEMAS ---------------- */
 
@@ -40,59 +42,32 @@ const passwordSchema = z
 /* ---------------- COMPONENT ---------------- */
 
 const MyAccountForm = () => {
-  const [values, setValues] = useState(() => {
-    if (typeof window !== "undefined") {
-      const loginDataRaw = localStorage.getItem("loginData");
-      if (loginDataRaw) {
-        const loginData = JSON.parse(loginDataRaw);
-        return {
-          fullName: loginData.fullName || "",
-          email: loginData.email || "",
-          oldPassword: "",
-          newPassword: "",
-          confirmPassword: "",
-        };
-      }
-    }
-    return {
-      fullName: "",
-      email: "",
-      oldPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    };
+  const [values, setValues] = useState({
+    fullName: "",
+    email: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
-  const [image, setImage] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      const loginDataRaw = localStorage.getItem("loginData");
-      if (loginDataRaw) {
-        const loginData = JSON.parse(loginDataRaw);
-        return loginData.profileImage || null;
-      }
+  const [image, setImage] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+
+  useEffect(() => {
+    const loginDataRaw = localStorage.getItem("loginData");
+    if (loginDataRaw) {
+      const loginData = JSON.parse(loginDataRaw);
+      setValues((s) => ({
+        ...s,
+        fullName: loginData.fullName || "",
+        email: loginData.email || "",
+      }));
+      setImage(loginData.profileImage || null);
+      setUserName(loginData.fullName || "");
+      setUserEmail(loginData.email || "");
     }
-    return null;
-  });
-  const [userName, setUserName] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const loginDataRaw = localStorage.getItem("loginData");
-      if (loginDataRaw) {
-        const loginData = JSON.parse(loginDataRaw);
-        return loginData.fullName || "";
-      }
-    }
-    return "";
-  });
-  const [userEmail, setUserEmail] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const loginDataRaw = localStorage.getItem("loginData");
-      if (loginDataRaw) {
-        const loginData = JSON.parse(loginDataRaw);
-        return loginData.email || "";
-      }
-    }
-    return "";
-  });
+  }, []);
 
   /* ---------------- IMAGE UPLOAD ---------------- */
 
@@ -228,7 +203,9 @@ const MyAccountForm = () => {
                     onClick={props.onClick}
                     className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 hover:opacity-100 transition-opacity rounded-full cursor-pointer"
                   >
-                    <span className="text-white text-xl">✏️</span>
+                    <span className="text-white text-xl">
+                      <Image src={editIcon} alt="edit icon" />
+                    </span>
                   </div>
                 </div>
               )}
