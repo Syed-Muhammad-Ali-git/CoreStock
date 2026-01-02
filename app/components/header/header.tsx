@@ -21,6 +21,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
   const [profile, setProfile] = useState<string | null>(null);
   const [userName, setUserName] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // ---------------- LOAD USER DATA FROM LOCAL STORAGE ----------------
   useEffect(() => {
@@ -58,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
       }}
     >
       {/* ---------------- SEARCH BAR ---------------- */}
-      <Group className="flex-1">
+      <Group className="flex-1 ml-auto">
         <TextInput
           placeholder="Search organizations or users..."
           leftSection={
@@ -90,13 +91,21 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
         />
 
         {/* ---------------- PROFILE DROPDOWN ---------------- */}
-        <Menu shadow="md" width={200} radius={10}>
+        <Menu
+          shadow="md"
+          width={200}
+          radius={10}
+          position="bottom-start"
+          opened={isDropdownOpen}
+          onChange={setIsDropdownOpen}
+        >
           <Menu.Target>
             <Avatar
               src={profile || undefined}
               alt="profile"
               radius="xl"
               className="cursor-pointer"
+              onClick={() => setIsDropdownOpen((o) => !o)}
             />
           </Menu.Target>
 
@@ -124,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
             <Menu.Item
               onClick={() => router.push("/myAccount")}
               color="#697586"
-              style={{ fontWeight: "400" }}
+              style={{ fontWeight: "400", padding: "10px" }}
             >
               <Image
                 src={myAccountLogo}
@@ -137,7 +146,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen = false }) => {
             <Menu.Item
               onClick={handleSignOut}
               color="#697586"
-              style={{ fontWeight: "400" }}
+              style={{ fontWeight: "400", padding: "10px" }}
             >
               <Image src={signoutLogo} alt="signout" className="inline-block" />
               &nbsp; Sign Out
