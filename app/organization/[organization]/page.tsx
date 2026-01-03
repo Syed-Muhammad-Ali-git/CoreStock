@@ -40,14 +40,15 @@ const TableData = () => {
           />
         );
 
-      case "Files":
-        return <FilesTab />;
-      case "Notes":
-        return <NotesTab />;
-      case "Billing":
-        return <BillingTab />;
       case "Users":
         return <UsersTab />;
+      case "Billing":
+        return <BillingTab />;
+      case "Notes":
+        return <NotesTab />;
+      case "Files":
+        return <FilesTab />;
+
       default:
         return null;
     }

@@ -62,3 +62,11 @@ export interface ToggleButtonProps {
   initial?: boolean;
   onChange?: (state: boolean) => void;
 }
+
+export interface BillingHistoryDataType {
+  invoiceDate: string;
+  invoice: string;
+  amount: string;
+  period: string;
+  status: string;
+}

@@ -18,6 +18,7 @@ import prpfileIcon from "@/app/assets/images/profileGray.png";
 import lockIcon from "@/app/assets/images/lockGray.png";
 import ResetPasswordModal from "@/app/modals/resetPassword";
 import { ToggleButtonProps } from "@/app/types/index";
+import checkCircleIcon from "@/app/assets/images/check-circle.png";
 
 const ActionMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -247,9 +248,51 @@ const OrganizationNameMenu = () => {
   );
 };
 
+const BillingHistoryMenu = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  return (
+    <>
+      <IconButton
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        style={{ display: "flex" }}
+      >
+        <MoreVertIcon />
+      </IconButton>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        disableScrollLock={true}
+        onClose={() => setAnchorEl(null)}
+        PaperProps={{
+          sx: {
+            borderRadius: "8px",
+            color: "#697586",
+          },
+        }}
+      >
+        <MenuItem>
+          <Image src={viewIcon} alt="view icon" className="mr-3" />
+          <span>View Details</span>
+        </MenuItem>
+        <MenuItem>
+          <Image
+            src={checkCircleIcon}
+            alt="checkCircle icon"
+            className="mr-3"
+          />
+          <span>Mark as paid/unpaid</span>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
 export {
   ActionMenu,
   ActionMenuOrganization,
   OrganizationNameMenu,
   UserTabActionMenu,
+  BillingHistoryMenu,
 };

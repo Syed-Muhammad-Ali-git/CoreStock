@@ -1,6 +1,6 @@
 import type { ExpiringRow } from "../../types/index";
 
-export const expiringRows: ExpiringRow[] = [
+const expiringRows: ExpiringRow[] = [
   {
     Organization: "ABC Infrastructure Ltd",
     status: "Active",
