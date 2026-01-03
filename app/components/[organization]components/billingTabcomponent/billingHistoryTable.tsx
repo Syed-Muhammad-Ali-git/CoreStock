@@ -20,6 +20,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { BillingHistoryMenu } from "../../actionMenu/actionMenu";
 import plusIcon from "@/app/assets/images/plusBlack.png";
+import billingHistoryData from "@/app/data/hardcoded/billingHistoryData";
+import Image from "next/image";
+import AddInvoiceRecord from "@/app/modals/addInvoicerecord";
 
 /* ---------------- COLUMNS ---------------- */
 
@@ -41,9 +44,6 @@ const columns: readonly Column[] = [
 
 /* ---------------- DATA ---------------- */
 
-import billingHistoryData from "@/app/data/hardcoded/billingHistoryData";
-import Image from "next/image";
-
 type Data = (typeof billingHistoryData)[number];
 const rows: Data[] = billingHistoryData;
 
@@ -56,8 +56,14 @@ const BillingHistoryTable = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
+  const [isOpenInvoice, setisOpenInvoice] = useState(false);
+
+  const openInvoiceModal = () => setisOpenInvoice(true);
+  const closeIncoiceModal = () => setisOpenInvoice(false);
+
   return (
     <Paper sx={{ borderRadius: "12px", overflow: "hidden" }}>
+      <AddInvoiceRecord isOpen={isOpenInvoice} onClose={closeIncoiceModal} />
       <TableContainer>
         <Table stickyHeader sx={{ padding: "15px" }}>
           {/* ---------- STICKY TITLE ---------- */}
@@ -77,6 +83,7 @@ const BillingHistoryTable = () => {
                     Billing History
                   </Box>
                   <Button
+                    onClick={openInvoiceModal}
                     className="manrope-font"
                     sx={{
                       border: "1px solid #CDD5DF",
@@ -235,7 +242,7 @@ const BillingHistoryTable = () => {
           }}
           sx={{
             "& .MuiTablePagination-actions": {
-              display: isSmallScreen ? "flex" : "none", // arrows hidden on big screen
+              display: isSmallScreen ? "flex" : "none",
             },
             color: "#697586",
           }}

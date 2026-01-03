@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import ResetPasswordModal from "../modals/resetPassword";
+import AddInvoicerecord from "../modals/addInvoicerecord";
 
 const Testing = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,7 @@ const Testing = () => {
         Open Edit Modal
       </button>
 
-      <ResetPasswordModal isOpen={isOpen} onClose={closeModal} />
+      <AddInvoicerecord isOpen={isOpen} onClose={closeModal} />
     </>
   );
 };
