@@ -2,20 +2,22 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import viewIcon from "../../assets/images/viewIcon.png";
-import editIcon from "../../assets/images/editIcon.png";
-import deleteIcon from "../../assets/images/deleteIcon.png";
-import adjustIcon from "../../assets/images/adjustIcon.png";
-import plusBlackIcon from "../../assets/images/plusBlack.png";
-import bookIcon from "../../assets/images/bookIcon.png";
-import printIcon from "../../assets/images/printIcon.png";
-import suspendedRedIcon from "../../assets/images/suspendedRed.png";
+import viewIcon from "@/app/assets/images/viewIcon.png";
+import editIcon from "@/app/assets/images/editIcon.png";
+import deleteIcon from "@/app/assets/images/deleteIcon.png";
+import adjustIcon from "@/app/assets/images/adjustIcon.png";
+import plusBlackIcon from "@/app/assets/images/plusBlack.png";
+import bookIcon from "@/app/assets/images/bookIcon.png";
+import printIcon from "@/app/assets/images/printIcon.png";
+import suspendedRedIcon from "@/app/assets/images/suspendedRed.png";
 import { Menu, IconButton, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SuspendedOrganizationModal from "../../modals/suspendOrganization";
-import sendIcon from "../../assets/images/sendGray.png";
-import prpfileIcon from "../../assets/images/profileGray.png";
-import lockIcon from "../../assets/images/lockGray.png";
+import SuspendedOrganizationModal from "@/app/modals/suspendOrganization";
+import sendIcon from "@/app/assets/images/sendGray.png";
+import prpfileIcon from "@/app/assets/images/profileGray.png";
+import lockIcon from "@/app/assets/images/lockGray.png";
+import ResetPasswordModal from "@/app/modals/resetPassword";
+import { ToggleButtonProps } from "@/app/types/index";
 
 const ActionMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -70,17 +72,16 @@ const ActionMenu = () => {
   );
 };
 
-interface ToggleButtonProps {
-  initial?: boolean;
-  onChange?: (state: boolean) => void;
-}
-
 const UserTabActionMenu: React.FC<ToggleButtonProps> = ({
   initial = false,
   onChange,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOn, setIsOn] = useState(initial);
+  const [isOpenResetModal, setIsOpenResetModal] = useState(false);
+
+  const openResetModal = () => setIsOpenResetModal(true);
+  const closeResetModal = () => setIsOpenResetModal(false);
 
   const handleToggle = () => {
     setIsOn(!isOn);
@@ -131,7 +132,11 @@ const UserTabActionMenu: React.FC<ToggleButtonProps> = ({
         </MenuItem>
         <MenuItem>
           <Image src={lockIcon} alt="adjust icon" className="mr-3" />
-          <span>Reset Password</span>
+          <button onClick={openResetModal}>Reset Password</button>
+          <ResetPasswordModal
+            isOpen={isOpenResetModal}
+            onClose={closeResetModal}
+          />
         </MenuItem>
         <MenuItem>
           <Image src={prpfileIcon} alt="book icon" className="mr-3" />

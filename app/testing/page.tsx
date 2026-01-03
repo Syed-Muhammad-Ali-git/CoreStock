@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import SuspendedOrganizationModal from "../modals/suspendOrganization";
+import ResetPasswordModal from "../modals/resetPassword";
 
 const Testing = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,7 @@ const Testing = () => {
         Open Edit Modal
       </button>
 
-      <SuspendedOrganizationModal isOpen={isOpen} onClose={closeModal} />
+      <ResetPasswordModal isOpen={isOpen} onClose={closeModal} />
     </>
   );
 };

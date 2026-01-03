@@ -52,3 +52,13 @@ export interface UserTableDataType {
   dateInvited: string;
   status: "Active" | "Trial" | "Expired" | "Suspended";
 }
+
+export interface ResetPasswordModalType {
+  password: string;
+  confirmPassword: string;
+}
+
+export interface ToggleButtonProps {
+  initial?: boolean;
+  onChange?: (state: boolean) => void;
+}
