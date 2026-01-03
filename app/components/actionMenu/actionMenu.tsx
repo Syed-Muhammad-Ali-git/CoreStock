@@ -18,6 +18,8 @@ import prpfileIcon from "@/app/assets/images/profileGray.png";
 import lockIcon from "@/app/assets/images/lockGray.png";
 import ResetPasswordModal from "@/app/modals/resetPassword";
 import { ToggleButtonProps } from "@/app/types/index";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import checkCircleIcon from "@/app/assets/images/check-circle.png";
 
 const ActionMenu = () => {
@@ -73,9 +75,22 @@ const ActionMenu = () => {
   );
 };
 
-const UserTabActionMenu: React.FC<ToggleButtonProps> = ({
+const UserTabActionMenu: React.FC<ToggleButtonProps & { 
+  userName?: string
+  userRole?: string
+  userEmail?: string
+  userStatus?: string
+  onDelete?: (name: string) => void
+  onOpenEdit?: (name: string, role: string, email: string, status: string) => void
+}> = ({
   initial = false,
   onChange,
+  userName,
+  userRole,
+  userEmail,
+  userStatus,
+  onDelete,
+  onOpenEdit,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOn, setIsOn] = useState(initial);
@@ -87,6 +102,22 @@ const UserTabActionMenu: React.FC<ToggleButtonProps> = ({
   const handleToggle = () => {
     setIsOn(!isOn);
     if (onChange) onChange(!isOn);
+  };
+
+  const handleEdit = () => {
+    setAnchorEl(null);
+    if (userName && onOpenEdit) {
+      onOpenEdit(userName, userRole || "Manager", userEmail || "", userStatus || "Active");
+    }
+  };
+
+  const handleDelete = () => {
+    setAnchorEl(null);
+    if (userName) {
+      toast.success(`User "${userName}" deleted successfully!`);
+      if (onDelete) onDelete(userName);
+      console.log(`Deleted user: ${userName}`);
+    }
   };
 
   return (
@@ -131,25 +162,52 @@ const UserTabActionMenu: React.FC<ToggleButtonProps> = ({
           <Image src={sendIcon} alt="edit icon" className="mr-3" />
           <span>Resend Invite</span>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleEdit}>
           <Image src={lockIcon} alt="adjust icon" className="mr-3" />
-          <button onClick={openResetModal}>Reset Password</button>
-          <ResetPasswordModal
-            isOpen={isOpenResetModal}
-            onClose={closeResetModal}
-          />
+          <span>Edit User</span>
         </MenuItem>
         <MenuItem>
           <Image src={prpfileIcon} alt="book icon" className="mr-3" />
           <span>Make Admin</span>
+        </MenuItem>
+        <MenuItem onClick={handleDelete}>
+          <Image src={deleteIcon} alt="delete icon" className="mr-3" />
+          <span>Delete User</span>
         </MenuItem>
       </Menu>
     </>
   );
 };
 
-const ActionMenuOrganization = () => {
+const ActionMenuOrganization: React.FC<{ 
+  orgName?: string
+  orgStatus?: string
+  onDelete?: (name: string) => void
+  onOpenEdit?: (name: string, status: string) => void
+}> = ({ orgName, orgStatus = "Active", onDelete, onOpenEdit }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const router = useRouter();
+
+  const handleView = () => {
+    setAnchorEl(null);
+    if (orgName) router.push(`/organization/${encodeURIComponent(orgName)}`);
+  };
+
+  const handleEdit = () => {
+    setAnchorEl(null);
+    if (orgName && onOpenEdit) {
+      onOpenEdit(orgName, orgStatus);
+    }
+  };
+
+  const handleDelete = () => {
+    setAnchorEl(null);
+    if (orgName) {
+      toast.success(`"${orgName}" deleted successfully!`);
+      if (onDelete) onDelete(orgName);
+      console.log(`Deleted: ${orgName}`);
+    }
+  };
 
   return (
     <>
@@ -172,11 +230,11 @@ const ActionMenuOrganization = () => {
           },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={handleView}>
           <Image src={viewIcon} alt="view icon" className="mr-3" />
           <span>View</span>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleEdit}>
           <Image src={editIcon} alt="edit icon" className="mr-3" />
           <span>Edit</span>
         </MenuItem>
@@ -184,7 +242,7 @@ const ActionMenuOrganization = () => {
           <Image src={adjustIcon} alt="adjust icon" className="mr-3" />
           <span>Adjust</span>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleDelete}>
           <Image src={deleteIcon} alt="delete Icon" className="mr-3" />
           <span>Delete</span>
         </MenuItem>

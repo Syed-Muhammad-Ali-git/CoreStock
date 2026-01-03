@@ -9,6 +9,7 @@ const protectedRoutes = [
   "/myAccount",
   "/organization/name",
   "/organization/create-organization",
+  "/organization/[organization]",
 ];
 
 export { publicRoutes, protectedRoutes };

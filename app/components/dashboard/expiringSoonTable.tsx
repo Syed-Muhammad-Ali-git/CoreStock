@@ -18,7 +18,9 @@ import {
 import { useTheme } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import {ActionMenu} from "../actionMenu/actionMenu";
+import { toast } from "react-toastify";
+import {ActionMenuOrganization} from "../actionMenu/actionMenu";
+import EditExpiring from "../../modals/editExpiring";
 
 /* ---------------- COLUMNS ---------------- */
 
@@ -42,18 +44,41 @@ const columns: readonly Column[] = [
 import expiringRows from "../../data/hardcoded/expiringSoonData";
 
 type Data = (typeof expiringRows)[number];
-const rows: Data[] = expiringRows;
-
-/* ---------------- ACTION MENU ---------------- */
 
 /* ---------------- MAIN TABLE ---------------- */
 
 const ExpiringSoonTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState(expiringRows);
+  const [editOrgName, setEditOrgName] = useState("");
+  const [editSeatsUsed, setEditSeatsUsed] = useState("");
+  const [editExpiryDate, setEditExpiryDate] = useState("");
+  const [editBillingStatus, setEditBillingStatus] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleOpenEdit = (orgName: string, seatsUsed: string, expiryDate: string, billingStatus: string) => {
+    setEditOrgName(orgName);
+    setEditSeatsUsed(seatsUsed);
+    setEditExpiryDate(expiryDate);
+    setEditBillingStatus(billingStatus);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEdit = () => {
+    setIsEditModalOpen(false);
+    setEditOrgName("");
+    setEditSeatsUsed("");
+    setEditExpiryDate("");
+    setEditBillingStatus("");
+  };
+
+  const handleDelete = (orgName: string) => {
+    setRows(rows.filter((row) => row.Organization !== orgName));
+  };
 
   return (
     <Paper sx={{ borderRadius: "12px", overflow: "hidden" }}>
@@ -179,7 +204,12 @@ const ExpiringSoonTable = () => {
                   </TableCell>
 
                   <TableCell align="center">
-                    <ActionMenu />
+                    <ActionMenuOrganization 
+                      orgName={row.Organization} 
+                      orgStatus={row.status}
+                      onDelete={handleDelete}
+                      onOpenEdit={() => handleOpenEdit(row.Organization, row.seatsUsed, row.expiryDate, row.billingStatus)}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -258,6 +288,16 @@ const ExpiringSoonTable = () => {
           </button>
         )}
       </Box>
+
+      {/* Edit Expiring Organization Modal */}
+      <EditExpiring
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEdit}
+        orgName={editOrgName}
+        seatsUsed={editSeatsUsed}
+        expiryDate={editExpiryDate}
+        billingStatus={editBillingStatus}
+      />
     </Paper>
   );
 };

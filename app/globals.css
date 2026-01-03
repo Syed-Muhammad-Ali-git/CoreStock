@@ -101,6 +101,12 @@ body {
   /* Global button styles for hover and cursor */
   button {
     @apply cursor-pointer transition-colors;
+    font-family: ManropeLocal;
+  }
+
+  /* Keep login page buttons using Satoshi */
+  .login-font button {
+    font-family: "Satoshi";
   }
 
   button:hover {

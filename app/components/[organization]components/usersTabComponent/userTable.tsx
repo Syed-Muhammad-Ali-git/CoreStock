@@ -19,6 +19,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import UserTableData from "../../../data/hardcoded//userTableData";
 import { UserTabActionMenu } from "../../actionMenu/actionMenu";
+import EditUser from "../../../modals/editUser";
+import { toast } from "react-toastify";
 import styles from "../../organization/table.module.css";
 
 /* ---------------- MAIN TABLE ---------------- */
@@ -26,9 +28,31 @@ import styles from "../../organization/table.module.css";
 const UsersTabHeader = ({ searchQuery }: { searchQuery: string }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState(UserTableData);
+  const [editUserName, setEditUserName] = useState("");
+  const [editUserRole, setEditUserRole] = useState("");
+  const [editUserEmail, setEditUserEmail] = useState("");
+  const [editUserStatus, setEditUserStatus] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleOpenEdit = (name: string, role: string, email: string, status: string) => {
+    setEditUserName(name);
+    setEditUserRole(role);
+    setEditUserEmail(email);
+    setEditUserStatus(status);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEdit = () => {
+    setIsEditModalOpen(false);
+    setEditUserName("");
+    setEditUserRole("");
+    setEditUserEmail("");
+    setEditUserStatus("");
+  };
 
   const getStatusClass = (status: string) => {
     switch (status) {
@@ -45,9 +69,13 @@ const UsersTabHeader = ({ searchQuery }: { searchQuery: string }) => {
     }
   };
 
-  const filteredRows = UserTableData.filter((row) =>
+  const filteredRows = rows.filter((row) =>
     row.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleDeleteUser = (userName: string) => {
+    setRows(rows.filter((row) => row.name !== userName));
+  };
 
   return (
     <Paper className={styles.paper}>
@@ -106,7 +134,14 @@ const UsersTabHeader = ({ searchQuery }: { searchQuery: string }) => {
                     </Box>
                   </TableCell>
                   <TableCell align="center">
-                    <UserTabActionMenu />
+                    <UserTabActionMenu 
+                      userName={row.name} 
+                      userRole={row.role}
+                      userEmail={row.email}
+                      userStatus={row.status}
+                      onDelete={handleDeleteUser}
+                      onOpenEdit={handleOpenEdit}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -152,6 +187,18 @@ const UsersTabHeader = ({ searchQuery }: { searchQuery: string }) => {
           </button>
         )}
       </Box>
+
+      {/* EDIT USER MODAL */}
+      {isEditModalOpen && (
+        <EditUser
+          isOpen={isEditModalOpen}
+          onClose={handleCloseEdit}
+          userName={editUserName}
+          userRole={editUserRole}
+          userEmail={editUserEmail}
+          userStatus={editUserStatus}
+        />
+      )}
     </Paper>
   );
 };

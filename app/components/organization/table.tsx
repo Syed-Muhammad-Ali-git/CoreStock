@@ -17,8 +17,10 @@ import {
 import { useTheme } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { toast } from "react-toastify";
 import highUtilRows from "../../data/hardcoded/highUtilData";
 import { ActionMenuOrganization } from "../actionMenu/actionMenu";
+import EditOrganization from "../../modals/editOrganization";
 import styles from "./table.module.css";
 
 /* ---------------- MAIN TABLE ---------------- */
@@ -26,9 +28,25 @@ import styles from "./table.module.css";
 const OrganizationTable = ({ searchQuery }: { searchQuery: string }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState(highUtilRows);
+  const [editOrgName, setEditOrgName] = useState("");
+  const [editOrgStatus, setEditOrgStatus] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleOpenEdit = (name: string, status: string) => {
+    setEditOrgName(name);
+    setEditOrgStatus(status);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEdit = () => {
+    setIsEditModalOpen(false);
+    setEditOrgName("");
+    setEditOrgStatus("");
+  };
 
   const getBillingStatusClass = (status: string) => {
     switch (status) {
@@ -64,12 +82,17 @@ const OrganizationTable = ({ searchQuery }: { searchQuery: string }) => {
     }
   };
 
-  const filteredRows = highUtilRows.filter((row) =>
+  const filteredRows = rows.filter((row) =>
     row.Organization.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleDelete = (orgName: string) => {
+    setRows(rows.filter((row) => row.Organization !== orgName));
+  };
+
   return (
-    <Paper className={styles.paper}>
+    <>
+      <Paper className={styles.paper}>
       {/* TABLE */}
       <TableContainer>
         <Table stickyHeader>
@@ -131,7 +154,12 @@ const OrganizationTable = ({ searchQuery }: { searchQuery: string }) => {
                   </TableCell>
                   <TableCell>{row.created}</TableCell>
                   <TableCell align="center">
-                    <ActionMenuOrganization />
+                    <ActionMenuOrganization 
+                      orgName={row.Organization} 
+                      orgStatus={row.status}
+                      onDelete={handleDelete}
+                      onOpenEdit={handleOpenEdit}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -177,7 +205,16 @@ const OrganizationTable = ({ searchQuery }: { searchQuery: string }) => {
           </button>
         )}
       </Box>
-    </Paper>
+
+      {/* Edit Organization Modal */}
+      <EditOrganization
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEdit}
+        orgName={editOrgName}
+        orgStatus={editOrgStatus}
+      />
+      </Paper>
+    </>
   );
 };
 

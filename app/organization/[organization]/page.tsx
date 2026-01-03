@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import { useParams } from "next/navigation";
 import { IconChevronsRight } from "@tabler/icons-react";
 import editBlackIcon from "../../assets/images/editBlack.png";
 import changeBlackIcon from "../../assets/images/changeBlack.png";
@@ -13,8 +14,15 @@ import FilesTab from "@/app/components/[organization]components/filesTab";
 import NotesTab from "@/app/components/[organization]components/notesTab";
 import BillingTab from "@/app/components/[organization]components/billingTab";
 import UsersTab from "@/app/components/[organization]components/usersTab";
+import highUtilRows from "@/app/data/hardcoded/highUtilData";
 
 const TableData = () => {
+  const params = useParams();
+  const orgName = decodeURIComponent(params.organization as string || "");
+  const orgData = useMemo(
+    () => highUtilRows.find((row) => row.Organization === orgName),
+    [orgName]
+  );
   const [isOpenBillingContact, setisOpenBillingContact] = useState(false);
   const [isOpenOrganization, setisOpenOrganization] = useState(false);
   const [isOpenChangeLicence, setisOpenChangeLicence] = useState(false);
@@ -34,6 +42,8 @@ const TableData = () => {
       case "Overview":
         return (
           <OverviewTab
+            orgName={orgData?.Organization || "Organization"}
+            orgStatus={orgData?.status || "Active"}
             openBillingModal={openBillingModal}
             isOpenBillingContact={isOpenBillingContact}
             closeBillingModal={closeBillingModal}
@@ -62,7 +72,7 @@ const TableData = () => {
         <span className="text-[#697586] font-extrabold inline-block">
           <IconChevronsRight size={20} stroke={2} />
         </span>
-        <span className="text-[#FF8A3D] font-medium">ABC</span>
+        <span className="text-[#FF8A3D] font-medium">{orgData?.Organization?.substring(0, 3) || "ORG"}</span>
       </h1>
 
       {/* body content */}
@@ -72,14 +82,20 @@ const TableData = () => {
           {/* LEFT SIDE */}
           <div>
             <h1 className="text-xl font-semibold flex flex-wrap items-center gap-2">
-              <span>ABC Infrastructure Ltd</span>
-              <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full whitespace-nowrap">
-                Active
+              <span>{orgData?.Organization || "Organization"}</span>
+              <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${
+                orgData?.status === "Active" ? "bg-green-100 text-green-700" :
+                orgData?.status === "Trial" ? "bg-blue-100 text-blue-700" :
+                orgData?.status === "Expired" ? "bg-gray-100 text-gray-700" :
+                orgData?.status === "Suspended" ? "bg-red-100 text-red-700" :
+                "bg-gray-100 text-gray-700"
+              }`}>
+                {orgData?.status || "Unknown"}
               </span>
             </h1>
 
             <p className="text-sm text-gray-500">
-              1 Jan 2024 - 31 Dec 2024 · 24 / 30 seats used
+              {orgData?.expiryDate || "N/A"} · {orgData?.seatsUsed || "N/A"} seats used
             </p>
           </div>
 

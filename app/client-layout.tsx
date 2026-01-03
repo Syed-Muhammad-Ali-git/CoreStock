@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import PathChecker from "./utils/pathChecker";
 import { protectedRoutes } from "./utils/routes";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /* ---------------- INTERFACES ---------------- */
 interface ClientLayoutProps {
@@ -29,7 +31,9 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
   }, [isDesktop]);
 
   // ----- DETERMINE IF SIDEBAR SHOULD BE SHOWN -----
-  const showSidebar = protectedRoutes.includes(pathname || "");
+  const showSidebar = 
+    protectedRoutes.includes(pathname || "") ||
+    /^\/organization\/[^\/]+$/.test(pathname || ""); // Dynamic org routes
 
   // ----- DYNAMIC STYLING FOR THE MAIN CONTENT -----
   const mainStyle: React.CSSProperties = {
@@ -45,13 +49,26 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
 
   return (
     <>
-      {/* ---------------- PATH CHECKER (Handles Sidebar/Header Rendering) ---------------- */}
+      {/* Toast Notification Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      
+      {/* PATH CHECKER (Handles Sidebar/Header Rendering) */}
       <PathChecker
         pathName={pathname}
         open={drawerOpen}
         setOpen={setDrawerOpen}
       />
-      {/* ---------------- MAIN CONTENT ---------------- */}
+      {/* MAIN CONTENT */}
       <main style={mainStyle}>{children}</main>
     </>
   );

@@ -7,12 +7,16 @@ import EditBillingModal from "../../modals/editBillingContact";
 import Image from "next/image";
 
 interface OverviewTabProps {
+  orgName?: string;
+  orgStatus?: string;
   openBillingModal: () => void;
   isOpenBillingContact: boolean;
   closeBillingModal: () => void;
 }
 
 const OverviewTab: FC<OverviewTabProps> = ({
+  orgName = "Organization",
+  orgStatus = "Active",
   openBillingModal,
   isOpenBillingContact,
   closeBillingModal,
@@ -25,12 +29,18 @@ const OverviewTab: FC<OverviewTabProps> = ({
           title="Organization Info"
           className="border border-[#EEF2F6] h-full"
         >
-          <InfoRow label="Name" value="ABC Infrastructure Ltd" />
+          <InfoRow label="Name" value={orgName} />
           <InfoRow
             label="Status"
             value={
-              <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">
-                Active
+              <span className={`text-xs px-2 py-0.5 rounded-full ${
+                orgStatus === "Active" ? "bg-green-100 text-green-700" :
+                orgStatus === "Trial" ? "bg-blue-100 text-blue-700" :
+                orgStatus === "Expired" ? "bg-gray-100 text-gray-700" :
+                orgStatus === "Suspended" ? "bg-red-100 text-red-700" :
+                "bg-gray-100 text-gray-700"
+              }`}>
+                {orgStatus}
               </span>
             }
           />

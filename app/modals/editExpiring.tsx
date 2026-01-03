@@ -5,58 +5,58 @@ import { toast } from "react-toastify";
 import closeIcon from "../assets/images/closeIcon.png";
 import { Grid, Select } from "@mantine/core";
 
-// Props type
-interface EdifOrganizationProps {
+interface EditExpiringProps {
   isOpen: boolean;
   onClose: () => void;
   orgName?: string;
-  orgStatus?: string;
+  seatsUsed?: string;
+  expiryDate?: string;
+  billingStatus?: string;
 }
 
-// Form data type
 interface FormData {
-  name: string;
-  industry: string;
-  status: string;
-  phone: string;
+  orgName: string;
+  seatsUsed: string;
+  expiryDate: string;
+  billingStatus: string;
 }
 
-const EdifOrganization: React.FC<EdifOrganizationProps> = ({
+const EditExpiring: React.FC<EditExpiringProps> = ({
   isOpen,
   onClose,
   orgName = "",
-  orgStatus = "Active",
+  seatsUsed = "",
+  expiryDate = "",
+  billingStatus = "Paid",
 }) => {
   const [formData, setFormData] = useState<FormData>({
-    name: orgName,
-    industry: "Construction",
-    status: orgStatus,
-    phone: "+44 1234 567890",
+    orgName,
+    seatsUsed,
+    expiryDate,
+    billingStatus,
   });
 
   useEffect(() => {
-    if (isOpen && orgName) {
-      setFormData((prev) => ({ ...prev, name: orgName, status: orgStatus }));
+    if (isOpen) {
+      setFormData({ orgName, seatsUsed, expiryDate, billingStatus });
     }
-  }, [isOpen, orgName, orgStatus]);
+  }, [isOpen, orgName, seatsUsed, expiryDate, billingStatus]);
 
-  // 👇 same as your input logic
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 👇 ONLY for Select (logic fix)
   const handleSelectChange = (
-    field: "industry" | "status",
+    field: "billingStatus",
     value: string | null
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value || "" }));
   };
 
   const handleSave = () => {
-    console.log("Updated Form Data:", formData);
-    toast.success(`"${formData.name}" updated successfully!`);
+    console.log("Updated Expiring Data:", formData);
+    toast.success(`"${formData.orgName}" updated successfully!`);
     onClose();
   };
 
@@ -68,7 +68,7 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl text-[#202939] font-medium">
-            Edit Organization
+            Edit Expiring Organization
           </h2>
           <button
             className="text-gray-400 hover:text-gray-600 cursor-pointer"
@@ -86,51 +86,55 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="orgName"
+              value={formData.orgName}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="ABC Infrastructure Ltd"
+              placeholder="Organization Name"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-[#364152]">
+              Seats Used
+            </label>
+            <input
+              type="text"
+              name="seatsUsed"
+              value={formData.seatsUsed}
+              onChange={handleInputChange}
+              className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              placeholder="e.g., 24/30"
             />
           </div>
 
           <Grid gutter="md" className="text-[#364152] text-sm font-medium">
             <Grid.Col span={{ base: 12, sm: 6 }}>
-              <Select
-                label="Industry"
-                placeholder="Select industry"
-                data={["Civil Engineering", "Construction", "IT"]}
-                value={formData.industry}
-                onChange={(value) => handleSelectChange("industry", value)}
-                labelProps={{ style: { marginBottom: "6px" } }}
-                radius={8}
+              <label className="block text-sm mb-1 text-[#364152]">
+                Expiry Date
+              </label>
+              <input
+                type="text"
+                name="expiryDate"
+                value={formData.expiryDate}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                placeholder="14 Nov 2025"
               />
             </Grid.Col>
 
             <Grid.Col span={{ base: 12, sm: 6 }}>
               <Select
-                label="Status"
+                label="Billing Status"
                 placeholder="Select status"
-                data={["Active", "Trial", "Expired", "Suspended"]}
-                value={formData.status}
-                onChange={(value) => handleSelectChange("status", value)}
+                data={["Paid", "Pending", "Unpaid", "Critical", "Overstock"]}
+                value={formData.billingStatus}
+                onChange={(value) => handleSelectChange("billingStatus", value)}
                 labelProps={{ style: { marginBottom: "6px" } }}
                 radius={8}
               />
             </Grid.Col>
           </Grid>
-
-          <div>
-            <label className="block text-sm mb-1 text-[#364152]">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="Standard"
-            />
-          </div>
         </div>
 
         {/* Modal Footer */}
@@ -153,4 +157,4 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
   );
 };
 
-export default EdifOrganization;
+export default EditExpiring;

@@ -5,58 +5,63 @@ import { toast } from "react-toastify";
 import closeIcon from "../assets/images/closeIcon.png";
 import { Grid, Select } from "@mantine/core";
 
-// Props type
-interface EdifOrganizationProps {
+interface EditUserProps {
   isOpen: boolean;
   onClose: () => void;
-  orgName?: string;
-  orgStatus?: string;
+  userName?: string;
+  userRole?: string;
+  userEmail?: string;
+  userStatus?: string;
 }
 
-// Form data type
 interface FormData {
   name: string;
-  industry: string;
+  role: string;
+  email: string;
   status: string;
-  phone: string;
 }
 
-const EdifOrganization: React.FC<EdifOrganizationProps> = ({
+const EditUser: React.FC<EditUserProps> = ({
   isOpen,
   onClose,
-  orgName = "",
-  orgStatus = "Active",
+  userName = "",
+  userRole = "Manager",
+  userEmail = "",
+  userStatus = "Active",
 }) => {
   const [formData, setFormData] = useState<FormData>({
-    name: orgName,
-    industry: "Construction",
-    status: orgStatus,
-    phone: "+44 1234 567890",
+    name: userName,
+    role: userRole,
+    email: userEmail,
+    status: userStatus,
   });
 
   useEffect(() => {
-    if (isOpen && orgName) {
-      setFormData((prev) => ({ ...prev, name: orgName, status: orgStatus }));
+    if (isOpen) {
+      setFormData({
+        name: userName,
+        role: userRole,
+        email: userEmail,
+        status: userStatus,
+      });
     }
-  }, [isOpen, orgName, orgStatus]);
+  }, [isOpen, userName, userRole, userEmail, userStatus]);
 
-  // 👇 same as your input logic
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 👇 ONLY for Select (logic fix)
   const handleSelectChange = (
-    field: "industry" | "status",
+    field: "role" | "status",
     value: string | null
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value || "" }));
   };
 
   const handleSave = () => {
-    console.log("Updated Form Data:", formData);
-    toast.success(`"${formData.name}" updated successfully!`);
+    console.log("Updated User Data:", formData);
+    toast.success(`User "${formData.name}" updated successfully!`);
     onClose();
   };
 
@@ -67,9 +72,7 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
       <div className="bg-white rounded-lg w-full max-w-md p-6 shadow-lg">
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl text-[#202939] font-medium">
-            Edit Organization
-          </h2>
+          <h2 className="text-2xl text-[#202939] font-medium">Edit User</h2>
           <button
             className="text-gray-400 hover:text-gray-600 cursor-pointer"
             onClick={onClose}
@@ -82,7 +85,7 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
         <div className="space-y-4">
           <div>
             <label className="block text-sm mb-1 text-[#364152]">
-              Organization Name
+              User Name
             </label>
             <input
               type="text"
@@ -90,18 +93,18 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
               value={formData.name}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="ABC Infrastructure Ltd"
+              placeholder="John Doe"
             />
           </div>
 
           <Grid gutter="md" className="text-[#364152] text-sm font-medium">
             <Grid.Col span={{ base: 12, sm: 6 }}>
               <Select
-                label="Industry"
-                placeholder="Select industry"
-                data={["Civil Engineering", "Construction", "IT"]}
-                value={formData.industry}
-                onChange={(value) => handleSelectChange("industry", value)}
+                label="Role"
+                placeholder="Select role"
+                data={["Admin", "Manager", "Storekeeper", "Electrical"]}
+                value={formData.role}
+                onChange={(value) => handleSelectChange("role", value)}
                 labelProps={{ style: { marginBottom: "6px" } }}
                 radius={8}
               />
@@ -121,14 +124,14 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
           </Grid>
 
           <div>
-            <label className="block text-sm mb-1 text-[#364152]">Phone</label>
+            <label className="block text-sm mb-1 text-[#364152]">Email</label>
             <input
-              type="text"
-              name="phone"
-              value={formData.phone}
+              type="email"
+              name="email"
+              value={formData.email}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="Standard"
+              placeholder="user@example.com"
             />
           </div>
         </div>
@@ -153,4 +156,4 @@ const EdifOrganization: React.FC<EdifOrganizationProps> = ({
   );
 };
 
-export default EdifOrganization;
+export default EditUser;

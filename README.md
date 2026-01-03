@@ -1,5 +1,28 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+Project changes made by the developer assistant:
+
+- Split common types into per-area files under `app/types/`.
+- Converted generated datasets to explicit hardcoded data in `app/data/hardcoded/` (removed runtime `Array.from` usage).
+- Replaced inline-styled progress component in data with Tailwind classes and moved progress markup into data rows where used.
+- Ensured global buttons use the `ManropeLocal` font; login page keeps `Satoshi` via the `.login-font` wrapper.
+- Wired the organization table action "View" to navigate to `/organization/[name]`.
+- Added global button cursor and hover improvements in `app/globals.css`.
+
+Next steps recommended:
+
+- Wire Edit/Delete actions to open modals and persist changes (in-memory or API).
+- Centralize `react-toastify` by placing a single `ToastContainer` near the app root and call `toast()` on form submissions.
+- Replace any remaining inline styles with Tailwind equivalents where needed.
+- Run `npm run build` and fix any TypeScript or bundling issues that appear.
+
+To run locally:
+
+```bash
+npm install
+npm run dev
+```
+
 ## Getting Started
 
 First, run the development server:

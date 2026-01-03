@@ -18,7 +18,9 @@ import {
 import { useTheme } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { ActionMenu } from "../actionMenu/actionMenu";
+import { ActionMenuOrganization } from "../actionMenu/actionMenu";
+import EditHighUtil from "../../modals/editHighUtil";
+import { toast } from "react-toastify";
 
 /* ---------------- COLUMNS ---------------- */
 
@@ -43,18 +45,44 @@ const columns: readonly Column[] = [
 import highUtilRows from "../../data/hardcoded/highUtilData";
 
 type Data = (typeof highUtilRows)[number];
-const rows: Data[] = highUtilRows;
-
-/* ---------------- ACTION MENU ---------------- */
 
 /* ---------------- MAIN TABLE ---------------- */
 
 const HighLicenceUtilizationTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState(highUtilRows);
+  const [editOrgName, setEditOrgName] = useState("");
+  const [editSeatsUsed, setEditSeatsUsed] = useState("");
+  const [editExpiryDate, setEditExpiryDate] = useState("");
+  const [editUsagePercent, setEditUsagePercent] = useState(0);
+  const [editBillingStatus, setEditBillingStatus] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleOpenEdit = (orgName: string, seatsUsed: string, expiryDate: string, usagePercent: string | number, billingStatus: string) => {
+    setEditOrgName(orgName);
+    setEditSeatsUsed(seatsUsed);
+    setEditExpiryDate(expiryDate);
+    setEditUsagePercent(typeof usagePercent === "string" ? parseInt(usagePercent) : usagePercent);
+    setEditBillingStatus(billingStatus);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEdit = () => {
+    setIsEditModalOpen(false);
+    setEditOrgName("");
+    setEditSeatsUsed("");
+    setEditExpiryDate("");
+    setEditUsagePercent(0);
+    setEditBillingStatus("");
+  };
+
+  const handleDelete = (orgName: string) => {
+    setRows(rows.filter((row) => row.Organization !== orgName));
+  };
 
   return (
     <Paper sx={{ borderRadius: "12px", overflow: "hidden" }}>
@@ -188,7 +216,12 @@ const HighLicenceUtilizationTable = () => {
                   </TableCell>
 
                   <TableCell align="center">
-                    <ActionMenu />
+                    <ActionMenuOrganization 
+                      orgName={row.Organization} 
+                      orgStatus={row.status}
+                      onDelete={handleDelete}
+                      onOpenEdit={() => handleOpenEdit(row.Organization, row.seatsUsed, row.expiryDate, "60", row.billingStatus)}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -267,6 +300,17 @@ const HighLicenceUtilizationTable = () => {
           </button>
         )}
       </Box>
+
+      {/* Edit High Utilization Modal */}
+      <EditHighUtil
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEdit}
+        orgName={editOrgName}
+        seatsUsed={editSeatsUsed}
+        expiryDate={editExpiryDate}
+        usagePercent={editUsagePercent}
+        billingStatus={editBillingStatus}
+      />
     </Paper>
   );
 };

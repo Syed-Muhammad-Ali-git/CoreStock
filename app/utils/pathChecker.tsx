@@ -14,7 +14,10 @@ interface PathCheckerProps {
 /* ---------------- COMPONENT ---------------- */
 const PathChecker = ({ pathName, open, setOpen }: PathCheckerProps) => {
   // ----- CHECK IF THE CURRENT PATH IS A PROTECTED ROUTE -----
-  const show = protectedRoutes.includes(pathName);
+  const show = 
+    protectedRoutes.includes(pathName) ||
+    // Dynamic route patterns
+    /^\/organization\/[^\/]+$/.test(pathName); // Matches /organization/[anything]
 
   // ----- RENDER NOTHING IF THE ROUTE IS NOT PROTECTED -----
   if (!show) return null;
