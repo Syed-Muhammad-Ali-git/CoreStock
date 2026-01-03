@@ -13,7 +13,7 @@ interface AddInvoiceRecordProps {
 
 interface FormData {
   invoiceNumber: string;
-  amount: number | "";
+  amount: number | string;
   currency: string;
   date: string; // Invoice Date
   periodStart: string;
@@ -40,8 +40,15 @@ const AddInvoiceRecord: React.FC<AddInvoiceRecordProps> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleNumberChange = (field: "amount", value: number | "") => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const handleNumberChange = (field: "amount", value: string | number) => {
+    if (value === "") {
+      setFormData((prev) => ({ ...prev, [field]: "" }));
+    } else if (typeof value === "number") {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    } else {
+      const numValue = Number(value);
+      setFormData((prev) => ({ ...prev, [field]: isNaN(numValue) ? "" : numValue }));
+    }
   };
 
   const handleSelectChange = (field: "status", value: string | null) => {
