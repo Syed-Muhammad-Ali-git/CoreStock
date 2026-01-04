@@ -68,7 +68,7 @@ const AddInvoiceRecord: React.FC<AddInvoiceRecordProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay fixed inset-0 bg-black/40 flex items-center justify-center z-1300 p-4">
+    <div className="modal-overlay">
       <ToastContainer
         position="top-right"
         autoClose={5000}

@@ -33,13 +33,19 @@ const OverviewTab: FC<OverviewTabProps> = ({
           <InfoRow
             label="Status"
             value={
-              <span className={`text-xs px-2 py-0.5 rounded-full ${
-                orgStatus === "Active" ? "bg-green-100 text-green-700" :
-                orgStatus === "Trial" ? "bg-blue-100 text-blue-700" :
-                orgStatus === "Expired" ? "bg-gray-100 text-gray-700" :
-                orgStatus === "Suspended" ? "bg-red-100 text-red-700" :
-                "bg-gray-100 text-gray-700"
-              }`}>
+              <span
+                className={`text-xs px-2 py-0.5 rounded-full ${
+                  orgStatus === "Active"
+                    ? "bg-green-100 text-green-700"
+                    : orgStatus === "Trial"
+                    ? "bg-blue-100 text-blue-700"
+                    : orgStatus === "Expired"
+                    ? "bg-gray-100 text-gray-700"
+                    : orgStatus === "Suspended"
+                    ? "bg-red-100 text-red-700"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
                 {orgStatus}
               </span>
             }
@@ -64,7 +70,7 @@ const OverviewTab: FC<OverviewTabProps> = ({
           <p className="text-sm mb-2">24 / 30 seats used</p>
           <div className="w-full bg-gray-200 rounded-full h-2 flex">
             <div className="bg-[#FE6511] h-2 rounded-full w-[80%]" />
-            <p className="text-xs text-gray-500 -mt-7">80% utilisation</p>
+            <p className="text-xs text-gray-500 -mt-7 ">80% utilisation</p>
           </div>
         </Card>
 

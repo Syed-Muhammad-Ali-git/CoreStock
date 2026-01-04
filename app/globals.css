@@ -83,7 +83,7 @@ body {
 
 @layer components {
   .modal-overlay {
-    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80;
+    @apply fixed inset-0 z-[1300] flex items-center justify-center bg-black/80;
   }
 
   .btn-secondary {
